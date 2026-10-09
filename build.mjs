@@ -1,9 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { buildSync } from 'esbuild';
 import { ArrowUpRight, BriefcaseBusiness, Gamepad2, NotebookPen, Pause, Play, Leaf } from 'lucide-static';
 
 const out = path.resolve('dist');
+buildSync({ entryPoints: ['src/card-interactions.js'], outfile: 'dist/assets/card-interactions.js', bundle: true, minify: true, format: 'iife', target: 'es2020' });
+const asset = name => {
+  const hash = createHash('sha256').update(fs.readFileSync(path.join(out, 'assets', name))).digest('hex').slice(0, 10);
+  return `/assets/${name}?v=${hash}`;
+};
 const routes = ['', 'about', 'minecraft', 'games', 'work', 'life', 'updates', 'resume'];
 const copy = {
   en: {
@@ -160,12 +166,11 @@ const bodies = { '': home, about: (_lang,t)=>about(t), minecraft: (_lang,t)=>min
 function render(lang, route) {
   const t=copy[lang];
   const pageTitle = route ? `${t[route]?.heading ?? t.title} | Tiyamo` : `Tiyamo — ${t.nav.home}`;
-  return `<!doctype html><html lang="${t.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111b21"><title>${esc(pageTitle)}</title><meta name="description" content="${esc(t.description)}"><link rel="alternate" hreflang="en" href="${href('en',route)}"><link rel="alternate" hreflang="zh-CN" href="${href('zh',route)}"><link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/design.css"><script src="/assets/app.js" defer></script>${route===''?'<script src="/assets/hero-wallpaper.js" defer></script><script src="/assets/card-interactions.js" defer></script>':''}</head><body class="route-${route||'home'}">${header(lang,route,t)}<main id="content">${bodies[route](lang,t)}</main>${footer(t)}</body></html>`;
+  return `<!doctype html><html lang="${t.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111b21"><title>${esc(pageTitle)}</title><meta name="description" content="${esc(t.description)}"><link rel="alternate" hreflang="en" href="${href('en',route)}"><link rel="alternate" hreflang="zh-CN" href="${href('zh',route)}"><link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="${asset('styles.css')}"><link rel="stylesheet" href="${asset('design.css')}"><script src="${asset('app.js')}" defer></script>${route=== '' ? `<script src="${asset('hero-wallpaper.js')}" defer></script><script src="${asset('card-interactions.js')}" defer></script>` : ''}</head><body class="route-${route||'home'}">${header(lang,route,t)}<main id="content">${bodies[route](lang,t)}</main>${footer(t)}</body></html>`;
 }
 
 for (const lang of ['en','zh']) for (const route of routes) {
   const dir=path.join(out, ...(lang==='zh'?['zh']:[]), ...(route?[route]:[]));
   fs.mkdirSync(dir,{recursive:true}); fs.writeFileSync(path.join(dir,'index.html'),render(lang,route));
 }
-buildSync({ entryPoints: ['src/card-interactions.js'], outfile: 'dist/assets/card-interactions.js', bundle: true, minify: true, format: 'iife', target: 'es2020' });
 console.log(`Built ${routes.length * 2} localized pages in dist/`);
