@@ -1,5 +1,17 @@
 const toggle = document.querySelector('.menu-toggle');
 const mobileMenu = document.querySelector('#mobile-menu');
+const gamesDropdown = document.querySelector('.main-nav .nav-dropdown');
+if (gamesDropdown) {
+  document.addEventListener('click', event => {
+    if (!gamesDropdown.contains(event.target)) gamesDropdown.open = false;
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && gamesDropdown.open) {
+      gamesDropdown.open = false;
+      gamesDropdown.querySelector('summary').focus();
+    }
+  });
+}
 if (toggle && mobileMenu) {
   const setMenuOpen = open => {
     toggle.setAttribute('aria-expanded', String(open));

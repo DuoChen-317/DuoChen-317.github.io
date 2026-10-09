@@ -34,8 +34,9 @@ body { background: var(--bg); }
 .language { gap: 8px; }
 .language-icon { display: block; width: 18px; height: 18px; flex: none; }
 .resume-link { min-height: 44px; font-size: 13px; }
-.dropdown-panel { top: 42px; border-color: #67806b75; box-shadow: 0 20px 50px #0007; }
+.dropdown-panel { top: calc(100% + 16px); border-color: #67806b75; box-shadow: 0 20px 50px #0007; }
 .dropdown-panel a { font-size: 14px; }
+.nav-dropdown[open] summary { color: var(--accent); }
 
 .hero-art {
   top: 76px;
