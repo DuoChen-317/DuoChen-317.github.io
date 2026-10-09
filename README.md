@@ -2,7 +2,7 @@
 
 Source: https://github.com/DuoChen-317/DuoChen-317.github.io  
 GitHub Pages: https://duochen-317.github.io/  
-Custom domain: https://tiyamo.top/ (DNS setup in progress)
+Custom domain: https://tiyamo.top/
 
 A bilingual static portfolio. English is the default at `/`; Chinese pages live under `/zh/`.
 
@@ -21,6 +21,10 @@ The social icons are [Font Awesome Free](https://fontawesome.com/) SVGs, license
 comments are retained in each SVG and in the generated HTML.
 
 Run `npm run build` after changing `build.mjs`. The generated HTML in `dist/` is tracked for static hosting.
+
+`lucide-static` and `motion` are installed as project dependencies for future icon and
+animation work. The current static pages do not load either library in the browser yet.
+Run `npm ci` after cloning the repository to install them locally.
 
 ## Preview locally
 
