@@ -38,14 +38,35 @@ body { background: var(--bg); }
 .hero-art {
   top: 76px;
   height: 690px;
-  background: linear-gradient(180deg, #455c50 0%, #2e4945 48%, #0c1a1b 100%);
+  background: #111d1c;
+  isolation: isolate;
+}
+.hero-scene {
+  position: absolute;
+  inset: -4%;
+  background: url('/assets/sengoku-hero.webp') center 43% / cover no-repeat;
+  animation: scene-drift 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.hero-mist {
+  position: absolute;
+  z-index: 1;
+  inset: 50% -18% -25%;
+  background: radial-gradient(ellipse at 28% 60%, #c8d4bf2b, transparent 48%),
+    radial-gradient(ellipse at 78% 33%, #b8c9bd26, transparent 48%);
+  filter: blur(28px);
+  animation: mist-drift 22s ease-in-out infinite alternate;
+  will-change: transform, opacity;
 }
 .hero-art::after {
-  background: linear-gradient(90deg, #0b1518a8, transparent 45%, #0b151865),
-    linear-gradient(0deg, #0b1518 0%, transparent 34%, #0b15181a 88%);
+  z-index: 2;
+  background: radial-gradient(ellipse at 50% 53%, #0b1518a6, #0b151855 42%, transparent 73%),
+    linear-gradient(0deg, #0b1518 0%, #0b15181f 28%, transparent 72%);
 }
+@keyframes scene-drift { from { transform: translate3d(-1%, 0, 0) scale(1.02); } to { transform: translate3d(1%, -1%, 0) scale(1.06); } }
+@keyframes mist-drift { from { transform: translate3d(-4%, 0, 0); opacity: .3; } to { transform: translate3d(4%, -4%, 0); opacity: .55; } }
 .hero { height: 690px; }
-.hero-content { max-width: 780px; transform: translateY(-6px); }
+.hero-content { max-width: 780px; transform: translateY(-6px); text-shadow: 0 2px 18px #061010bb; }
 .hero-eyebrow { margin-bottom: 22px; font-size: 11px; }
 .avatar { width: 112px; height: 112px; margin-bottom: 25px; }
 .hero h1 {
@@ -78,15 +99,13 @@ body { background: var(--bg); }
 .section-head p { font-size: 15px; line-height: 1.65; }
 .section-deco { color: var(--accent); }
 
-/* Three equal doors into work, games, and life. */
+/* Work leads; Game and Life sit beside it as two smaller doors. */
 .feature-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: auto;
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 224px));
   gap: 18px;
 }
 .feature-card {
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
   border-color: #5a706543;
   border-radius: 8px;
@@ -98,13 +117,24 @@ body { background: var(--bg); }
   border-color: #edc27cb0;
   box-shadow: 0 18px 48px #0006;
 }
-.feature-card .card-visual { height: 225px; flex: none; }
-.feature-card .card-symbol { font-size: 112px; }
-.feature-card .card-body { min-height: 148px; padding: 25px; align-items: center; }
-.feature-card .card-body h3 { font-size: 25px; }
+.feature-card.work { grid-row: span 2; display: flex; flex-direction: column; }
 .feature-card.work .card-visual {
+  flex: 1;
+  min-height: 0;
   background: radial-gradient(circle at 55% 42%, #d9b78555, transparent 36%),
     linear-gradient(145deg, #8b745b, #4f5a4e 58%, #253932);
+}
+.feature-card.work .card-symbol { font-size: clamp(150px, 17vw, 230px); }
+.feature-card.work .card-body { min-height: 142px; padding: 29px; align-items: center; }
+.feature-card.work .card-body h3 { font-size: 31px; }
+.feature-card:not(.work) { display: grid; grid-template-columns: 43% 57%; }
+.feature-card:not(.work) .card-visual { height: 100%; }
+.feature-card:not(.work) .card-symbol { font-size: 91px; }
+.feature-card:not(.work) .card-body {
+  min-height: 0;
+  height: 100%;
+  padding: 27px 23px;
+  align-items: end;
 }
 .card-body h3 { font-size: 24px; margin-bottom: 9px; }
 .card-body p { font-size: 14px; line-height: 1.55; }
@@ -158,8 +188,12 @@ body { background: var(--bg); }
 
 @media (max-width: 1000px) {
   .main-nav { gap: 17px; }
-  .feature-card .card-visual { height: 195px; }
-  .feature-card .card-body { min-height: 166px; padding: 22px; }
+  .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
+  .feature-card.work { grid-column: 1 / -1; grid-row: auto; display: grid; grid-template-columns: 47% 53%; min-height: 290px; }
+  .feature-card.work .card-visual { height: 100%; }
+  .feature-card:not(.work) { display: flex; flex-direction: column; }
+  .feature-card:not(.work) .card-visual { height: 220px; }
+  .feature-card:not(.work) .card-body { min-height: 160px; height: auto; }
 }
 
 @media (max-width: 760px) {
@@ -174,8 +208,7 @@ body { background: var(--bg); }
   .hero h1 { font-size: clamp(42px, 8vw, 58px); }
   .hero-lead { font-size: 15px; }
   .section-head h2 { font-size: 42px; }
-  .feature-grid { gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .feature-card:last-child { grid-column: 1 / -1; }
+  .feature-grid { gap: 16px; }
   .content-section { padding-top: 76px; padding-bottom: 76px; }
   .updates-preview { padding-top: 15px; }
   .page-intro p { font-size: 16px; }
@@ -197,10 +230,13 @@ body { background: var(--bg); }
   .section-head h2 { font-size: 39px; }
   .section-head p { font-size: 14px; }
   .feature-grid { grid-template-columns: 1fr; }
-  .feature-card:last-child { grid-column: auto; }
-  .feature-card .card-visual { height: 205px; }
-  .feature-card .card-symbol { font-size: 112px; }
-  .feature-card .card-body { min-height: 122px; padding: 24px; }
+  .feature-card.work { grid-column: auto; display: flex; flex-direction: column; }
+  .feature-card.work .card-visual { height: 225px; flex: none; }
+  .feature-card.work .card-symbol { font-size: 118px; }
+  .feature-card.work .card-body { min-height: 125px; padding: 24px; }
+  .feature-card.work .card-body h3 { font-size: 26px; }
+  .feature-card:not(.work) .card-visual { height: 205px; }
+  .feature-card:not(.work) .card-body { min-height: 122px; padding: 24px; }
   .card-body h3 { font-size: 23px; }
   .card-body p { font-size: 14px; }
   .updates-preview { padding-top: 5px; }
@@ -213,6 +249,9 @@ body { background: var(--bg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-scene, .hero-mist { animation: none; will-change: auto; }
+  .hero-scene { transform: none; }
+  .hero-mist { opacity: .35; }
   .feature-card, .update-feature, .button { transition: none; }
   .feature-card:hover, .feature-card:focus-visible, .update-feature:hover, .button:hover { transform: none; }
 }

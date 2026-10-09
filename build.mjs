@@ -126,7 +126,7 @@ function header(lang, route, t) {
 
 function footer(t) { return `<footer class="site-footer"><div class="footer-inner"><div><span class="footer-brand">TIYAMO<span>.</span></span><p>${t.footer}</p></div><span class="footer-copy">© ${new Date().getFullYear()} Tiyamo</span></div></footer>`; }
 
-function heroArt() { return `<div class="hero-art" aria-hidden="true"><div class="hero-sky-grid"></div><div class="sun"></div><div class="cloud cloud-a"></div><div class="cloud cloud-b"></div><div class="mountain mountain-a"></div><div class="mountain mountain-b"></div><div class="terrain terrain-back"></div><div class="terrain terrain-front"></div><div class="hero-grain"></div></div>`; }
+function heroArt() { return `<div class="hero-art" aria-hidden="true"><div class="hero-scene"></div><div class="hero-mist"></div></div>`; }
 
 function card(hrefTo, type, num, title, desc, c) { return `<a class="feature-card ${type}" href="${hrefTo}"><div class="card-visual"><span class="card-coord">${num} / 03</span><div class="card-symbol" aria-hidden="true">${type==='games'?'✦':type==='life'?'✳':'◈'}</div><span class="card-label">${type==='games'?'GAME':type.toUpperCase()}</span></div><div class="card-body"><div><h3>${title}</h3><p>${desc}</p></div><span class="card-arrow" aria-label="${c.open}">${icon('arrow')}</span></div></a>`; }
 
