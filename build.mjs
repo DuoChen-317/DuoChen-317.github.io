@@ -103,7 +103,7 @@ function header(lang, route, t) {
   const link = (r,label) => `<a href="${href(lang,r)}" ${route===r?'aria-current="page"':''}>${label}</a>`;
   return `<a class="skip" href="#content">${t.skip}</a>
   <header class="site-header"><div class="nav-wrap">
-    <a class="brand" href="${href(lang)}" aria-label="Tiyamo home"><img class="brand-mark" src="/assets/avatar.jpg" alt=""><span>TIYAMO</span></a>
+    <a class="brand" href="${href(lang)}" aria-label="Tiyamo home">TIYAMO</a>
     <nav class="main-nav" aria-label="Main navigation">
       ${link('',nav.home)}
       <details class="nav-dropdown" ${['minecraft','games'].includes(route)?'data-active="true"':''}><summary>${nav.worlds}<span aria-hidden="true">⌄</span></summary><div class="dropdown-panel">${link('minecraft',nav.minecraft)}${link('games',nav.games)}</div></details>
