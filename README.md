@@ -11,6 +11,7 @@ A bilingual static portfolio. English is the default at `/`; Chinese pages live 
 - Text for both languages and page templates: `build.mjs`
 - Base styles: `dist/assets/styles.css`
 - Current visual system and responsive refinements: `dist/assets/design.css`
+- Animated homepage scene: `dist/assets/hero-wallpaper.js`; still image fallback: `dist/assets/sengoku-hero.webp`
 - Mobile navigation: `dist/assets/app.js`
 - Avatar: `dist/assets/avatar.jpg`
 - Social icons: `icons/*.svg` (inlined by `build.mjs`)

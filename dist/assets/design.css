@@ -43,28 +43,27 @@ body { background: var(--bg); }
 }
 .hero-scene {
   position: absolute;
-  inset: -4%;
+  inset: 0;
   background: url('/assets/sengoku-hero.webp') center 43% / cover no-repeat;
-  animation: scene-drift 28s ease-in-out infinite alternate;
-  will-change: transform;
 }
-.hero-mist {
+.hero-wallpaper, .hero-leaves {
   position: absolute;
-  z-index: 1;
-  inset: 50% -18% -25%;
-  background: radial-gradient(ellipse at 28% 60%, #c8d4bf2b, transparent 48%),
-    radial-gradient(ellipse at 78% 33%, #b8c9bd26, transparent 48%);
-  filter: blur(28px);
-  animation: mist-drift 22s ease-in-out infinite alternate;
-  will-change: transform, opacity;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
 }
+.hero-wallpaper { z-index: 1; }
+.hero-leaves {
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-wallpaper.is-ready, .hero-leaves.is-ready { opacity: 1; }
 .hero-art::after {
   z-index: 2;
   background: radial-gradient(ellipse at 50% 53%, #0b1518a6, #0b151855 42%, transparent 73%),
     linear-gradient(0deg, #0b1518 0%, #0b15181f 28%, transparent 72%);
 }
-@keyframes scene-drift { from { transform: translate3d(-1%, 0, 0) scale(1.02); } to { transform: translate3d(1%, -1%, 0) scale(1.06); } }
-@keyframes mist-drift { from { transform: translate3d(-4%, 0, 0); opacity: .3; } to { transform: translate3d(4%, -4%, 0); opacity: .55; } }
 .hero { height: 690px; }
 .hero-content { max-width: 780px; transform: translateY(-6px); text-shadow: 0 2px 18px #061010bb; }
 .hero-eyebrow { margin-bottom: 22px; font-size: 11px; }
@@ -249,9 +248,7 @@ body { background: var(--bg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-scene, .hero-mist { animation: none; will-change: auto; }
-  .hero-scene { transform: none; }
-  .hero-mist { opacity: .35; }
+  .hero-wallpaper, .hero-leaves { display: none; }
   .feature-card, .update-feature, .button { transition: none; }
   .feature-card:hover, .feature-card:focus-visible, .update-feature:hover, .button:hover { transform: none; }
 }
