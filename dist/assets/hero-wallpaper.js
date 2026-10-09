@@ -3,6 +3,7 @@
 const wallpaper = document.querySelector('.hero-wallpaper');
 const leafCanvas = document.querySelector('.hero-leaves');
 const art = document.querySelector('.hero-art');
+const motionToggle = document.querySelector('.motion-toggle');
 
 if (wallpaper && leafCanvas && art) {
   const gl = wallpaper.getContext('webgl', { alpha: false, antialias: false, powerPreference: 'low-power' });
@@ -106,6 +107,7 @@ if (wallpaper && leafCanvas && art) {
         let inView = true;
         let frameId = 0;
         let previousFrame = 0;
+        let userPaused = false;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const ctx = leaves;
         const particles = Array.from({ length: 24 }, (_, index) => ({
@@ -178,13 +180,26 @@ if (wallpaper && leafCanvas && art) {
         };
 
         const syncPlayback = () => {
-          const shouldPlay = loaded && inView && !document.hidden && !reducedMotion.matches;
+          const shouldPlay = loaded && inView && !document.hidden && !reducedMotion.matches && !userPaused;
           if (shouldPlay && !frameId) frameId = requestAnimationFrame(renderFrame);
           if (!shouldPlay && frameId) {
             cancelAnimationFrame(frameId);
             frameId = 0;
           }
         };
+
+        const syncToggle = () => {
+          if (!motionToggle) return;
+          motionToggle.hidden = !loaded || reducedMotion.matches;
+          motionToggle.setAttribute('aria-pressed', String(userPaused));
+          motionToggle.setAttribute('aria-label', userPaused ? motionToggle.dataset.playLabel : motionToggle.dataset.pauseLabel);
+          motionToggle.querySelector('.motion-label').textContent = userPaused ? motionToggle.dataset.playLabel : motionToggle.dataset.pauseLabel;
+        };
+        motionToggle?.addEventListener('click', () => {
+          userPaused = !userPaused;
+          syncToggle();
+          syncPlayback();
+        });
 
         image.onload = () => {
           const texture = gl.createTexture();
@@ -198,6 +213,7 @@ if (wallpaper && leafCanvas && art) {
           gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
           loaded = true;
           resize();
+          syncToggle();
           syncPlayback();
         };
         image.src = '/assets/sengoku-hero.webp';
@@ -207,7 +223,7 @@ if (wallpaper && leafCanvas && art) {
           inView = entry.isIntersecting;
           syncPlayback();
         }).observe(art);
-        reducedMotion.addEventListener('change', syncPlayback);
+        reducedMotion.addEventListener('change', () => { syncToggle(); syncPlayback(); });
         document.addEventListener('visibilitychange', syncPlayback);
       }
     }
