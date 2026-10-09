@@ -78,13 +78,15 @@ body { background: var(--bg); }
 .section-head p { font-size: 15px; line-height: 1.65; }
 .section-deco { color: var(--accent); }
 
-/* One lead card for work, then two smaller doors into gaming interests. */
+/* Three equal doors into work, games, and life. */
 .feature-grid {
-  grid-template-columns: minmax(0, 1.16fr) minmax(0, 1fr);
-  grid-template-rows: repeat(2, minmax(0, 224px));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto;
   gap: 18px;
 }
 .feature-card {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   border-color: #5a706543;
   border-radius: 8px;
@@ -96,36 +98,25 @@ body { background: var(--bg); }
   border-color: #edc27cb0;
   box-shadow: 0 18px 48px #0006;
 }
-.feature-card.work { grid-row: span 2; display: flex; flex-direction: column; }
+.feature-card .card-visual { height: 225px; flex: none; }
+.feature-card .card-symbol { font-size: 112px; }
+.feature-card .card-body { min-height: 148px; padding: 25px; align-items: center; }
+.feature-card .card-body h3 { font-size: 25px; }
 .feature-card.work .card-visual {
-  flex: 1;
-  min-height: 0;
   background: radial-gradient(circle at 55% 42%, #d9b78555, transparent 36%),
     linear-gradient(145deg, #8b745b, #4f5a4e 58%, #253932);
-}
-.feature-card.work .card-symbol { font-size: clamp(150px, 17vw, 230px); }
-.feature-card.work .card-body { min-height: 142px; padding: 29px; align-items: center; }
-.feature-card.work .card-body h3 { font-size: 31px; }
-.feature-card:not(.work) { display: grid; grid-template-columns: 43% 57%; }
-.feature-card:not(.work) .card-visual { height: 100%; }
-.feature-card:not(.work) .card-symbol { font-size: 91px; }
-.feature-card:not(.work) .card-body {
-  min-height: 0;
-  height: 100%;
-  padding: 27px 23px;
-  align-items: end;
 }
 .card-body h3 { font-size: 24px; margin-bottom: 9px; }
 .card-body p { font-size: 14px; line-height: 1.55; }
 .card-arrow { width: 34px; height: 34px; font-size: 16px; border-color: #aac09c8c; }
 .card-coord, .card-label { font-size: 11px; }
-.feature-card.minecraft .card-visual {
-  background: radial-gradient(circle at 60% 38%, #c9d69c66, transparent 42%),
-    linear-gradient(145deg, #77916c, #31584f 65%, #223830);
-}
 .feature-card.games .card-visual {
   background: radial-gradient(circle at 55% 40%, #c3aed477, transparent 40%),
     linear-gradient(145deg, #73759b, #3a4f69 60%, #25314b);
+}
+.feature-card.life .card-visual {
+  background: radial-gradient(circle at 54% 37%, #f0cf9e66, transparent 40%),
+    linear-gradient(145deg, #98735e, #6b5a5e 60%, #373d44);
 }
 
 .updates-preview { padding-top: 28px; padding-bottom: 112px; }
@@ -155,6 +146,8 @@ body { background: var(--bg); }
 .info-card p, .portfolio-copy p, .work-main p, .timeline-entry p, .timeline-next p,
 .resume-section p, .page-note p { font-size: 15px; line-height: 1.65; }
 .portfolio-card { overflow: hidden; border-radius: 8px; }
+.game-link { display: block; transition: transform .2s ease, border-color .2s ease; }
+.game-link:hover, .game-link:focus-visible { transform: translateY(-4px); border-color: var(--accent); }
 .portfolio-copy { padding: 28px; }
 .portfolio-copy h2 { font-size: 25px; }
 .work-card { border-radius: 8px; }
@@ -165,12 +158,8 @@ body { background: var(--bg); }
 
 @media (max-width: 1000px) {
   .main-nav { gap: 17px; }
-  .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
-  .feature-card.work { grid-column: 1 / -1; grid-row: auto; display: grid; grid-template-columns: 47% 53%; min-height: 290px; }
-  .feature-card.work .card-visual { height: 100%; }
-  .feature-card:not(.work) { display: flex; flex-direction: column; }
-  .feature-card:not(.work) .card-visual { height: 220px; }
-  .feature-card:not(.work) .card-body { min-height: 160px; height: auto; }
+  .feature-card .card-visual { height: 195px; }
+  .feature-card .card-body { min-height: 166px; padding: 22px; }
 }
 
 @media (max-width: 760px) {
@@ -185,7 +174,8 @@ body { background: var(--bg); }
   .hero h1 { font-size: clamp(42px, 8vw, 58px); }
   .hero-lead { font-size: 15px; }
   .section-head h2 { font-size: 42px; }
-  .feature-grid { gap: 16px; }
+  .feature-grid { gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feature-card:last-child { grid-column: 1 / -1; }
   .content-section { padding-top: 76px; padding-bottom: 76px; }
   .updates-preview { padding-top: 15px; }
   .page-intro p { font-size: 16px; }
@@ -207,13 +197,10 @@ body { background: var(--bg); }
   .section-head h2 { font-size: 39px; }
   .section-head p { font-size: 14px; }
   .feature-grid { grid-template-columns: 1fr; }
-  .feature-card.work { grid-column: auto; display: flex; flex-direction: column; }
-  .feature-card.work .card-visual { height: 225px; flex: none; }
-  .feature-card.work .card-symbol { font-size: 118px; }
-  .feature-card.work .card-body { min-height: 125px; padding: 24px; }
-  .feature-card.work .card-body h3 { font-size: 26px; }
-  .feature-card:not(.work) .card-visual { height: 205px; }
-  .feature-card:not(.work) .card-body { min-height: 122px; padding: 24px; }
+  .feature-card:last-child { grid-column: auto; }
+  .feature-card .card-visual { height: 205px; }
+  .feature-card .card-symbol { font-size: 112px; }
+  .feature-card .card-body { min-height: 122px; padding: 24px; }
   .card-body h3 { font-size: 23px; }
   .card-body p { font-size: 14px; }
   .updates-preview { padding-top: 5px; }
