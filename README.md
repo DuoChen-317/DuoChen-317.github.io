@@ -9,7 +9,8 @@ A bilingual static portfolio. English is the default at `/`; Chinese pages live 
 ## Edit the site
 
 - Text for both languages and page templates: `build.mjs`
-- Colors, layout, and responsive styles: `dist/assets/styles.css`
+- Base styles: `dist/assets/styles.css`
+- Current visual system and responsive refinements: `dist/assets/design.css`
 - Mobile navigation: `dist/assets/app.js`
 - Avatar: `dist/assets/avatar.jpg`
 - Social icons: `icons/*.svg` (inlined by `build.mjs`)

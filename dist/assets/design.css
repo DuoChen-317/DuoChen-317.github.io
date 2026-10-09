@@ -1,0 +1,231 @@
+/* Visual system for Tiyamo: quiet game world, readable portfolio. */
+:root {
+  --bg: #0b1518;
+  --panel: #17282a;
+  --line: #38504a;
+  --muted: #bdc9c0;
+  --accent: #edc27c;
+}
+
+body { background: var(--bg); }
+.site-header {
+  position: sticky;
+  top: 0;
+  height: 76px;
+  background: rgba(10, 20, 22, .94);
+  border-bottom-color: #91a99335;
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #edc27c60 48%, transparent);
+  pointer-events: none;
+}
+.brand { font-size: 22px; letter-spacing: .095em; }
+.main-nav { gap: 26px; }
+.main-nav > a, .nav-dropdown summary, .language {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+}
+.resume-link { min-height: 44px; font-size: 13px; }
+.dropdown-panel { top: 42px; border-color: #67806b75; box-shadow: 0 20px 50px #0007; }
+.dropdown-panel a { font-size: 14px; }
+
+.hero-art {
+  top: 76px;
+  height: 690px;
+  background: linear-gradient(180deg, #455c50 0%, #2e4945 48%, #0c1a1b 100%);
+}
+.hero-art::after {
+  background: linear-gradient(90deg, #0b1518a8, transparent 45%, #0b151865),
+    linear-gradient(0deg, #0b1518 0%, transparent 34%, #0b15181a 88%);
+}
+.hero { height: 690px; }
+.hero-content { max-width: 780px; transform: translateY(-6px); }
+.hero-eyebrow { margin-bottom: 22px; font-size: 11px; }
+.avatar { width: 112px; height: 112px; margin-bottom: 25px; }
+.hero h1 {
+  font-size: clamp(52px, 6.4vw, 84px);
+  line-height: 1.02;
+  letter-spacing: -.058em;
+  margin-bottom: 19px;
+  text-wrap: balance;
+}
+.hero-lead { max-width: 620px; font-size: 17px; line-height: 1.65; }
+.social-links { margin-top: 20px; gap: 7px; }
+.social-links a, .social-links .social-pending { width: 44px; height: 44px; }
+.social-links svg { width: 31px; height: 31px; }
+.hero-buttons { margin-top: 27px; gap: 14px; }
+.button {
+  min-height: 48px;
+  padding: 13px 21px;
+  font-size: 14px;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.button-ghost { border-color: #f3edce90; background: #0e221cc7; }
+.button-ghost:hover { border-color: var(--accent); }
+.scroll-hint { font-size: 11px; }
+
+.content-section { padding-top: 88px; padding-bottom: 88px; }
+#featured { scroll-margin-top: 76px; }
+.section-head { margin-bottom: 32px; }
+.eyebrow { font-size: 11px; letter-spacing: .16em; }
+.section-head h2 { font-size: clamp(38px, 4.7vw, 56px); margin-top: 12px; }
+.section-head p { font-size: 15px; line-height: 1.65; }
+.section-deco { color: var(--accent); }
+
+/* One lead card for work, then two smaller doors into gaming interests. */
+.feature-grid {
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 224px));
+  gap: 18px;
+}
+.feature-card {
+  overflow: hidden;
+  border-color: #5a706543;
+  border-radius: 8px;
+  background: #16272a;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.feature-card:hover, .feature-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: #edc27cb0;
+  box-shadow: 0 18px 48px #0006;
+}
+.feature-card.work { grid-row: span 2; display: flex; flex-direction: column; }
+.feature-card.work .card-visual {
+  flex: 1;
+  min-height: 0;
+  background: radial-gradient(circle at 55% 42%, #d9b78555, transparent 36%),
+    linear-gradient(145deg, #8b745b, #4f5a4e 58%, #253932);
+}
+.feature-card.work .card-symbol { font-size: clamp(150px, 17vw, 230px); }
+.feature-card.work .card-body { min-height: 142px; padding: 29px; align-items: center; }
+.feature-card.work .card-body h3 { font-size: 31px; }
+.feature-card:not(.work) { display: grid; grid-template-columns: 43% 57%; }
+.feature-card:not(.work) .card-visual { height: 100%; }
+.feature-card:not(.work) .card-symbol { font-size: 91px; }
+.feature-card:not(.work) .card-body {
+  min-height: 0;
+  height: 100%;
+  padding: 27px 23px;
+  align-items: end;
+}
+.card-body h3 { font-size: 24px; margin-bottom: 9px; }
+.card-body p { font-size: 14px; line-height: 1.55; }
+.card-arrow { width: 34px; height: 34px; font-size: 16px; border-color: #aac09c8c; }
+.card-coord, .card-label { font-size: 11px; }
+.feature-card.minecraft .card-visual {
+  background: radial-gradient(circle at 60% 38%, #c9d69c66, transparent 42%),
+    linear-gradient(145deg, #77916c, #31584f 65%, #223830);
+}
+.feature-card.games .card-visual {
+  background: radial-gradient(circle at 55% 40%, #c3aed477, transparent 40%),
+    linear-gradient(145deg, #73759b, #3a4f69 60%, #25314b);
+}
+
+.updates-preview { padding-top: 28px; padding-bottom: 112px; }
+.text-link { min-height: 44px; display: inline-flex; align-items: center; font-size: 14px; }
+.updates-grid { gap: 18px; }
+.update-feature, .update-soon {
+  min-height: 204px;
+  border-radius: 8px;
+  border-color: #5a706543;
+  background: linear-gradient(135deg, #1c3535, #152729);
+}
+.update-feature { transition: border-color .2s ease, transform .2s ease; }
+.update-feature:hover { transform: translateY(-3px); border-color: var(--accent); }
+.update-feature h3, .update-soon h3 { font-size: 23px; }
+.update-feature p, .update-soon p { font-size: 14px; line-height: 1.55; }
+.update-soon { border-style: solid; background: #111f22; }
+.site-footer p, .footer-copy { font-size: 13px; }
+
+/* Inner pages inherit the same type scale and surface treatment. */
+.page-intro { min-height: 350px; background: linear-gradient(115deg, #172827, #395048 55%, #1a2c2b); }
+.page-intro-inner { padding-top: 92px; padding-bottom: 80px; }
+.page-intro h1 { font-size: clamp(45px, 5.2vw, 70px); text-wrap: balance; }
+.page-intro p { font-size: 17px; line-height: 1.65; }
+.info-card, .portfolio-card, .work-card, .timeline-entry { border-color: #5a70654d; background: #17282a; }
+.info-card { min-height: 245px; padding: 31px; border-radius: 8px; }
+.info-card h2 { font-size: 25px; }
+.info-card p, .portfolio-copy p, .work-main p, .timeline-entry p, .timeline-next p,
+.resume-section p, .page-note p { font-size: 15px; line-height: 1.65; }
+.portfolio-card { overflow: hidden; border-radius: 8px; }
+.portfolio-copy { padding: 28px; }
+.portfolio-copy h2 { font-size: 25px; }
+.work-card { border-radius: 8px; }
+.work-main h2 { font-size: 29px; }
+.work-meta span, .chip { font-size: 12px; }
+.page-note { border-style: solid; border-color: #5a706570; background: #142524; border-radius: 8px; }
+.resume-section h2 { font-size: 25px; }
+
+@media (max-width: 1000px) {
+  .main-nav { gap: 17px; }
+  .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
+  .feature-card.work { grid-column: 1 / -1; grid-row: auto; display: grid; grid-template-columns: 47% 53%; min-height: 290px; }
+  .feature-card.work .card-visual { height: 100%; }
+  .feature-card:not(.work) { display: flex; flex-direction: column; }
+  .feature-card:not(.work) .card-visual { height: 220px; }
+  .feature-card:not(.work) .card-body { min-height: 160px; height: auto; }
+}
+
+@media (max-width: 760px) {
+  .site-header { height: 66px; }
+  .brand { font-size: 19px; }
+  .menu-toggle { min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+  .mobile-menu { top: 66px; }
+  #featured { scroll-margin-top: 66px; }
+  .mobile-menu a { min-height: 44px; display: flex; align-items: center; font-size: 14px; }
+  .hero-art { top: 66px; height: 640px; }
+  .hero { height: 640px; }
+  .hero h1 { font-size: clamp(42px, 8vw, 58px); }
+  .hero-lead { font-size: 15px; }
+  .section-head h2 { font-size: 42px; }
+  .feature-grid { gap: 16px; }
+  .content-section { padding-top: 76px; padding-bottom: 76px; }
+  .updates-preview { padding-top: 15px; }
+  .page-intro p { font-size: 16px; }
+}
+
+@media (max-width: 600px) {
+  .hero-art, .hero { height: 650px; }
+  .hero { padding-left: 18px; padding-right: 18px; }
+  .hero-eyebrow { font-size: 10px; line-height: 1.5; }
+  .avatar { width: 100px; height: 100px; }
+  .hero h1 { font-size: clamp(39px, 10.4vw, 50px); }
+  html[lang="zh-CN"] .hero h1 { text-wrap: normal; word-break: keep-all; }
+  .hero-lead { font-size: 14px; }
+  .social-links { gap: 4px; }
+  .social-links a, .social-links .social-pending { width: 44px; height: 44px; }
+  .hero-buttons { gap: 10px; }
+  .button { padding: 12px 14px; font-size: 12px; gap: 12px; }
+  .content-section { padding: 66px 18px; }
+  .section-head h2 { font-size: 39px; }
+  .section-head p { font-size: 14px; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .feature-card.work { grid-column: auto; display: flex; flex-direction: column; }
+  .feature-card.work .card-visual { height: 225px; flex: none; }
+  .feature-card.work .card-symbol { font-size: 118px; }
+  .feature-card.work .card-body { min-height: 125px; padding: 24px; }
+  .feature-card.work .card-body h3 { font-size: 26px; }
+  .feature-card:not(.work) .card-visual { height: 205px; }
+  .feature-card:not(.work) .card-body { min-height: 122px; padding: 24px; }
+  .card-body h3 { font-size: 23px; }
+  .card-body p { font-size: 14px; }
+  .updates-preview { padding-top: 5px; }
+  .update-feature, .update-soon { min-height: 190px; padding: 25px; }
+  .page-intro-inner { padding: 72px 20px; }
+  .page-intro h1 { font-size: 43px; }
+  .page-intro p { font-size: 15px; }
+  .info-card, .portfolio-copy { padding: 24px; }
+  .work-card { padding: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-card, .update-feature, .button { transition: none; }
+  .feature-card:hover, .feature-card:focus-visible, .update-feature:hover, .button:hover { transform: none; }
+}

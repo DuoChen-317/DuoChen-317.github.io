@@ -12,7 +12,7 @@ const copy = {
       eyebrow: 'WELCOME TO MY CORNER OF THE INTERNET', heading: 'Hi, I’m Tiyamo.',
       lead: 'A home for my mind world, game experiences, and the work I’m proud of.',
       explore: 'Explore my work', about: 'Get to know me', scroll: 'Scroll to explore',
-      selected: 'Featured spaces', selectedSub: 'Three doors into the things I make and enjoy.',
+      selected: 'Selected work & worlds', selectedSub: 'Work, worlds, and play—collected in one place.',
       mc: 'Minecraft', mcText: 'Worlds, builds, and stories made block by block.',
       games: 'Games', gamesText: 'Projects, discoveries, and moments worth sharing.',
       work: 'Work', workText: 'A place for professional projects and what I contributed.',
@@ -44,9 +44,9 @@ const copy = {
     switch: 'English', skip: '跳到主要内容', footer: '记录我的创作与探索。',
     home: {
       eyebrow: '欢迎来到我的个人空间', heading: '你好，我是 Tiyamo。',
-      lead: '这里收藏我的 Minecraft 世界、游戏经历，以及值得展示的工作作品。',
+      lead: '这里收藏我的内心世界、游戏经历，以及令我骄傲的工作作品。',
       explore: '看看我的作品', about: '了解我', scroll: '向下探索',
-      selected: '精选空间', selectedSub: '从三个入口，认识我创作和热爱的事物。',
+      selected: '精选作品与世界', selectedSub: '工作、世界与游戏，汇集在这里。',
       mc: '我的世界', mcText: '方块世界里的建筑、地图与故事。',
       games: '游戏', gamesText: '游戏项目、发现和值得分享的瞬间。',
       work: '工作', workText: '展示工作项目与我在其中的贡献。',
@@ -103,15 +103,15 @@ function header(lang, route, t) {
   const link = (r,label) => `<a href="${href(lang,r)}" ${route===r?'aria-current="page"':''}>${label}</a>`;
   return `<a class="skip" href="#content">${t.skip}</a>
   <header class="site-header"><div class="nav-wrap">
-    <a class="brand" href="${href(lang)}" aria-label="Tiyamo home">TIYAMO</a>
-    <nav class="main-nav" aria-label="Main navigation">
+    <a class="brand" href="${href(lang)}" aria-label="${lang === 'en' ? 'Tiyamo home' : 'Tiyamo 首页'}">TIYAMO</a>
+    <nav class="main-nav" aria-label="${lang === 'en' ? 'Main navigation' : '主导航'}">
       ${link('',nav.home)}
       <details class="nav-dropdown" ${['minecraft','games'].includes(route)?'data-active="true"':''}><summary>${nav.worlds}<span aria-hidden="true">⌄</span></summary><div class="dropdown-panel">${link('minecraft',nav.minecraft)}${link('games',nav.games)}</div></details>
       ${link('work',nav.work)}${link('about',nav.about)}${link('updates',nav.updates)}
     </nav>
     <div class="nav-actions"><a class="language" href="${href(lang==='en'?'zh':'en',route)}" lang="${lang==='en'?'zh-CN':'en'}">${t.switch}</a><a class="resume-link" href="${href(lang,'resume')}">${nav.resume}<span aria-hidden="true">↗</span></a></div>
-    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
-  </div><nav id="mobile-menu" class="mobile-menu" aria-label="Mobile navigation" hidden>${[['',nav.home],['minecraft',nav.minecraft],['games',nav.games],['work',nav.work],['about',nav.about],['updates',nav.updates],['resume',nav.resume]].map(([r,l])=>link(r,l)).join('')}<a class="language" href="${href(lang==='en'?'zh':'en',route)}">${t.switch}</a></nav></header>`;
+    <button class="menu-toggle" aria-label="${lang === 'en' ? 'Open menu' : '打开菜单'}" data-open-label="${lang === 'en' ? 'Open menu' : '打开菜单'}" data-close-label="${lang === 'en' ? 'Close menu' : '关闭菜单'}" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </div><nav id="mobile-menu" class="mobile-menu" aria-label="${lang === 'en' ? 'Mobile navigation' : '手机导航'}" hidden>${[['',nav.home],['minecraft',nav.minecraft],['games',nav.games],['work',nav.work],['about',nav.about],['updates',nav.updates],['resume',nav.resume]].map(([r,l])=>link(r,l)).join('')}<a class="language" href="${href(lang==='en'?'zh':'en',route)}">${t.switch}</a></nav></header>`;
 }
 
 function footer(t) { return `<footer class="site-footer"><div class="footer-inner"><div><span class="footer-brand">TIYAMO<span>.</span></span><p>${t.footer}</p></div><span class="footer-copy">© ${new Date().getFullYear()} Tiyamo</span></div></footer>`; }
@@ -121,7 +121,7 @@ function heroArt() { return `<div class="hero-art" aria-hidden="true"><div class
 function card(hrefTo, type, num, title, desc, c) { return `<a class="feature-card ${type}" href="${hrefTo}"><div class="card-visual"><span class="card-coord">${num} / 03</span><div class="card-symbol" aria-hidden="true">${type==='minecraft'?'▦':type==='games'?'✦':'◈'}</div><span class="card-label">${type.toUpperCase()}</span></div><div class="card-body"><div><h3>${title}</h3><p>${desc}</p></div><span class="card-arrow" aria-label="${c.open}">${icon('arrow')}</span></div></a>`; }
 
 function home(lang,t) { const c=t.home; return `${heroArt()}<section class="hero" aria-labelledby="hero-title"><div class="hero-content"><span class="eyebrow hero-eyebrow"><span class="status-dot"></span>${c.eyebrow}</span><div class="avatar"><img src="/assets/avatar.jpg" alt="Tiyamo's avatar" width="853" height="1280"></div><h1 id="hero-title">${c.heading}</h1><p class="hero-lead">${c.lead}</p>${socialBar(lang)}<div class="hero-buttons"><a class="button button-primary" href="#featured">${c.explore}<span>${icon('arrow')}</span></a><a class="button button-ghost" href="${href(lang,'about')}">${c.about}<span>${icon('next')}</span></a></div></div><a class="scroll-hint" href="#featured"><span class="scroll-line"></span>${c.scroll} ${icon('down')}</a></section>
-  <section id="featured" class="content-section featured"><div class="section-head"><div><span class="eyebrow">01 / EXPLORE</span><h2>${c.selected}</h2><p>${c.selectedSub}</p></div><span class="section-deco" aria-hidden="true">✦</span></div><div class="feature-grid">${card(href(lang,'minecraft'),'minecraft','01',c.mc,c.mcText,c)}${card(href(lang,'games'),'games','02',c.games,c.gamesText,c)}${card(href(lang,'work'),'work','03',c.work,c.workText,c)}</div></section>
+  <section id="featured" class="content-section featured"><div class="section-head"><div><span class="eyebrow">01 / EXPLORE</span><h2>${c.selected}</h2><p>${c.selectedSub}</p></div><span class="section-deco" aria-hidden="true">✦</span></div><div class="feature-grid">${card(href(lang,'work'),'work','01',c.work,c.workText,c)}${card(href(lang,'minecraft'),'minecraft','02',c.mc,c.mcText,c)}${card(href(lang,'games'),'games','03',c.games,c.gamesText,c)}</div></section>
   <section class="content-section updates-preview"><div class="section-head"><div><span class="eyebrow">02 / JOURNAL</span><h2>${c.latest}</h2><p>${c.latestSub}</p></div><a class="text-link" href="${href(lang,'updates')}">${c.allUpdates} <span>${icon('arrow')}</span></a></div><div class="updates-grid"><a class="update-feature" href="${href(lang,'updates')}"><div class="update-icon" aria-hidden="true">✳</div><div><span class="eyebrow">${c.label}</span><h3>${c.updateTitle}</h3><p>${c.updateText}</p></div><span class="update-arrow">${icon('arrow')}</span></a><div class="update-soon"><span class="soon-stars" aria-hidden="true">✦ ✧</span><h3>${c.next}</h3><p>${c.nextText}</p></div></div></section>`; }
 
 function pageIntro(c) { return `<section class="page-intro"><div class="page-intro-art" aria-hidden="true"><span>✦</span><span>▦</span><span>✧</span></div><div class="page-intro-inner"><span class="eyebrow"><span class="status-dot"></span>${c.eyebrow}</span><h1>${c.heading}</h1><p>${c.lead}</p></div></section>`; }
@@ -137,7 +137,7 @@ const bodies = { '': home, about: (_lang,t)=>about(t), minecraft: (_lang,t)=>min
 function render(lang, route) {
   const t=copy[lang];
   const pageTitle = route ? `${t[route]?.heading ?? t.title} | Tiyamo` : `Tiyamo — ${t.nav.home}`;
-  return `<!doctype html><html lang="${t.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111b21"><title>${esc(pageTitle)}</title><meta name="description" content="${esc(t.description)}"><link rel="alternate" hreflang="en" href="${href('en',route)}"><link rel="alternate" hreflang="zh-CN" href="${href('zh',route)}"><link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/styles.css"><script src="/assets/app.js" defer></script></head><body class="route-${route||'home'}">${header(lang,route,t)}<main id="content">${bodies[route](lang,t)}</main>${footer(t)}</body></html>`;
+  return `<!doctype html><html lang="${t.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111b21"><title>${esc(pageTitle)}</title><meta name="description" content="${esc(t.description)}"><link rel="alternate" hreflang="en" href="${href('en',route)}"><link rel="alternate" hreflang="zh-CN" href="${href('zh',route)}"><link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/design.css"><script src="/assets/app.js" defer></script></head><body class="route-${route||'home'}">${header(lang,route,t)}<main id="content">${bodies[route](lang,t)}</main>${footer(t)}</body></html>`;
 }
 
 for (const lang of ['en','zh']) for (const route of routes) {
