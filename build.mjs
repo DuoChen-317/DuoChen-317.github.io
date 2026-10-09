@@ -26,7 +26,7 @@ const copy = {
       work: 'Work', workText: 'A place for professional projects and what I contributed.',
       life: 'Life', lifeText: 'Everyday moments, interests, and notes beyond the screen.',
       open: 'Enter space', latest: 'Latest updates', latestSub: 'A small log of what’s happening here.',
-      updateTitle: 'A clearer view of my world', updateText: 'A brighter space for work, games, and life, with a living landscape you can pause.',
+      updateTitle: 'A clearer view of my world', updateText: 'A clearer home for work, games, and life, with a living landscape you can pause.',
       allUpdates: 'View all updates', label: 'SITE NOTE', next: 'More to come', nextText: 'New projects will appear as this space grows.',
       pauseMotion: 'Pause animation', playMotion: 'Play animation'
     },
@@ -67,7 +67,7 @@ const copy = {
       work: '工作', workText: '展示工作项目与我在其中的贡献。',
       life: '生活', lifeText: '记录日常、兴趣，以及屏幕之外的故事。',
       open: '进入', latest: '最近更新', latestSub: '记录这里正在发生的事。',
-      updateTitle: '更清晰地展示我的世界', updateText: '工作、游戏与生活有了更明亮的展示空间，动态山水也可以随时暂停。',
+      updateTitle: '更清晰地展示我的世界', updateText: '工作、游戏与生活有了更清晰的展示空间，动态山水也可以随时暂停。',
       allUpdates: '查看所有更新', label: '网站记录', next: '更多内容即将到来', nextText: '这个空间会随着新作品继续成长。',
       pauseMotion: '暂停动画', playMotion: '播放动画'
     },
