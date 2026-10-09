@@ -1,5 +1,9 @@
 # Tiyamo personal website
 
+Source: https://github.com/DuoChen-317/DuoChen-317.github.io  
+GitHub Pages: https://duochen-317.github.io/  
+Custom domain: https://tiyamo.top/ (DNS setup in progress)
+
 A bilingual static portfolio. English is the default at `/`; Chinese pages live under `/zh/`.
 
 ## Edit the site
@@ -19,6 +23,8 @@ All portfolio and résumé entries are clearly marked placeholders until real co
 
 ## Publish with GitHub Pages
 
-The workflow in `.github/workflows/pages.yml` builds and publishes `dist/` whenever `main` changes. In the GitHub repository, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**. The workflow then publishes the English homepage at `/` and Chinese pages under `/zh/`.
+The workflow in `.github/workflows/pages.yml` builds and publishes `dist/` whenever `main` changes. GitHub Pages is configured to use **GitHub Actions**. The workflow publishes the English homepage at `/` and Chinese pages under `/zh/`.
+
+For future changes: edit the relevant text in `build.mjs` or styling in `dist/assets/styles.css`, run `npm run build`, then commit and push to `main`. GitHub Actions will publish the new version automatically.
 
 The HTML uses root-relative asset and page URLs, so the initial GitHub Pages address should be a root site such as `https://<username>.github.io/`. A custom domain such as `tiyamo.top` also works once its DNS points to GitHub Pages. A project site under `https://<username>.github.io/<repository>/` would need a base-path change first.
