@@ -111,6 +111,8 @@ function socialBar(lang) {
 function header(lang, route, t) {
   const nav = t.nav;
   const link = (r,label) => `<a href="${href(lang,r)}" ${route===r?'aria-current="page"':''}>${label}</a>`;
+  const languageIcon = '<svg class="language-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.75 5.5 3.75 9s-1.25 6.5-3.75 9M12 3c-2.5 2.5-3.75 5.5-3.75 9s1.25 6.5 3.75 9"/></svg>';
+  const languageSwitch = `<a class="language" href="${href(lang==='en'?'zh':'en',route)}" lang="${lang==='en'?'zh-CN':'en'}" aria-label="${lang==='en'?'Switch to Chinese':'切换到英文'}">${languageIcon}<span>${t.switch}</span></a>`;
   return `<a class="skip" href="#content">${t.skip}</a>
   <header class="site-header"><div class="nav-wrap">
     <a class="brand" href="${href(lang)}" aria-label="${lang === 'en' ? 'Tiyamo home' : 'Tiyamo 首页'}">TIYAMO</a>
@@ -119,9 +121,9 @@ function header(lang, route, t) {
       <details class="nav-dropdown" ${['minecraft','games'].includes(route)?'data-active="true"':''}><summary>${nav.worlds}<span aria-hidden="true">⌄</span></summary><div class="dropdown-panel">${link('minecraft',nav.minecraft)}${link('games',nav.games)}</div></details>
       ${link('work',nav.work)}${link('about',nav.about)}${link('updates',nav.updates)}
     </nav>
-    <div class="nav-actions"><a class="language" href="${href(lang==='en'?'zh':'en',route)}" lang="${lang==='en'?'zh-CN':'en'}">${t.switch}</a><a class="resume-link" href="${href(lang,'resume')}">${nav.resume}<span aria-hidden="true">↗</span></a></div>
+    <div class="nav-actions">${languageSwitch}<a class="resume-link" href="${href(lang,'resume')}">${nav.resume}<span aria-hidden="true">↗</span></a></div>
     <button class="menu-toggle" aria-label="${lang === 'en' ? 'Open menu' : '打开菜单'}" data-open-label="${lang === 'en' ? 'Open menu' : '打开菜单'}" data-close-label="${lang === 'en' ? 'Close menu' : '关闭菜单'}" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
-  </div><nav id="mobile-menu" class="mobile-menu" aria-label="${lang === 'en' ? 'Mobile navigation' : '手机导航'}" hidden>${[['',nav.home],['minecraft',nav.minecraft],['games',nav.games],['work',nav.work],['about',nav.about],['updates',nav.updates],['resume',nav.resume]].map(([r,l])=>link(r,l)).join('')}<a class="language" href="${href(lang==='en'?'zh':'en',route)}">${t.switch}</a></nav></header>`;
+  </div><nav id="mobile-menu" class="mobile-menu" aria-label="${lang === 'en' ? 'Mobile navigation' : '手机导航'}" hidden>${[['',nav.home],['minecraft',nav.minecraft],['games',nav.games],['work',nav.work],['about',nav.about],['updates',nav.updates],['resume',nav.resume]].map(([r,l])=>link(r,l)).join('')}${languageSwitch}</nav></header>`;
 }
 
 function footer(t) { return `<footer class="site-footer"><div class="footer-inner"><div><span class="footer-brand">TIYAMO<span>.</span></span><p>${t.footer}</p></div><span class="footer-copy">© ${new Date().getFullYear()} Tiyamo</span></div></footer>`; }
