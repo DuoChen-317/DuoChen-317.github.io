@@ -12,6 +12,11 @@ A bilingual static portfolio. English is the default at `/`; Chinese pages live 
 - Colors, layout, and responsive styles: `dist/assets/styles.css`
 - Mobile navigation: `dist/assets/app.js`
 - Avatar: `dist/assets/avatar.jpg`
+- Social icons: `icons/*.svg` (inlined by `build.mjs`)
+
+The social icons are [Font Awesome Free](https://fontawesome.com/) SVGs, licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The original attribution
+comments are retained in each SVG and in the generated HTML.
 
 Run `npm run build` after changing `build.mjs`. The generated HTML in `dist/` is tracked for static hosting.
 
