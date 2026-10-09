@@ -77,6 +77,26 @@ const copy = {
 const href = (lang, route='') => `${lang === 'zh' ? '/zh/' : '/'}${route ? `${route}/` : ''}`;
 const esc = s => String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const icon = (name) => ({ arrow: '↗', down: '↓', next: '→' }[name]);
+const socialIcons = {
+  email: '<span class="social-at" aria-hidden="true">@</span>',
+  discord: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.2 6.8C7 5.5 9 5 12 5s5 .5 6.8 1.8L20 17c-1.3 1.1-2.6 1.8-4.1 2.2l-.9-1.4c.5-.2 1-.5 1.5-.8-3 1.4-6 1.4-9 0 .5.3 1 .6 1.5.8l-.9 1.4C6.6 18.8 5.3 18.1 4 17L5.2 6.8Z"/><circle cx="9" cy="12" r="1.2" fill="#142521"/><circle cx="15" cy="12" r="1.2" fill="#142521"/></svg>',
+  github: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1a11 11 0 0 0-3.48 21.44c.55.1.75-.24.75-.53v-2.05c-3.06.67-3.71-1.3-3.71-1.3-.5-1.27-1.23-1.61-1.23-1.61-1-.69.08-.68.08-.68 1.1.08 1.68 1.13 1.68 1.13.98 1.68 2.57 1.19 3.19.91.1-.71.38-1.19.69-1.46-2.44-.28-5-1.22-5-5.43 0-1.2.43-2.18 1.13-2.95-.11-.28-.49-1.4.11-2.91 0 0 .92-.29 3.03 1.12a10.5 10.5 0 0 1 5.52 0c2.11-1.41 3.03-1.12 3.03-1.12.6 1.51.22 2.63.11 2.91.7.77 1.13 1.75 1.13 2.95 0 4.22-2.57 5.15-5.02 5.42.39.34.74 1.01.74 2.04v3.03c0 .29.2.64.76.53A11 11 0 0 0 12 1Z"/></svg>',
+  steam: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="16.8" cy="7.2" r="5.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="16.8" cy="7.2" r="2.2"/><path d="m12.4 9.8-4.1 5.4a4.3 4.3 0 1 1-3.8 3.3l-2.6-1.1v-3.5l5.1 2 5.4-6.1Z"/></svg>',
+  x: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18.9 2H21l-6.6 7.5L22 22h-5.9l-4.7-6.7L5.6 22H3.5l7-8L3 2h6.1l4.2 6.1L18.9 2Zm-1 18h1.2L8.4 3.9H7.2L17.9 20Z"/></svg>'
+};
+const socialLinks = [
+  { name: 'Email', url: 'mailto:tiyamo317@gmail.com', icon: 'email' },
+  { name: 'Discord', url: null, icon: 'discord' },
+  { name: 'GitHub', url: 'https://github.com/DuoChen-317', icon: 'github' },
+  { name: 'Steam', url: null, icon: 'steam' },
+  { name: 'X', url: 'https://x.com/Tiyamo317', icon: 'x' }
+];
+
+function socialBar(lang) {
+  return `<nav class="social-links" aria-label="${lang === 'en' ? 'Social links' : '社交链接'}">${socialLinks.map(({name,url,icon}) => url
+    ? `<a href="${esc(url)}" aria-label="${name}" title="${name}" ${url.startsWith('mailto:') ? '' : 'target="_blank" rel="noopener noreferrer"'}>${socialIcons[icon]}</a>`
+    : `<span class="social-pending" role="img" aria-label="${name}: ${lang === 'en' ? 'link coming soon' : '链接待补充'}" title="${name}: ${lang === 'en' ? 'link coming soon' : '链接待补充'}">${socialIcons[icon]}</span>`).join('')}</nav>`;
+}
 
 function header(lang, route, t) {
   const nav = t.nav;
@@ -100,7 +120,7 @@ function heroArt() { return `<div class="hero-art" aria-hidden="true"><div class
 
 function card(hrefTo, type, num, title, desc, c) { return `<a class="feature-card ${type}" href="${hrefTo}"><div class="card-visual"><span class="card-coord">${num} / 03</span><div class="card-symbol" aria-hidden="true">${type==='minecraft'?'▦':type==='games'?'✦':'◈'}</div><span class="card-label">${type.toUpperCase()}</span></div><div class="card-body"><div><h3>${title}</h3><p>${desc}</p></div><span class="card-arrow" aria-label="${c.open}">${icon('arrow')}</span></div></a>`; }
 
-function home(lang,t) { const c=t.home; return `${heroArt()}<section class="hero" aria-labelledby="hero-title"><div class="hero-content"><span class="eyebrow hero-eyebrow"><span class="status-dot"></span>${c.eyebrow}</span><div class="avatar"><img src="/assets/avatar.jpg" alt="Tiyamo's avatar" width="853" height="1280"></div><h1 id="hero-title">${c.heading}</h1><p class="hero-lead">${c.lead}</p><div class="hero-buttons"><a class="button button-primary" href="#featured">${c.explore}<span>${icon('arrow')}</span></a><a class="button button-ghost" href="${href(lang,'about')}">${c.about}<span>${icon('next')}</span></a></div></div><a class="scroll-hint" href="#featured"><span class="scroll-line"></span>${c.scroll} ${icon('down')}</a></section>
+function home(lang,t) { const c=t.home; return `${heroArt()}<section class="hero" aria-labelledby="hero-title"><div class="hero-content"><span class="eyebrow hero-eyebrow"><span class="status-dot"></span>${c.eyebrow}</span><div class="avatar"><img src="/assets/avatar.jpg" alt="Tiyamo's avatar" width="853" height="1280"></div><h1 id="hero-title">${c.heading}</h1><p class="hero-lead">${c.lead}</p>${socialBar(lang)}<div class="hero-buttons"><a class="button button-primary" href="#featured">${c.explore}<span>${icon('arrow')}</span></a><a class="button button-ghost" href="${href(lang,'about')}">${c.about}<span>${icon('next')}</span></a></div></div><a class="scroll-hint" href="#featured"><span class="scroll-line"></span>${c.scroll} ${icon('down')}</a></section>
   <section id="featured" class="content-section featured"><div class="section-head"><div><span class="eyebrow">01 / EXPLORE</span><h2>${c.selected}</h2><p>${c.selectedSub}</p></div><span class="section-deco" aria-hidden="true">✦</span></div><div class="feature-grid">${card(href(lang,'minecraft'),'minecraft','01',c.mc,c.mcText,c)}${card(href(lang,'games'),'games','02',c.games,c.gamesText,c)}${card(href(lang,'work'),'work','03',c.work,c.workText,c)}</div></section>
   <section class="content-section updates-preview"><div class="section-head"><div><span class="eyebrow">02 / JOURNAL</span><h2>${c.latest}</h2><p>${c.latestSub}</p></div><a class="text-link" href="${href(lang,'updates')}">${c.allUpdates} <span>${icon('arrow')}</span></a></div><div class="updates-grid"><a class="update-feature" href="${href(lang,'updates')}"><div class="update-icon" aria-hidden="true">✳</div><div><span class="eyebrow">${c.label}</span><h3>${c.updateTitle}</h3><p>${c.updateText}</p></div><span class="update-arrow">${icon('arrow')}</span></a><div class="update-soon"><span class="soon-stars" aria-hidden="true">✦ ✧</span><h3>${c.next}</h3><p>${c.nextText}</p></div></div></section>`; }
 
