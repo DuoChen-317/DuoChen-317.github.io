@@ -88,7 +88,7 @@ const socialLinks = [
   { name: 'Email', url: 'mailto:tiyamo317@gmail.com', icon: 'email' },
   { name: 'Discord', url: null, icon: 'discord' },
   { name: 'GitHub', url: 'https://github.com/DuoChen-317', icon: 'github' },
-  { name: 'Steam', url: 'https://steamcommunity.com/profiles/76561199093541323/', icon: 'steam' },
+  { name: 'Steam', url: 'https://steamcommunity.com/id/tiyamo/', icon: 'steam' },
   { name: 'X', url: 'https://x.com/Tiyamo317', icon: 'x' }
 ];
 
