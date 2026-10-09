@@ -10,7 +10,7 @@ const copy = {
     switch: '中文', skip: 'Skip to content', footer: 'Built as a home for what I make and explore.',
     home: {
       eyebrow: 'WELCOME TO MY CORNER OF THE INTERNET', heading: 'Hi, I’m Tiyamo.',
-      lead: 'A home for my Minecraft worlds, game experiences, and the work I’m proud of.',
+      lead: 'A home for my mind world, game experiences, and the work I’m proud of.',
       explore: 'Explore my work', about: 'Get to know me', scroll: 'Scroll to explore',
       selected: 'Featured spaces', selectedSub: 'Three doors into the things I make and enjoy.',
       mc: 'Minecraft', mcText: 'Worlds, builds, and stories made block by block.',
