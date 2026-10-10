@@ -22,7 +22,7 @@ The social icons are [Font Awesome Free](https://fontawesome.com/) SVGs, license
 comments are retained in each SVG and in the generated HTML.
 
 Run `npm run build` after changing `build.mjs`. The generated HTML in `dist/` is tracked for static hosting.
-The homepage follows the visitor’s local month: March–May spring, June–August summer, September–November autumn, and December–February winter. It rechecks the calendar while open and when the visitor returns to the tab; no manual selector or saved preference is used. Seasonal color grading applies equally to the static and animated image: soft pink spring, clear teal summer, warm golden autumn, and cool blue winter. Particles are cherry blossom petals, hovering fireflies, maple leaves, and a mixture of fine snow and six-armed snowflakes respectively.
+The homepage follows the visitor’s local month: March–May spring, June–August summer, September–November autumn, and December–February winter. It rechecks the calendar while open and when the visitor returns to the tab; a four-icon glass dock at the lower right allows a temporary manual choice. Refreshing the page returns to the actual season; no device preference is saved. Seasonal color grading applies equally to the static and animated image: soft pink spring, clear teal summer, warm golden autumn, and cool blue winter. Particles are cherry blossom petals, hovering fireflies, maple leaves, and a mixture of fine snow and six-armed snowflakes respectively.
 
 `lucide-static` supplies the homepage card icons at build time. Motion powers the
 small, pointer-driven card illustrations on the homepage; the build bundles only

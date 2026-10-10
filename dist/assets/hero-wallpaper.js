@@ -5,6 +5,9 @@ const leafCanvas = document.querySelector('.hero-leaves');
 const art = document.querySelector('.hero-art');
 const motionToggle = document.querySelector('.motion-toggle');
 const scene = document.querySelector('.hero-scene');
+const seasonDock = document.querySelector('.season-dock');
+const seasonButtons = [...document.querySelectorAll('.season-button')];
+let manualSeason = false;
 
 const seasons = ['spring', 'summer', 'autumn', 'winter'];
 const currentSeason = () => {
@@ -21,10 +24,31 @@ const selectSeason = name => {
   const source = art.dataset[`${name}Src`];
   scene.style.backgroundImage = `url("${source}")`;
   updateTexture(source);
+  if (seasonDock) {
+    seasonDock.hidden = false;
+    seasonDock.style.setProperty('--season-index', seasons.indexOf(name));
+    seasonButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.season === name)));
+  }
 };
+seasonButtons.forEach(button => button.addEventListener('click', () => {
+  manualSeason = true;
+  selectSeason(button.dataset.season);
+}));
+seasonDock?.addEventListener('keydown', event => {
+  const keys = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
+  if (!keys.includes(event.key)) return;
+  const index = seasonButtons.indexOf(document.activeElement);
+  if (index < 0) return;
+  event.preventDefault();
+  const next = event.key === 'Home' ? 0 : event.key === 'End' ? seasons.length - 1
+    : (index + (event.key === 'ArrowRight' ? 1 : -1) + seasons.length) % seasons.length;
+  seasonButtons[next].focus();
+  seasonButtons[next].click();
+});
 selectSeason(activeSeason);
 // Recheck the calendar after midnight or when returning to an open tab.
 const syncSeason = () => {
+  if (manualSeason) return;
   const season = currentSeason();
   if (season !== activeSeason) selectSeason(season);
 };
@@ -123,6 +147,7 @@ if (wallpaper && leafCanvas && art) {
         gl.uniform1i(sceneUniform, 0);
 
         const image = new Image();
+        const texture = gl.createTexture();
         let loaded = false;
         let inView = true;
         let frameId = 0;
@@ -283,7 +308,6 @@ if (wallpaper && leafCanvas && art) {
         });
 
         image.onload = () => {
-          const texture = gl.createTexture();
           gl.activeTexture(gl.TEXTURE0);
           gl.bindTexture(gl.TEXTURE_2D, texture);
           gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);

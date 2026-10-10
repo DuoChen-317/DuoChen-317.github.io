@@ -66,3 +66,15 @@ final result: passed
 Reduced the hero scene's vertical extent by one navigation height (62px desktop, 58px mobile) while retaining bottom alignment in both CSS and WebGL. This trims upper sky rather than foreground. Visually inspected the current Autumn scene at 1470 × 900 and 390 × 667; avatar, text, buttons, navigation, and lower landscape remain visible.
 
 final result: passed
+
+
+## Glass season dock — 2026-10-10
+
+Added a fixed lower-right four-icon glass capsule inspired by Apple’s rounded floating controls and shared material plane in [Meet Liquid Glass](https://developer.apple.com/videos/play/wwdc2025/219/). The web implementation uses translucent gradients, backdrop blur, a light rim, and a sliding circular selection indicator with the site’s ivory/teal palette.
+
+- Four 44px targets use the existing Lucide icon family: blossom, sun, leaf, snowflake. Seasonal names are available to screen readers and in desktop hover/keyboard-focus tooltips.
+- The calendar determines the initial season. Manual selection stays active for the current page and refreshing restores the actual month; no preference is persisted.
+- Checked all four buttons, pressed-state updates, keyboard wrapping from Winter to Spring, and refresh to October’s Autumn scene. Chinese labels checked at 390 × 667 and desktop controls visually inspected at 1280 × 720.
+- Reuses one WebGL texture when changing scenes. No browser console errors observed. Motion preferences continue to suppress animations through the existing CSS and wallpaper logic.
+
+final result: passed
