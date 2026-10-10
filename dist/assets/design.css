@@ -405,9 +405,9 @@ body { background: var(--bg); }
   bottom: max(24px, env(safe-area-inset-bottom));
   z-index: 30;
   display: grid;
-  grid-template-columns: repeat(4, 44px);
+  grid-template-columns: repeat(4, 36px);
   gap: 8px;
-  padding: 8px;
+  padding: 6px;
   border: 1px solid #fff8e047;
   border-radius: 999px;
   background: linear-gradient(160deg, #f8f3dd1e, #dce9e209), #13272cdf;
@@ -424,14 +424,14 @@ body { background: var(--bg); }
 .season-dock::before {
   content: '';
   position: absolute;
-  left: 8px;
-  top: 8px;
-  width: 44px;
-  height: 44px;
+  left: 6px;
+  top: 6px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: linear-gradient(150deg, #fff8e4e8, #e8ddbdc9);
   box-shadow: inset 0 1px 1px #ffffffd9, 0 2px 6px #00000024;
-  transform: translateX(calc(var(--season-index) * 52px));
+  transform: translateX(calc(var(--season-index) * 44px));
   transition: transform .32s cubic-bezier(.22, 1, .36, 1);
   pointer-events: none;
 }
@@ -439,8 +439,8 @@ body { background: var(--bg); }
   position: relative;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -450,7 +450,13 @@ body { background: var(--bg); }
   -webkit-tap-highlight-color: transparent;
   transition: color .2s ease, background .2s ease, transform .2s ease;
 }
-.season-button svg { width: 21px; height: 21px; stroke-width: 1.8; }
+.season-button::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+}
+.season-button svg { width: 18px; height: 18px; stroke-width: 1.8; }
 .season-button[aria-pressed="true"] { color: #18332e; }
 .season-button:hover:not([aria-pressed="true"]) { background: #fff6d91c; }
 .season-button:active { transform: scale(.91); }

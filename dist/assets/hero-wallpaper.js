@@ -155,7 +155,7 @@ if (wallpaper && leafCanvas && art) {
         let userPaused = false;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const ctx = leaves;
-        const particles = Array.from({ length: 80 }, (_, index) => ({
+        const particles = Array.from({ length: 100 }, (_, index) => ({
           x: ((index * 73) % 101) / 101,
           y: ((index * 47) % 97) / 97,
           speed: 0.05 + (index % 5) * 0.011,
@@ -194,7 +194,7 @@ if (wallpaper && leafCanvas && art) {
         const drawParticles = time => {
           const width = art.clientWidth;
           const height = art.clientHeight;
-          const counts = { spring: 32, summer: 14, autumn: 28, winter: 80 };
+          const counts = { spring: 40, summer: 18, autumn: 36, winter: 100 };
           const count = Math.round(counts[activeSeason] * (width < 600 ? 0.55 : 1));
           ctx.clearRect(0, 0, width, height);
           for (const [index, particle] of particles.slice(0, count).entries()) {
@@ -205,7 +205,7 @@ if (wallpaper && leafCanvas && art) {
             const y = activeSeason === 'summer'
               ? height * (0.65 + particle.y * 0.29 + Math.sin(time * 0.28 + particle.phase) * 0.035)
               : height * ((particle.y + time * fallingSpeed) % 1.14 - 0.07);
-            const size = particle.size * depth;
+            const size = particle.size * depth * 1.24;
             const behindCopy = x > width * 0.32 && x < width * 0.68 ? 0.6 : 1;
             ctx.save();
             ctx.translate(x, y);
@@ -215,7 +215,7 @@ if (wallpaper && leafCanvas && art) {
                 // A few visible six-armed crystals among many distant snow dots.
                 ctx.rotate(time * 0.12 + particle.phase);
                 ctx.strokeStyle = '#f2f8ff';
-                ctx.lineWidth = 0.8;
+                ctx.lineWidth = 0.95;
                 ctx.beginPath();
                 for (let arm = 0; arm < 6; arm++) {
                   const angle = arm * Math.PI / 3;
@@ -238,7 +238,7 @@ if (wallpaper && leafCanvas && art) {
               // Fireflies hover near the trees, rather than falling from the sky.
               ctx.globalAlpha = 0.16 + Math.sin(time * 0.75 + particle.phase) ** 4 * 0.48;
               ctx.fillStyle = '#f4edac';
-              ctx.shadowBlur = 10; ctx.shadowColor = '#eaf69a';
+              ctx.shadowBlur = 12; ctx.shadowColor = '#eaf69a';
               ctx.beginPath(); ctx.arc(0, 0, size * 0.28, 0, Math.PI * 2); ctx.fill();
             } else if (activeSeason === 'spring') {
               ctx.rotate(time * 0.45 + particle.phase);
@@ -265,7 +265,7 @@ if (wallpaper && leafCanvas && art) {
               outline.forEach(([px, py], point) => point
                 ? ctx.lineTo(px * size, py * size) : ctx.moveTo(px * size, py * size));
               ctx.closePath(); ctx.fill();
-              ctx.strokeStyle = '#76422a'; ctx.lineWidth = 0.65;
+              ctx.strokeStyle = '#76422a'; ctx.lineWidth = 0.75;
               ctx.beginPath(); ctx.moveTo(0, -size * 0.62); ctx.lineTo(0, size); ctx.stroke();
             }
             ctx.restore();

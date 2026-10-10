@@ -78,3 +78,11 @@ Added a fixed lower-right four-icon glass capsule inspired by Apple’s rounded 
 - Reuses one WebGL texture when changing scenes. No browser console errors observed. Motion preferences continue to suppress animations through the existing CSS and wallpaper logic.
 
 final result: passed
+
+## Compact dock and fuller particles — 2026-10-10
+
+- Reduced the glass dock from 218 × 62px to 182 × 50px, with 36px visual buttons and 18px icons. Transparent 4px hit extensions preserve a 44px effective target without making the visible control larger.
+- Increased particle dimensions by 24%. Desktop counts changed to 40 spring petals, 18 summer fireflies, 36 autumn leaves, and 100 winter snow particles; mobile retains the existing 55% count scaling. Snowflake and leaf strokes are slightly stronger and the firefly glow is slightly larger.
+- Visually checked desktop Autumn and Winter and mobile Summer. All four season switches checked; console errors: none. No change to month-based defaults or motion preferences.
+
+final result: passed
