@@ -18,7 +18,7 @@ const copy = {
     switch: '中文', skip: 'Skip to content', footer: 'Built as a home for what I make and explore.',
     home: {
       eyebrow: 'WELCOME TO MY CORNER OF THE INTERNET', heading: 'Hi, I’m Tiyamo.',
-      lead: 'A home for my mind world, game experiences, and the work I’m proud of.',
+      lead: 'A home for life, game experiences, and the work I’m proud of.',
       explore: 'Explore my work', about: 'Get to know me', scroll: 'Scroll to explore',
       selected: 'Explore my world', selectedSub: 'Work, games, and life—collected in one place.',
       mc: 'Minecraft', mcText: 'Worlds, builds, and stories made block by block.',
@@ -59,7 +59,7 @@ const copy = {
     switch: 'English', skip: '跳到主要内容', footer: '记录我的创作与探索。',
     home: {
       eyebrow: '欢迎来到我的个人空间', heading: '你好，我是 Tiyamo。',
-      lead: '这里收藏我的内心世界、游戏经历，以及令我骄傲的工作作品。',
+      lead: '这里收藏我的生活、游戏经历，以及令我骄傲的工作作品。',
       explore: '看看我的作品', about: '了解我', scroll: '向下探索',
       selected: '探索我的世界', selectedSub: '工作、游戏与生活，都在这里。',
       mc: '我的世界', mcText: '方块世界里的建筑、地图与故事。',
