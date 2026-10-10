@@ -11,7 +11,7 @@ A bilingual static portfolio. English is the default at `/`; Chinese pages live 
 - Text for both languages and page templates: `build.mjs`
 - Base styles: `dist/assets/styles.css`
 - Current visual system and responsive refinements: `dist/assets/design.css`
-- Animated homepage scene and pause control: `dist/assets/hero-wallpaper.js`; still image fallback: `dist/assets/sengoku-hero.webp`
+- Seasonal homepage scene, switcher, and pause control: `dist/assets/hero-wallpaper.js`; four optimized image assets: `dist/assets/season-*.webp`
 - Card interaction source: `src/card-interactions.js` (bundled into `dist/assets/card-interactions.js`)
 - Mobile navigation: `dist/assets/app.js`
 - Avatar: `dist/assets/avatar.jpg`
@@ -22,6 +22,7 @@ The social icons are [Font Awesome Free](https://fontawesome.com/) SVGs, license
 comments are retained in each SVG and in the generated HTML.
 
 Run `npm run build` after changing `build.mjs`. The generated HTML in `dist/` is tracked for static hosting.
+The homepage starts in the current Northern Hemisphere season and remembers a visitor's manual choice on that device.
 
 `lucide-static` supplies the homepage card icons at build time. Motion powers the
 small, pointer-driven card illustrations on the homepage; the build bundles only

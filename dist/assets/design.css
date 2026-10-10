@@ -15,6 +15,18 @@ body { background: var(--bg); }
   background: rgba(10, 20, 22, .94);
   border-bottom-color: #91a99335;
 }
+.route-home .site-header {
+  background: linear-gradient(180deg, #07171be8 0%, #0a2529a8 58%, #0a252900 100%);
+  border-bottom: 0;
+  backdrop-filter: none;
+}
+.route-home .site-header.is-scrolled {
+  background: #0a1719ed;
+  border-bottom: 1px solid #91a99335;
+  backdrop-filter: blur(16px);
+}
+.route-home .site-header::after { opacity: 0; }
+.route-home .site-header.is-scrolled::after { opacity: 1; }
 .site-header::after {
   content: '';
   position: absolute;
@@ -39,15 +51,15 @@ body { background: var(--bg); }
 .nav-dropdown[open] summary { color: var(--accent); }
 
 .hero-art {
-  top: 62px;
-  height: 690px;
+  top: 0;
+  height: calc(clamp(580px, calc(100svh - 62px), 690px) + 62px);
   background: #111d1c;
   isolation: isolate;
 }
 .hero-scene {
   position: absolute;
   inset: 0;
-  background: url('/assets/sengoku-hero.webp') center 43% / cover no-repeat;
+  background: url('/assets/season-autumn.webp') center center / cover no-repeat;
 }
 .hero-wallpaper, .hero-leaves {
   position: absolute;
@@ -64,11 +76,11 @@ body { background: var(--bg); }
 .hero-wallpaper.is-ready, .hero-leaves.is-ready { opacity: 1; }
 .hero-art::after {
   z-index: 2;
-  background: radial-gradient(ellipse at 50% 53%, #0b1518a6, #0b151855 42%, transparent 73%),
-    linear-gradient(0deg, #0b1518 0%, #0b15181f 28%, transparent 72%);
+  background: radial-gradient(ellipse at 50% 58%, #07171b8c, #07171b36 35%, transparent 67%),
+    linear-gradient(0deg, #0b1518 0%, #0b151830 20%, transparent 53%);
 }
-.hero { height: 690px; }
-.hero-content { max-width: 780px; transform: translateY(-6px); text-shadow: 0 2px 18px #061010bb; }
+.hero { height: clamp(580px, calc(100svh - 62px), 690px); }
+.hero-content { max-width: 780px; transform: translateY(12px); text-shadow: 0 2px 18px #061010bb; }
 .hero-eyebrow { margin-bottom: 22px; font-size: 11px; }
 .avatar { width: 112px; height: 112px; margin-bottom: 25px; }
 .hero h1 {
@@ -190,6 +202,8 @@ body { background: var(--bg); }
 
 @media (max-width: 1000px) {
   .main-nav { gap: 17px; }
+  .hero-content { transform: translateY(-20px); }
+  .hero-scene { background-position: 65% center; }
   .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
   .feature-card.work { grid-column: 1 / -1; grid-row: auto; display: grid; grid-template-columns: 47% 53%; min-height: 290px; }
   .feature-card.work .card-visual { height: 100%; }
@@ -205,8 +219,9 @@ body { background: var(--bg); }
   .mobile-menu { top: 58px; }
   #featured { scroll-margin-top: 58px; }
   .mobile-menu a { min-height: 44px; display: flex; align-items: center; font-size: 14px; }
-  .hero-art { top: 58px; height: 640px; }
-  .hero { height: 640px; }
+  .hero-art { top: 0; height: calc(clamp(590px, calc(100svh - 58px), 640px) + 58px); }
+  .hero-scene { background-position: 83% center; }
+  .hero { height: clamp(590px, calc(100svh - 58px), 640px); }
   .hero h1 { font-size: clamp(42px, 8vw, 58px); }
   .hero-lead { font-size: 15px; }
   .section-head h2 { font-size: 42px; }
@@ -217,7 +232,8 @@ body { background: var(--bg); }
 }
 
 @media (max-width: 600px) {
-  .hero-art, .hero { height: 650px; }
+  .hero-art { height: calc(clamp(590px, calc(100svh - 58px), 650px) + 58px); }
+  .hero { height: clamp(590px, calc(100svh - 58px), 650px); }
   .hero { padding-left: 18px; padding-right: 18px; }
   .hero-eyebrow { font-size: 10px; line-height: 1.5; }
   .avatar { width: 100px; height: 100px; }
@@ -284,6 +300,44 @@ body { background: var(--bg); }
 .motion-toggle[aria-pressed="true"] .motion-play-icon { display: inline; }
 .motion-toggle:hover { background: #29473acb; border-color: #fff0d5; }
 
+.route-home .scroll-hint { left: 28px; transform: none; bottom: 31px; }
+.season-switcher {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 17px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid #efd7ad52;
+  border-radius: 12px;
+  background: #0b2026ad;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px #06131650;
+}
+.season-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 82px;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #e4e6de;
+  font: 600 12px 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.season-button svg { width: 15px; height: 15px; stroke-width: 1.7; }
+.season-button[aria-pressed="true"] { background: #eac47b; color: #102126; }
+.season-button:hover:not([aria-pressed="true"]) { background: #f3dfa025; color: #fff4df; }
+.season-button:focus-visible { outline: 2px solid #fff2d2; outline-offset: 2px; }
+
 .card-visual::after { display: none; }
 .card-orbit {
   position: absolute;
@@ -334,10 +388,15 @@ body { background: var(--bg); }
 
 @media (max-width: 760px) {
   .hero .motion-toggle { top: 16px; right: 20px; }
+  .route-home .scroll-hint { display: none; }
+  .season-switcher { bottom: 14px; }
 }
 @media (max-width: 600px) {
   .hero .motion-toggle { top: 14px; right: 17px; padding: 0 12px; }
   .hero .motion-toggle .motion-label { display: none; }
+  .hero-content { transform: translateY(-25px); }
+  .season-switcher { width: calc(100% - 26px); max-width: 362px; }
+  .season-button { flex: 1; min-width: 0; padding: 8px 4px; font-size: 11px; }
   .feature-card.work .card-symbol { width: 120px; height: 120px; }
   .feature-card.work .card-symbol svg { width: 55px; height: 55px; }
   .update-icon svg { width: 29px; height: 29px; }

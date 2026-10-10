@@ -4,6 +4,36 @@ const wallpaper = document.querySelector('.hero-wallpaper');
 const leafCanvas = document.querySelector('.hero-leaves');
 const art = document.querySelector('.hero-art');
 const motionToggle = document.querySelector('.motion-toggle');
+const scene = document.querySelector('.hero-scene');
+const seasonButtons = [...document.querySelectorAll('.season-button')];
+
+const seasons = ['spring', 'summer', 'autumn', 'winter'];
+const currentSeason = () => {
+  const month = new Date().getMonth();
+  return month >= 2 && month <= 4 ? 'spring' : month >= 5 && month <= 7 ? 'summer'
+    : month >= 8 && month <= 10 ? 'autumn' : 'winter';
+};
+let storedSeason;
+try { storedSeason = localStorage.getItem('tiyamo-season'); } catch { /* Storage can be unavailable. */ }
+let activeSeason = seasons.includes(storedSeason) ? storedSeason : currentSeason();
+let updateTexture = () => {};
+const selectSeason = name => {
+  if (!seasons.includes(name) || !art || !scene) return;
+  activeSeason = name;
+  art.dataset.season = name;
+  const source = art.dataset[`${name}Src`];
+  scene.style.backgroundImage = `url("${source}")`;
+  seasonButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.season === name)));
+  updateTexture(source);
+  try { localStorage.setItem('tiyamo-season', name); } catch { /* Storage can be unavailable. */ }
+};
+seasonButtons.forEach(button => button.addEventListener('click', () => selectSeason(button.dataset.season)));
+selectSeason(activeSeason);
+
+const header = document.querySelector('.site-header');
+const syncHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 48);
+window.addEventListener('scroll', syncHeader, { passive: true });
+syncHeader();
 
 if (wallpaper && leafCanvas && art) {
   const gl = wallpaper.getContext('webgl', { alpha: false, antialias: false, powerPreference: 'low-power' });
@@ -41,32 +71,21 @@ if (wallpaper && leafCanvas && art) {
       void main() {
         vec2 uv = uCrop.xy + vUv * uCrop.zw;
         float t = uTime;
-        float valley = smoothstep(0.27, 0.40, uv.y) * (1.0 - smoothstep(0.68, 0.78, uv.y));
-        float water = smoothstep(0.08, 0.15, uv.y) * (1.0 - smoothstep(0.27, 0.36, uv.y))
-                    * smoothstep(0.34, 0.43, uv.x) * (1.0 - smoothstep(0.70, 0.78, uv.x));
-        float falls = smoothstep(0.84, 0.88, uv.x) * (1.0 - smoothstep(0.94, 0.98, uv.x))
-                    * smoothstep(0.25, 0.34, uv.y) * (1.0 - smoothstep(0.65, 0.76, uv.y));
-        float branches = smoothstep(0.72, 0.87, uv.y) * (1.0 - smoothstep(0.25, 0.48, uv.x));
+        float sky = smoothstep(0.24, 0.48, uv.y);
+        float building = smoothstep(0.76, 0.91, uv.x)
+          * (1.0 - smoothstep(0.47, 0.76, uv.y));
         vec3 base = texture2D(uScene, uv).rgb;
-        float cloudPixel = smoothstep(0.40, 0.68, dot(base, vec3(0.3, 0.56, 0.14)));
-        float waterPixel = smoothstep(0.30, 0.58, dot(base, vec3(0.3, 0.56, 0.14)));
+        float cloudPixel = smoothstep(0.34, 0.61, dot(base, vec3(0.3, 0.56, 0.14)));
 
         vec2 sampleUv = uv;
-        sampleUv.x += valley * cloudPixel * (0.009 * sin(uv.y * 18.0 + t * 0.7)
-                     + 0.006 * sin(uv.y * 9.0 - t * 0.34));
-        sampleUv.x += water * waterPixel * 0.0025 * sin(uv.y * 120.0 + t * 2.1 + uv.x * 12.0);
-        sampleUv.y += falls * cloudPixel * 0.002 * sin(uv.x * 72.0 + t * 2.3);
-        sampleUv.x += branches * 0.007 * sin(t * 1.4 + uv.y * 11.0);
+        float drift = sky * cloudPixel * (1.0 - building);
+        sampleUv.x += drift * (0.005 * sin(t * 0.29 + uv.y * 8.0) + 0.002 * sin(t * 0.16));
+        sampleUv.y += drift * 0.0015 * sin(t * 0.22 + uv.x * 9.0);
         vec3 color = texture2D(uScene, clamp(sampleUv, 0.001, 0.999)).rgb;
 
-        float movingFog = smoothstep(0.48, 0.69,
-          clouds(vec2(uv.x * 5.3 - t * 0.10, uv.y * 5.0 + t * 0.018)));
-        color = mix(color, vec3(0.82, 0.85, 0.78), valley * cloudPixel * movingFog * 0.38);
-
-        float glint = pow(max(0.0, sin(uv.y * 240.0 + t * 2.8 + sin(uv.x * 36.0 + t))), 8.0);
-        color += vec3(0.17, 0.13, 0.07) * water * waterPixel * glint * 0.45;
-        float waterfallGlint = pow(max(0.0, sin(uv.y * 95.0 - t * 4.0 + uv.x * 33.0)), 8.0);
-        color += vec3(0.10, 0.11, 0.09) * falls * waterfallGlint * cloudPixel * 0.33;
+        float movingFog = clouds(vec2(uv.x * 4.0 - t * 0.035, uv.y * 7.0));
+        float horizon = smoothstep(0.10, 0.26, uv.y) * (1.0 - smoothstep(0.41, 0.57, uv.y));
+        color = mix(color, vec3(0.78, 0.82, 0.77), horizon * movingFog * (1.0 - building) * 0.10);
         gl_FragColor = vec4(color, 1.0);
       }
     `;
@@ -137,7 +156,9 @@ if (wallpaper && leafCanvas && art) {
             const viewAspect = width / height;
             if (imageAspect > viewAspect) {
               const cropWidth = viewAspect / imageAspect;
-              gl.uniform4f(cropUniform, (1 - cropWidth) / 2, 0, cropWidth, 1);
+              const position = window.matchMedia('(max-width: 760px)').matches ? 0.83
+                : window.matchMedia('(max-width: 1000px)').matches ? 0.65 : 0.5;
+              gl.uniform4f(cropUniform, (1 - cropWidth) * position, 0, cropWidth, 1);
             } else {
               const cropHeight = imageAspect / viewAspect;
               gl.uniform4f(cropUniform, 0, (1 - cropHeight) * 0.57, 1, cropHeight);
@@ -149,20 +170,30 @@ if (wallpaper && leafCanvas && art) {
           const width = art.clientWidth;
           const height = art.clientHeight;
           ctx.clearRect(0, 0, width, height);
-          for (const leaf of particles) {
+          for (const [index, leaf] of particles.entries()) {
+            if (activeSeason === 'summer' && index > 11) continue;
             const x = width * ((leaf.side ? 0.78 : 0.05) + leaf.x * 0.17
               + Math.sin(time * 0.75 + leaf.phase) * 0.05);
             const y = height * ((leaf.y + time * leaf.speed) % 1.15 - 0.08);
             ctx.save();
             ctx.translate(x, y);
-            ctx.rotate(time * 0.65 + leaf.phase);
-            ctx.globalAlpha = 0.42 + (leaf.x * 0.30);
-            ctx.fillStyle = leaf.side ? '#d5b36f' : '#b5a56a';
-            ctx.beginPath();
-            ctx.moveTo(0, -leaf.size);
-            ctx.quadraticCurveTo(leaf.size * 0.9, 0, 0, leaf.size);
-            ctx.quadraticCurveTo(-leaf.size * 0.9, 0, 0, -leaf.size);
-            ctx.fill();
+            if (activeSeason === 'winter') {
+              ctx.globalAlpha = 0.38 + leaf.x * 0.28;
+              ctx.fillStyle = '#edf4ef';
+              ctx.beginPath(); ctx.arc(0, 0, leaf.size * 0.34, 0, Math.PI * 2); ctx.fill();
+            } else if (activeSeason === 'summer') {
+              ctx.globalAlpha = 0.26 + Math.sin(time * 1.4 + leaf.phase) ** 2 * 0.32;
+              ctx.fillStyle = '#f5d48d';
+              ctx.shadowBlur = 12; ctx.shadowColor = '#f5d48d';
+              ctx.beginPath(); ctx.arc(0, 0, leaf.size * 0.35, 0, Math.PI * 2); ctx.fill();
+            } else {
+              ctx.rotate(time * 0.65 + leaf.phase);
+              ctx.globalAlpha = activeSeason === 'spring' ? 0.5 : 0.42;
+              ctx.fillStyle = activeSeason === 'spring' ? '#f4cfcb' : '#d5a36f';
+              ctx.beginPath();
+              ctx.ellipse(0, 0, leaf.size * 0.68, leaf.size * 0.44, 0, 0, Math.PI * 2);
+              ctx.fill();
+            }
             ctx.restore();
           }
         };
@@ -171,6 +202,7 @@ if (wallpaper && leafCanvas && art) {
           frameId = requestAnimationFrame(renderFrame);
           if (now - previousFrame < 32) return;
           previousFrame = now;
+          if (!loaded) return;
           const time = now / 1000;
           gl.uniform1f(timeUniform, time);
           gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -216,7 +248,14 @@ if (wallpaper && leafCanvas && art) {
           syncToggle();
           syncPlayback();
         };
-        image.src = '/assets/sengoku-hero.webp';
+        updateTexture = source => {
+          loaded = false;
+          wallpaper.classList.remove('is-ready');
+          leafCanvas.classList.remove('is-ready');
+          syncPlayback();
+          image.src = source;
+        };
+        updateTexture(art.dataset[`${activeSeason}Src`]);
 
         new ResizeObserver(resize).observe(art);
         new IntersectionObserver(([entry]) => {
