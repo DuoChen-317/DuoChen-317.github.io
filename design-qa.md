@@ -86,3 +86,9 @@ final result: passed
 - Visually checked desktop Autumn and Winter and mobile Summer. All four season switches checked; console errors: none. No change to month-based defaults or motion preferences.
 
 final result: passed
+
+## Additional particle increase — 2026-10-10
+
+Raised particle dimensions by another 20% from the previous version (1.24 → 1.488) and counts by approximately another quarter: spring 50, summer 23, autumn 45, winter 125. The particle pool now supports the full winter count; existing mobile count reduction remains. Winter desktop preview visually checked, with no console errors. Glass dock dimensions remain unchanged.
+
+final result: passed

@@ -155,7 +155,7 @@ if (wallpaper && leafCanvas && art) {
         let userPaused = false;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const ctx = leaves;
-        const particles = Array.from({ length: 100 }, (_, index) => ({
+        const particles = Array.from({ length: 125 }, (_, index) => ({
           x: ((index * 73) % 101) / 101,
           y: ((index * 47) % 97) / 97,
           speed: 0.05 + (index % 5) * 0.011,
@@ -194,7 +194,7 @@ if (wallpaper && leafCanvas && art) {
         const drawParticles = time => {
           const width = art.clientWidth;
           const height = art.clientHeight;
-          const counts = { spring: 40, summer: 18, autumn: 36, winter: 100 };
+          const counts = { spring: 50, summer: 23, autumn: 45, winter: 125 };
           const count = Math.round(counts[activeSeason] * (width < 600 ? 0.55 : 1));
           ctx.clearRect(0, 0, width, height);
           for (const [index, particle] of particles.slice(0, count).entries()) {
@@ -205,7 +205,7 @@ if (wallpaper && leafCanvas && art) {
             const y = activeSeason === 'summer'
               ? height * (0.65 + particle.y * 0.29 + Math.sin(time * 0.28 + particle.phase) * 0.035)
               : height * ((particle.y + time * fallingSpeed) % 1.14 - 0.07);
-            const size = particle.size * depth * 1.24;
+            const size = particle.size * depth * 1.488;
             const behindCopy = x > width * 0.32 && x < width * 0.68 ? 0.6 : 1;
             ctx.save();
             ctx.translate(x, y);
