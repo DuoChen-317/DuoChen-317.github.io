@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { buildSync } from 'esbuild';
-import { ArrowUpRight, BriefcaseBusiness, Gamepad2, NotebookPen, Pause, Play, Leaf, Flower2, Sun, Snowflake } from 'lucide-static';
+import { ArrowUpRight, BriefcaseBusiness, Gamepad2, NotebookPen, Pause, Play, Leaf } from 'lucide-static';
 
 const out = path.resolve('dist');
 buildSync({ entryPoints: ['src/card-interactions.js'], outfile: 'dist/assets/card-interactions.js', bundle: true, minify: true, format: 'iife', target: 'es2020' });
@@ -28,8 +28,7 @@ const copy = {
       open: 'Enter space', latest: 'Latest updates', latestSub: 'A small log of what’s happening here.',
       updateTitle: 'A home through four seasons', updateText: 'One familiar landscape now changes with spring, summer, autumn, and winter.',
       allUpdates: 'View all updates', label: 'SITE NOTE', next: 'More to come', nextText: 'New projects will appear as this space grows.',
-      pauseMotion: 'Pause animation', playMotion: 'Play animation',
-      seasonLabel: 'Choose a season', seasons: { spring: 'Spring', summer: 'Summer', autumn: 'Autumn', winter: 'Winter' }
+      pauseMotion: 'Pause animation', playMotion: 'Play animation'
     },
     about: { eyebrow: 'ABOUT', heading: 'The person behind the pixels.', lead: 'This is where I’ll share who I am, what I care about, and what I’m exploring next.',
       blocks: [['A short introduction', 'Add a few sentences about yourself: what you do, where your interests started, and what you like creating.'], ['Beyond the screen', 'Share the interests and experiences you want visitors to know about.'], ['Now & next', 'Describe what you are learning or working toward right now.']],
@@ -70,8 +69,7 @@ const copy = {
       open: '进入', latest: '最近更新', latestSub: '记录这里正在发生的事。',
       updateTitle: '四季里的个人空间', updateText: '同一片风景现在有春、夏、秋、冬四种模样。',
       allUpdates: '查看所有更新', label: '网站记录', next: '更多内容即将到来', nextText: '这个空间会随着新作品继续成长。',
-      pauseMotion: '暂停动画', playMotion: '播放动画',
-      seasonLabel: '选择季节', seasons: { spring: '春', summer: '夏', autumn: '秋', winter: '冬' }
+      pauseMotion: '暂停动画', playMotion: '播放动画'
     },
     about: { eyebrow: '关于我', heading: '像素背后的我。', lead: '在这里介绍我是谁、我关心什么，以及接下来想探索的方向。',
       blocks: [['简单介绍', '补充几句话：你做什么、兴趣从哪里开始，以及喜欢创作什么。'], ['屏幕之外', '分享你希望访客了解的兴趣与经历。'], ['现在与未来', '写下目前正在学习或努力实现的事。']],
@@ -144,7 +142,6 @@ function header(lang, route, t) {
 function footer(t) { return `<footer class="site-footer"><div class="footer-inner"><div><span class="footer-brand">TIYAMO<span>.</span></span><p>${t.footer}</p></div><span class="footer-copy">© ${new Date().getFullYear()} Tiyamo</span></div></footer>`; }
 
 const seasonNames = ['spring', 'summer', 'autumn', 'winter'];
-const seasonIcons = { spring: Flower2, summer: Sun, autumn: Leaf, winter: Snowflake };
 function heroArt() {
   const sources = seasonNames.map(season => `data-${season}-src="${asset(`season-${season}.webp`)}"`).join(' ');
   return `<div class="hero-art" aria-hidden="true" ${sources}><div class="hero-scene" style="background-image:url('${asset('season-autumn.webp')}')"></div><canvas class="hero-wallpaper"></canvas><canvas class="hero-leaves"></canvas></div>`;
@@ -155,7 +152,7 @@ function card(hrefTo, type, title, desc) {
   return `<a class="feature-card ${type}" href="${hrefTo}"><div class="card-visual" aria-hidden="true"><span class="card-orbit"></span><span class="card-symbol">${uiIcon(cardIcons[type])}</span><span class="card-landscape"></span></div><div class="card-body"><div><h3>${title}</h3><p>${desc}</p></div><span class="card-arrow" aria-hidden="true">${uiIcon(ArrowUpRight)}</span></div></a>`;
 }
 
-function home(lang,t) { const c=t.home; return `${heroArt()}<section class="hero" aria-labelledby="hero-title"><button class="motion-toggle" type="button" aria-label="${c.pauseMotion}" aria-pressed="false" data-pause-label="${c.pauseMotion}" data-play-label="${c.playMotion}" hidden><span class="motion-pause-icon">${uiIcon(Pause)}</span><span class="motion-play-icon">${uiIcon(Play)}</span><span class="motion-label">${c.pauseMotion}</span></button><div class="hero-content"><span class="eyebrow hero-eyebrow"><span class="status-dot"></span>${c.eyebrow}</span><div class="avatar"><img src="/assets/avatar.jpg" alt="Tiyamo's avatar" width="853" height="1280"></div><h1 id="hero-title">${c.heading}</h1><p class="hero-lead">${c.lead}</p>${socialBar(lang)}<div class="hero-buttons"><a class="button button-primary" href="#featured">${c.explore}<span>${icon('arrow')}</span></a><a class="button button-ghost" href="${href(lang,'about')}">${c.about}<span>${icon('next')}</span></a></div></div><div class="season-switcher" role="group" aria-label="${c.seasonLabel}">${seasonNames.map(season => `<button class="season-button" type="button" data-season="${season}" aria-pressed="false">${uiIcon(seasonIcons[season])}<span>${c.seasons[season]}</span></button>`).join('')}</div><a class="scroll-hint" href="#featured"><span class="scroll-line"></span>${c.scroll} ${icon('down')}</a></section>
+function home(lang,t) { const c=t.home; return `${heroArt()}<section class="hero" aria-labelledby="hero-title"><button class="motion-toggle" type="button" aria-label="${c.pauseMotion}" aria-pressed="false" data-pause-label="${c.pauseMotion}" data-play-label="${c.playMotion}" hidden><span class="motion-pause-icon">${uiIcon(Pause)}</span><span class="motion-play-icon">${uiIcon(Play)}</span><span class="motion-label">${c.pauseMotion}</span></button><div class="hero-content"><span class="eyebrow hero-eyebrow"><span class="status-dot"></span>${c.eyebrow}</span><div class="avatar"><img src="/assets/avatar.jpg" alt="Tiyamo's avatar" width="853" height="1280"></div><h1 id="hero-title">${c.heading}</h1><p class="hero-lead">${c.lead}</p>${socialBar(lang)}<div class="hero-buttons"><a class="button button-primary" href="#featured">${c.explore}<span>${icon('arrow')}</span></a><a class="button button-ghost" href="${href(lang,'about')}">${c.about}<span>${icon('next')}</span></a></div></div><a class="scroll-hint" href="#featured"><span class="scroll-line"></span>${c.scroll} ${icon('down')}</a></section>
   <section id="featured" class="content-section featured"><div class="section-head"><div><h2>${c.selected}</h2><p>${c.selectedSub}</p></div></div><div class="feature-grid">${card(href(lang,'work'),'work',c.work,c.workText)}${card(href(lang,'games'),'games',c.games,c.gamesText)}${card(href(lang,'life'),'life',c.life,c.lifeText)}</div></section>
   <section class="content-section updates-preview"><div class="section-head"><div><h2>${c.latest}</h2><p>${c.latestSub}</p></div><a class="text-link" href="${href(lang,'updates')}">${c.allUpdates} <span>${uiIcon(ArrowUpRight)}</span></a></div><div class="updates-grid"><a class="update-feature" href="${href(lang,'updates')}"><div class="update-icon" aria-hidden="true">${uiIcon(NotebookPen)}</div><div><span class="eyebrow">${c.label}</span><h3>${c.updateTitle}</h3><p>${c.updateText}</p></div><span class="update-arrow" aria-hidden="true">${uiIcon(ArrowUpRight)}</span></a><div class="update-soon"><h3>${c.next}</h3><p>${c.nextText}</p></div></div></section>`; }
 

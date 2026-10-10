@@ -1,11 +1,10 @@
-// A living scene: only the clouds, lake, foliage, and a few leaves move.
+// A living scene: clouds, mist, and seasonal particles move.
 // The static CSS image remains visible if WebGL or motion is unavailable.
 const wallpaper = document.querySelector('.hero-wallpaper');
 const leafCanvas = document.querySelector('.hero-leaves');
 const art = document.querySelector('.hero-art');
 const motionToggle = document.querySelector('.motion-toggle');
 const scene = document.querySelector('.hero-scene');
-const seasonButtons = [...document.querySelectorAll('.season-button')];
 
 const seasons = ['spring', 'summer', 'autumn', 'winter'];
 const currentSeason = () => {
@@ -13,9 +12,7 @@ const currentSeason = () => {
   return month >= 2 && month <= 4 ? 'spring' : month >= 5 && month <= 7 ? 'summer'
     : month >= 8 && month <= 10 ? 'autumn' : 'winter';
 };
-let storedSeason;
-try { storedSeason = localStorage.getItem('tiyamo-season'); } catch { /* Storage can be unavailable. */ }
-let activeSeason = seasons.includes(storedSeason) ? storedSeason : currentSeason();
+let activeSeason = currentSeason();
 let updateTexture = () => {};
 const selectSeason = name => {
   if (!seasons.includes(name) || !art || !scene) return;
@@ -23,12 +20,16 @@ const selectSeason = name => {
   art.dataset.season = name;
   const source = art.dataset[`${name}Src`];
   scene.style.backgroundImage = `url("${source}")`;
-  seasonButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.season === name)));
   updateTexture(source);
-  try { localStorage.setItem('tiyamo-season', name); } catch { /* Storage can be unavailable. */ }
 };
-seasonButtons.forEach(button => button.addEventListener('click', () => selectSeason(button.dataset.season)));
 selectSeason(activeSeason);
+// Recheck the calendar after midnight or when returning to an open tab.
+const syncSeason = () => {
+  const season = currentSeason();
+  if (season !== activeSeason) selectSeason(season);
+};
+setInterval(syncSeason, 60_000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) syncSeason(); });
 
 const header = document.querySelector('.site-header');
 const syncHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 48);
@@ -161,7 +162,7 @@ if (wallpaper && leafCanvas && art) {
               gl.uniform4f(cropUniform, (1 - cropWidth) * position, 0, cropWidth, 1);
             } else {
               const cropHeight = imageAspect / viewAspect;
-              gl.uniform4f(cropUniform, 0, (1 - cropHeight) * 0.57, 1, cropHeight);
+              gl.uniform4f(cropUniform, 0, 0, 1, cropHeight);
             }
           }
         };

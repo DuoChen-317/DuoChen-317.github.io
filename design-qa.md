@@ -34,3 +34,16 @@ No actionable P0, P1, or P2 difference remains. The same building, roof, window,
 **Residual gap:** The operating system's reduced-motion setting was not simulated in the browser, though the implementation includes a static-image fallback for it.
 
 final result: passed
+
+## Calendar-only revision — 2026-10-10
+
+This revision supersedes the manual-selector and persistence checks above. The earlier comparison assets document the initial four-season iteration; `design-qa-implementation.png` now captures the current 1470 × 900 desktop implementation.
+
+- Removed all season buttons and device-specific season preferences. The visitor's local month determines the scene: March–May spring, June–August summer, September–November autumn, December–February winter.
+- Verified all twelve months against the expected mapping. The current October page renders Autumn, and both localized homepages contain no season selector.
+- The calendar is rechecked every minute and when returning to the tab, so an open page can follow a month change.
+- Kept the existing navigation fade following the user's correction that its divider was already gone.
+- The desktop landscape height now follows its image proportions on wide screens. CSS and WebGL both anchor vertical cropping at the bottom, and the lower fade is shorter so foreground trees and the valley remain visible.
+- Visually inspected 1280 × 720, 1470 × 900, and 390 × 667 layouts. The avatar, copy, links, and pause control remain visible. Browser console errors: none.
+
+final result: passed

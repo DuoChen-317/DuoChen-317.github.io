@@ -11,7 +11,7 @@ A bilingual static portfolio. English is the default at `/`; Chinese pages live 
 - Text for both languages and page templates: `build.mjs`
 - Base styles: `dist/assets/styles.css`
 - Current visual system and responsive refinements: `dist/assets/design.css`
-- Seasonal homepage scene, switcher, and pause control: `dist/assets/hero-wallpaper.js`; four optimized image assets: `dist/assets/season-*.webp`
+- Seasonal homepage scene and pause control: `dist/assets/hero-wallpaper.js`; four optimized image assets: `dist/assets/season-*.webp`
 - Card interaction source: `src/card-interactions.js` (bundled into `dist/assets/card-interactions.js`)
 - Mobile navigation: `dist/assets/app.js`
 - Avatar: `dist/assets/avatar.jpg`
@@ -22,7 +22,7 @@ The social icons are [Font Awesome Free](https://fontawesome.com/) SVGs, license
 comments are retained in each SVG and in the generated HTML.
 
 Run `npm run build` after changing `build.mjs`. The generated HTML in `dist/` is tracked for static hosting.
-The homepage starts in the current Northern Hemisphere season and remembers a visitor's manual choice on that device.
+The homepage follows the visitor’s local month: March–May spring, June–August summer, September–November autumn, and December–February winter. It rechecks the calendar while open and when the visitor returns to the tab; no manual selector or saved preference is used.
 
 `lucide-static` supplies the homepage card icons at build time. Motion powers the
 small, pointer-driven card illustrations on the homepage; the build bundles only
