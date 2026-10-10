@@ -55,6 +55,38 @@ body { background: var(--bg); }
   height: calc(max(clamp(580px, calc(100svh - 62px), 690px), calc(56.28vw - 62px)) + 62px);
   background: #111d1c;
   isolation: isolate;
+  --scene-filter: none;
+  --sky-top: transparent;
+  --sky-middle: transparent;
+}
+.hero-art[data-season="spring"] {
+  --scene-filter: saturate(.88) brightness(1.07);
+  --sky-top: #edb0cb26;
+  --sky-middle: #f4c4d21c;
+}
+.hero-art[data-season="summer"] {
+  --scene-filter: saturate(1.1) brightness(1.04);
+  --sky-top: #298eb82b;
+  --sky-middle: #83c8b012;
+}
+.hero-art[data-season="autumn"] {
+  --scene-filter: saturate(1.08) sepia(.06);
+  --sky-top: #d7a4530c;
+  --sky-middle: #edb56d1c;
+}
+.hero-art[data-season="winter"] {
+  --scene-filter: saturate(.65) brightness(1.04);
+  --sky-top: #72ace252;
+  --sky-middle: #a3c9eb2b;
+}
+.hero-scene, .hero-wallpaper { filter: var(--scene-filter); }
+.hero-art::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, var(--sky-top), var(--sky-middle) 46%, transparent 78%);
+  pointer-events: none;
 }
 .hero-scene {
   position: absolute;
@@ -70,12 +102,12 @@ body { background: var(--bg); }
 }
 .hero-wallpaper { z-index: 1; }
 .hero-leaves {
-  z-index: 1;
+  z-index: 3;
   pointer-events: none;
 }
 .hero-wallpaper.is-ready, .hero-leaves.is-ready { opacity: 1; }
 .hero-art::after {
-  z-index: 2;
+  z-index: 4;
   background: radial-gradient(ellipse at 50% 58%, #07171b8c, #07171b36 35%, transparent 67%),
     linear-gradient(0deg, #0b1518 0%, #0b1518d9 4%, #0b151848 9%, transparent 17%);
 }

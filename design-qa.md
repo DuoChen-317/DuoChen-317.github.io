@@ -47,3 +47,16 @@ This revision supersedes the manual-selector and persistence checks above. The e
 - Visually inspected 1280 × 720, 1470 × 900, and 390 × 667 layouts. The avatar, copy, links, and pause control remain visible. Browser console errors: none.
 
 final result: passed
+
+
+## Seasonal sky and particle revision — 2026-10-10
+
+- Spring uses a soft rose sky tint and distinct notched cherry blossom petals.
+- Summer uses a clearer teal sky and a small number of softly blinking fireflies hovering near the trees.
+- Autumn uses warm golden grading and rotating maple silhouettes with leaf veins and varied amber/red colors.
+- Winter uses a less saturated cool blue sky, fine falling snow, and occasional six-armed snowflakes. The lower sky and illuminated window retain some sunset warmth.
+- Color grading is shared by the static scene and WebGL canvas, so the seasonal colors also apply when motion is unavailable. The sky overlay does not affect UI copy or the avatar.
+- Visually checked all four scenes at the desktop viewport and winter at 390 × 667. Mobile uses fewer particles, and particles crossing central copy are softer.
+- Pause control checked successfully; no browser console errors observed. Seasonal preview files used for inspection were removed before publication.
+
+final result: passed

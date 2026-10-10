@@ -130,8 +130,7 @@ if (wallpaper && leafCanvas && art) {
         let userPaused = false;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const ctx = leaves;
-        const particles = Array.from({ length: 24 }, (_, index) => ({
-          side: index % 2,
+        const particles = Array.from({ length: 80 }, (_, index) => ({
           x: ((index * 73) % 101) / 101,
           y: ((index * 47) % 97) / 97,
           speed: 0.05 + (index % 5) * 0.011,
@@ -167,33 +166,82 @@ if (wallpaper && leafCanvas && art) {
           }
         };
 
-        const drawLeaves = time => {
+        const drawParticles = time => {
           const width = art.clientWidth;
           const height = art.clientHeight;
+          const counts = { spring: 32, summer: 14, autumn: 28, winter: 80 };
+          const count = Math.round(counts[activeSeason] * (width < 600 ? 0.55 : 1));
           ctx.clearRect(0, 0, width, height);
-          for (const [index, leaf] of particles.entries()) {
-            if (activeSeason === 'summer' && index > 11) continue;
-            const x = width * ((leaf.side ? 0.78 : 0.05) + leaf.x * 0.17
-              + Math.sin(time * 0.75 + leaf.phase) * 0.05);
-            const y = height * ((leaf.y + time * leaf.speed) % 1.15 - 0.08);
+          for (const [index, particle] of particles.slice(0, count).entries()) {
+            const depth = 0.45 + particle.x * 0.55;
+            const wind = activeSeason === 'winter' ? 0.016 : 0.045;
+            const x = width * ((particle.x + Math.sin(time * 0.35 + particle.phase) * wind + 1) % 1);
+            const fallingSpeed = particle.speed * (activeSeason === 'winter' ? 0.42 : 0.55);
+            const y = activeSeason === 'summer'
+              ? height * (0.65 + particle.y * 0.29 + Math.sin(time * 0.28 + particle.phase) * 0.035)
+              : height * ((particle.y + time * fallingSpeed) % 1.14 - 0.07);
+            const size = particle.size * depth;
+            const behindCopy = x > width * 0.32 && x < width * 0.68 ? 0.6 : 1;
             ctx.save();
             ctx.translate(x, y);
             if (activeSeason === 'winter') {
-              ctx.globalAlpha = 0.38 + leaf.x * 0.28;
-              ctx.fillStyle = '#edf4ef';
-              ctx.beginPath(); ctx.arc(0, 0, leaf.size * 0.34, 0, Math.PI * 2); ctx.fill();
+              ctx.globalAlpha = (0.32 + depth * 0.42) * behindCopy;
+              if (index % 8 === 0) {
+                // A few visible six-armed crystals among many distant snow dots.
+                ctx.rotate(time * 0.12 + particle.phase);
+                ctx.strokeStyle = '#f2f8ff';
+                ctx.lineWidth = 0.8;
+                ctx.beginPath();
+                for (let arm = 0; arm < 6; arm++) {
+                  const angle = arm * Math.PI / 3;
+                  const radius = size * 0.8;
+                  ctx.moveTo(0, 0);
+                  ctx.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+                  for (const direction of [-1, 1]) {
+                    const branch = angle + direction * Math.PI / 3;
+                    ctx.moveTo(Math.cos(angle) * radius * 0.55, Math.sin(angle) * radius * 0.55);
+                    ctx.lineTo(Math.cos(angle) * radius * 0.55 + Math.cos(branch) * radius * 0.3,
+                      Math.sin(angle) * radius * 0.55 + Math.sin(branch) * radius * 0.3);
+                  }
+                }
+                ctx.stroke();
+              } else {
+                ctx.fillStyle = '#e8f3ff';
+                ctx.beginPath(); ctx.arc(0, 0, size * 0.23, 0, Math.PI * 2); ctx.fill();
+              }
             } else if (activeSeason === 'summer') {
-              ctx.globalAlpha = 0.26 + Math.sin(time * 1.4 + leaf.phase) ** 2 * 0.32;
-              ctx.fillStyle = '#f5d48d';
-              ctx.shadowBlur = 12; ctx.shadowColor = '#f5d48d';
-              ctx.beginPath(); ctx.arc(0, 0, leaf.size * 0.35, 0, Math.PI * 2); ctx.fill();
-            } else {
-              ctx.rotate(time * 0.65 + leaf.phase);
-              ctx.globalAlpha = activeSeason === 'spring' ? 0.5 : 0.42;
-              ctx.fillStyle = activeSeason === 'spring' ? '#f4cfcb' : '#d5a36f';
+              // Fireflies hover near the trees, rather than falling from the sky.
+              ctx.globalAlpha = 0.16 + Math.sin(time * 0.75 + particle.phase) ** 4 * 0.48;
+              ctx.fillStyle = '#f4edac';
+              ctx.shadowBlur = 10; ctx.shadowColor = '#eaf69a';
+              ctx.beginPath(); ctx.arc(0, 0, size * 0.28, 0, Math.PI * 2); ctx.fill();
+            } else if (activeSeason === 'spring') {
+              ctx.rotate(time * 0.45 + particle.phase);
+              ctx.scale(0.4 + Math.abs(Math.sin(time * 0.65 + particle.phase)) * 0.6, 1);
+              ctx.globalAlpha = (0.45 + depth * 0.25) * behindCopy;
+              ctx.fillStyle = index % 3 === 0 ? '#fce2e9' : '#efb1c5';
+              // The small notch distinguishes a cherry blossom petal from a leaf.
               ctx.beginPath();
-              ctx.ellipse(0, 0, leaf.size * 0.68, leaf.size * 0.44, 0, 0, Math.PI * 2);
+              ctx.moveTo(0, size * 0.85);
+              ctx.bezierCurveTo(-size, size * 0.1, -size * 0.75, -size * 0.85, -size * 0.18, -size * 0.7);
+              ctx.lineTo(0, -size * 0.4);
+              ctx.lineTo(size * 0.18, -size * 0.7);
+              ctx.bezierCurveTo(size * 0.75, -size * 0.85, size, size * 0.1, 0, size * 0.85);
               ctx.fill();
+            } else {
+              ctx.rotate(time * 0.35 + particle.phase);
+              ctx.scale(0.45 + Math.abs(Math.sin(time * 0.5 + particle.phase)) * 0.55, 1);
+              ctx.globalAlpha = (0.43 + depth * 0.2) * behindCopy;
+              ctx.fillStyle = ['#d99543', '#cf6944', '#e8b965', '#b95a3d'][index % 4];
+              const outline = [[0,-1], [.22,-.4], [.62,-.66], [.51,-.16], [1,-.1],
+                [.54,.28], [.61,.65], [.12,.49], [0,.82], [-.12,.49], [-.61,.65],
+                [-.54,.28], [-1,-.1], [-.51,-.16], [-.62,-.66], [-.22,-.4]];
+              ctx.beginPath();
+              outline.forEach(([px, py], point) => point
+                ? ctx.lineTo(px * size, py * size) : ctx.moveTo(px * size, py * size));
+              ctx.closePath(); ctx.fill();
+              ctx.strokeStyle = '#76422a'; ctx.lineWidth = 0.65;
+              ctx.beginPath(); ctx.moveTo(0, -size * 0.62); ctx.lineTo(0, size); ctx.stroke();
             }
             ctx.restore();
           }
@@ -207,7 +255,7 @@ if (wallpaper && leafCanvas && art) {
           const time = now / 1000;
           gl.uniform1f(timeUniform, time);
           gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-          drawLeaves(time);
+          drawParticles(time);
           wallpaper.classList.add('is-ready');
           leafCanvas.classList.add('is-ready');
         };
