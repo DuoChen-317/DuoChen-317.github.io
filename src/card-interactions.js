@@ -4,16 +4,16 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
 
 for (const card of document.querySelectorAll('.feature-card')) {
-  const symbol = card.querySelector('.card-symbol');
-  if (!symbol) continue;
+  const scene = card.querySelector('.card-scene');
+  if (!scene) continue;
 
   let animation;
   const move = transform => {
     if (reducedMotion.matches || !finePointer.matches) return;
     animation?.stop();
-    animation = animate(symbol, { transform }, { duration: 0.34, ease: 'ease-out' });
+    animation = animate(scene, { transform }, { duration: 0.5, ease: 'ease-out' });
   };
 
-  card.addEventListener('pointerenter', () => move('translateY(-6px) rotate(-4deg) scale(1.05)'));
-  card.addEventListener('pointerleave', () => move('translateY(0) rotate(0deg) scale(1)'));
+  card.addEventListener('pointerenter', () => move('scale(1.035)'));
+  card.addEventListener('pointerleave', () => move('scale(1)'));
 }

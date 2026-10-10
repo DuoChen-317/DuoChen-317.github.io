@@ -335,47 +335,57 @@ body { background: var(--bg); }
 .motion-toggle:hover { background: #29473acb; border-color: #fff0d5; }
 
 .route-home .scroll-hint { left: 28px; transform: none; bottom: 31px; }
-.card-visual::after { display: none; }
-.card-orbit {
-  position: absolute;
-  width: 230px;
-  height: 230px;
-  border: 1px solid #f9eac058;
-  border-radius: 50%;
-  box-shadow: 0 0 0 33px #f9eac00b, 0 0 0 67px #f9eac008;
+/* One character, three scenes, framed by the existing card layout. */
+.feature-card {
+  --card-fade-horizontal: linear-gradient(to right,
+    #16272a00 58%, #16272a10 70%, #16272a57 82%, #16272abf 93%, #16272a 100%);
+  --card-fade-vertical: linear-gradient(to bottom,
+    #16272a00 60%, #16272a0f 72%, #16272a4f 84%, #16272abd 94%, #16272a 100%);
 }
-.card-landscape {
+.card-visual::before { display: none; }
+.card-visual::after {
+  content: '';
+  display: block;
   position: absolute;
   z-index: 1;
-  inset: auto 0 0;
-  height: 31%;
-  background: #0e24269c;
-  clip-path: polygon(0 58%, 12% 36%, 23% 55%, 39% 15%, 54% 47%, 66% 19%, 81% 53%, 100% 10%, 100% 100%, 0 100%);
+  inset: 0;
+  height: auto;
+  clip-path: none;
+  pointer-events: none;
+  background: var(--card-fade-horizontal);
 }
-.games .card-landscape {
-  background: #14283cba;
-  clip-path: polygon(0 47%, 9% 47%, 9% 28%, 24% 28%, 24% 64%, 40% 64%, 40% 14%, 60% 14%, 60% 46%, 77% 46%, 77% 28%, 91% 28%, 91% 57%, 100% 57%, 100% 100%, 0 100%);
+.feature-card.work .card-visual::after {
+  background: var(--card-fade-vertical);
 }
-.life .card-landscape { background: #35283198; }
-.feature-card .card-symbol {
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 140px;
-  height: 140px;
-  border: 1px solid #ffe5b46f;
-  border-radius: 50%;
-  background: #102a2d65;
-  box-shadow: 0 14px 34px #10201b53;
-  text-shadow: none;
-  transform: none;
-  will-change: transform;
+.card-picture { position: absolute; inset: 0; display: block; }
+.card-scene {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform-origin: 50% 55%;
 }
-.feature-card .card-symbol svg { width: 58px; height: 58px; stroke-width: 1.35; }
-.feature-card.work .card-symbol { width: 160px; height: 160px; }
-.feature-card.work .card-symbol svg { width: 71px; height: 71px; }
-.feature-card:not(.work) .card-symbol { width: 108px; height: 108px; }
-.feature-card:not(.work) .card-symbol svg { width: 48px; height: 48px; }
+.feature-card.work .card-scene { object-position: 43% 50%; }
+.card-body h3 { display: flex; align-items: center; gap: 10px; }
+.card-title-icon { display: inline-flex; flex: none; color: var(--accent); opacity: .88; }
+.card-title-icon svg { display: block; width: 20px; height: 20px; stroke-width: 1.6; }
+.feature-card.work .card-title-icon svg { width: 23px; height: 23px; }
+.feature-card.games .card-title-icon { color: #9bc8f5; }
+.feature-card.life .card-title-icon { color: #b0d095; }
+@media (max-width: 1000px) {
+  .feature-card.work .card-visual::after { background: var(--card-fade-horizontal); }
+  .feature-card.games .card-scene { object-position: 50% 50%; }
+  .feature-card.life .card-scene { object-position: 50% 30%; }
+  .feature-card:not(.work) .card-visual::after {
+    background: var(--card-fade-vertical);
+  }
+}
+@media (max-width: 600px) {
+  .feature-card.work .card-visual::after { background: var(--card-fade-vertical); }
+}
 .card-arrow { display: grid; place-items: center; }
 .card-arrow svg { width: 18px; height: 18px; }
 .text-link svg { display: block; width: 17px; height: 17px; }

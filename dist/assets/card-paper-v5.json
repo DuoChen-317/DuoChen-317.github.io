@@ -1,0 +1,20 @@
+{
+  "work": {
+    "idle": "card-work-v5-idle-optimized.webp",
+    "active": "card-work-v5-active-optimized.webp",
+    "screen": {
+      "x": 23.333,
+      "y": 26.667,
+      "width": 53.333,
+      "height": 32
+    }
+  },
+  "games": {
+    "image": "card-games-v5-optimized.webp"
+  },
+  "life": {
+    "idle": "card-life-v5-idle.webp",
+    "active": "card-life-v5-active.webp",
+    "twitch": "card-life-v5-twitch.webp"
+  }
+}

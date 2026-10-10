@@ -6,6 +6,8 @@ import { ArrowUpRight, BriefcaseBusiness, Gamepad2, NotebookPen, Pause, Play, Le
 
 const out = path.resolve('dist');
 buildSync({ entryPoints: ['src/card-interactions.js'], outfile: 'dist/assets/card-interactions.js', bundle: true, minify: true, format: 'iife', target: 'es2020' });
+buildSync({ entryPoints: ['src/card-icons.js'], outfile: 'dist/assets/card-icons.js', bundle: true, minify: true, format: 'iife', target: 'es2020' });
+buildSync({ entryPoints: ['src/card-paper.js'], outfile: 'dist/assets/card-paper.js', bundle: true, minify: true, format: 'iife', target: 'es2020' });
 const asset = name => {
   const hash = createHash('sha256').update(fs.readFileSync(path.join(out, 'assets', name))).digest('hex').slice(0, 10);
   return `/assets/${name}?v=${hash}`;
@@ -154,12 +156,34 @@ function heroArt() {
 }
 
 const cardIcons = { work: BriefcaseBusiness, games: Gamepad2, life: Leaf };
-function card(hrefTo, type, title, desc) {
-  return `<a class="feature-card ${type}" href="${hrefTo}"><div class="card-visual" aria-hidden="true"><span class="card-orbit"></span><span class="card-symbol">${uiIcon(cardIcons[type])}</span><span class="card-landscape"></span></div><div class="card-body"><div><h3>${title}</h3><p>${desc}</p></div><span class="card-arrow" aria-hidden="true">${uiIcon(ArrowUpRight)}</span></div></a>`;
+function iconArtwork(type) {
+  return fs.readFileSync(path.join(out, 'assets', `card-${type}-v4.svg`), 'utf8')
+    .replace('<svg ', '<svg class="card-scene" aria-hidden="true" focusable="false" ')
+    .replaceAll('id="shadow"', `id="${type}-icon-shadow"`)
+    .replaceAll('url(#shadow)', `url(#${type}-icon-shadow)`);
+}
+function paperArtwork(type) {
+  const config = JSON.parse(fs.readFileSync(path.join(out, 'assets', 'card-paper-v5.json'), 'utf8'));
+  const image = (name, className) => `<img class="paper-layer ${className}" src="${asset(name)}" alt="" width="720" height="600" decoding="async">`;
+  if (type === 'work') {
+    return `<div class="paper-stage paper-work">${image(config.work.idle, 'paper-idle')}${image(config.work.active, 'paper-active')}<div class="paper-terminal" style="left:${config.work.screen.x}%;top:${config.work.screen.y}%;width:${config.work.screen.width}%;height:${config.work.screen.height}%"><span class="paper-prompt">› </span><span data-screen-output></span><span data-screen-caret>|</span></div></div>`;
+  }
+  if (type === 'games') return `<div class="paper-stage paper-games"><div class="paper-gamepad-motion">${image(config.games.image, '')}</div></div>`;
+  return `<div class="paper-stage paper-life">${image(config.life.idle, 'paper-idle')}${image(config.life.active, 'paper-active')}${image(config.life.twitch, 'paper-twitch')}</div>`;
+}
+function card(hrefTo, type, title, desc, sceneVersion = 'v2') {
+  const iconVersion = sceneVersion === 'v4';
+  const paperVersion = sceneVersion === 'v5';
+  const dimensions = iconVersion ? 'width="360" height="300"' : type === 'work' ? `width="1440" height="${sceneVersion === 'v3' ? 780 : 778}"` : 'width="800" height="800"';
+  let responsiveSource = !iconVersion && !paperVersion && type === 'games' ? `<source media="(max-width: 1000px)" srcset="${asset(`card-games-wide-${sceneVersion}.webp`)}" width="959" height="540">` : '';
+  if (sceneVersion === 'v3' && type === 'life') responsiveSource = `<source media="(max-width: 1000px)" srcset="${asset('card-life-wide-v3.webp')}" width="959" height="540">`;
+  if (sceneVersion === 'v3' && type === 'work') responsiveSource = `<source media="(min-width: 601px) and (max-width: 1000px)" srcset="${asset('card-work-square-v3.webp')}" width="800" height="800">`;
+  const artwork = paperVersion ? `<div class="card-picture">${paperArtwork(type)}</div>` : iconVersion ? `<div class="card-picture">${iconArtwork(type)}</div>` : `<picture class="card-picture">${responsiveSource}<img class="card-scene" src="${asset(`card-${type}-${sceneVersion}.webp`)}" alt="" ${dimensions} loading="lazy" decoding="async"></picture>`;
+  return `<a class="feature-card ${type}" href="${hrefTo}"><div class="card-visual" aria-hidden="true">${artwork}</div><div class="card-body"><div><h3><span class="card-title-icon" aria-hidden="true">${uiIcon(cardIcons[type])}</span>${title}</h3><p>${desc}</p></div><span class="card-arrow" aria-hidden="true">${uiIcon(ArrowUpRight)}</span></div></a>`;
 }
 
-function home(lang,t) { const c=t.home; return `${heroArt()}${seasonDock(c)}<section class="hero" aria-labelledby="hero-title"><button class="motion-toggle" type="button" aria-label="${c.pauseMotion}" aria-pressed="false" data-pause-label="${c.pauseMotion}" data-play-label="${c.playMotion}" hidden><span class="motion-pause-icon">${uiIcon(Pause)}</span><span class="motion-play-icon">${uiIcon(Play)}</span><span class="motion-label">${c.pauseMotion}</span></button><div class="hero-content"><span class="eyebrow hero-eyebrow"><span class="status-dot"></span>${c.eyebrow}</span><div class="avatar"><img src="/assets/avatar.jpg" alt="Tiyamo's avatar" width="853" height="1280"></div><h1 id="hero-title">${c.heading}</h1><p class="hero-lead">${c.lead}</p>${socialBar(lang)}<div class="hero-buttons"><a class="button button-primary" href="#featured">${c.explore}<span>${icon('arrow')}</span></a><a class="button button-ghost" href="${href(lang,'about')}">${c.about}<span>${icon('next')}</span></a></div></div><a class="scroll-hint" href="#featured"><span class="scroll-line"></span>${c.scroll} ${icon('down')}</a></section>
-  <section id="featured" class="content-section featured"><div class="section-head"><div><h2>${c.selected}</h2><p>${c.selectedSub}</p></div></div><div class="feature-grid">${card(href(lang,'work'),'work',c.work,c.workText)}${card(href(lang,'games'),'games',c.games,c.gamesText)}${card(href(lang,'life'),'life',c.life,c.lifeText)}</div></section>
+function home(lang,t,sceneVersion = 'v2') { const c=t.home; return `${heroArt()}${seasonDock(c)}<section class="hero" aria-labelledby="hero-title"><button class="motion-toggle" type="button" aria-label="${c.pauseMotion}" aria-pressed="false" data-pause-label="${c.pauseMotion}" data-play-label="${c.playMotion}" hidden><span class="motion-pause-icon">${uiIcon(Pause)}</span><span class="motion-play-icon">${uiIcon(Play)}</span><span class="motion-label">${c.pauseMotion}</span></button><div class="hero-content"><span class="eyebrow hero-eyebrow"><span class="status-dot"></span>${c.eyebrow}</span><div class="avatar"><img src="/assets/avatar.jpg" alt="Tiyamo's avatar" width="853" height="1280"></div><h1 id="hero-title">${c.heading}</h1><p class="hero-lead">${c.lead}</p>${socialBar(lang)}<div class="hero-buttons"><a class="button button-primary" href="#featured">${c.explore}<span>${icon('arrow')}</span></a><a class="button button-ghost" href="${href(lang,'about')}">${c.about}<span>${icon('next')}</span></a></div></div><a class="scroll-hint" href="#featured"><span class="scroll-line"></span>${c.scroll} ${icon('down')}</a></section>
+  <section id="featured" class="content-section featured"><div class="section-head"><div><h2>${c.selected}</h2><p>${c.selectedSub}</p></div></div><div class="feature-grid">${card(href(lang,'work'),'work',c.work,c.workText,sceneVersion)}${card(href(lang,'games'),'games',c.games,c.gamesText,sceneVersion)}${card(href(lang,'life'),'life',c.life,c.lifeText,sceneVersion)}</div></section>
   <section class="content-section updates-preview"><div class="section-head"><div><h2>${c.latest}</h2><p>${c.latestSub}</p></div><a class="text-link" href="${href(lang,'updates')}">${c.allUpdates} <span>${uiIcon(ArrowUpRight)}</span></a></div><div class="updates-grid"><a class="update-feature" href="${href(lang,'updates')}"><div class="update-icon" aria-hidden="true">${uiIcon(NotebookPen)}</div><div><span class="eyebrow">${c.label}</span><h3>${c.updateTitle}</h3><p>${c.updateText}</p></div><span class="update-arrow" aria-hidden="true">${uiIcon(ArrowUpRight)}</span></a><div class="update-soon"><h3>${c.next}</h3><p>${c.nextText}</p></div></div></section>`; }
 
 function pageIntro(c) { return `<section class="page-intro"><div class="page-intro-art" aria-hidden="true"><span>✦</span><span>▦</span><span>✧</span></div><div class="page-intro-inner"><span class="eyebrow"><span class="status-dot"></span>${c.eyebrow}</span><h1>${c.heading}</h1><p>${c.lead}</p></div></section>`; }
@@ -173,14 +197,27 @@ function updates(t) { const c=t.updates; return `${pageIntro(c)}<section class="
 function resume(t) { const c=t.resume; return `${pageIntro(c)}<section class="content-section inner-content"><div class="resume-list">${c.sections.map(([h,p],i)=>`<article class="resume-section"><span class="card-index">0${i+1}</span><div><h2>${h}</h2><p>${p}</p></div></article>`).join('')}</div>${note(c.note)}</section>`; }
 const bodies = { '': home, about: (_lang,t)=>about(t), minecraft: (_lang,t)=>minecraft(t), games, work: (_lang,t)=>work(t), life: (_lang,t)=>life(t), updates: (_lang,t)=>updates(t), resume: (_lang,t)=>resume(t) };
 
-function render(lang, route) {
+function render(lang, route, sceneVersion = 'v2') {
   const t=copy[lang];
   const pageTitle = route ? `${t[route]?.heading ?? t.title} | Tiyamo` : `Tiyamo — ${t.nav.home}`;
-  return `<!doctype html><html lang="${t.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111b21"><title>${esc(pageTitle)}</title><meta name="description" content="${esc(t.description)}"><link rel="alternate" hreflang="en" href="${href('en',route)}"><link rel="alternate" hreflang="zh-CN" href="${href('zh',route)}"><link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="${asset('styles.css')}"><link rel="stylesheet" href="${asset('design.css')}"><script src="${asset('app.js')}" defer></script>${route=== '' ? `<script src="${asset('hero-wallpaper.js')}" defer></script><script src="${asset('card-interactions.js')}" defer></script>` : ''}</head><body class="route-${route||'home'}">${header(lang,route,t)}<main id="content">${bodies[route](lang,t)}</main>${footer(t)}</body></html>`;
+  const previewVersion = ['v3', 'v4', 'v5'].includes(sceneVersion);
+  return `<!doctype html><html lang="${t.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111b21"><title>${esc(pageTitle)}</title><meta name="description" content="${esc(t.description)}"><link rel="alternate" hreflang="en" href="${href('en',route)}"><link rel="alternate" hreflang="zh-CN" href="${href('zh',route)}"><link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="${asset('styles.css')}"><link rel="stylesheet" href="${asset('design.css')}">${previewVersion ? `<link rel="stylesheet" href="${asset(`card-scenes-${sceneVersion}.css`)}">` : ''}<script src="${asset('app.js')}" defer></script>${route=== '' ? `<script src="${asset('hero-wallpaper.js')}" defer></script><script src="${asset(sceneVersion === 'v5' ? 'card-paper.js' : sceneVersion === 'v4' ? 'card-icons.js' : 'card-interactions.js')}" defer></script>` : ''}</head><body class="route-${route||'home'}${previewVersion ? ` card-scenes-${sceneVersion}` : ''}">${header(lang,route,t)}<main id="content">${bodies[route](lang,t,sceneVersion)}</main>${footer(t)}</body></html>`;
 }
 
 for (const lang of ['en','zh']) for (const route of routes) {
   const dir=path.join(out, ...(lang==='zh'?['zh']:[]), ...(route?[route]:[]));
-  fs.mkdirSync(dir,{recursive:true}); fs.writeFileSync(path.join(dir,'index.html'),render(lang,route));
+  fs.mkdirSync(dir,{recursive:true}); fs.writeFileSync(path.join(dir,'index.html'),render(lang,route,route === '' ? 'v5' : 'v2'));
 }
 console.log(`Built ${routes.length * 2} localized pages in dist/`);
+
+// Production uses the approved paper icons; earlier trials remain local previews.
+for (const version of ['v3', 'v4', 'v5'].filter(version => process.argv.includes(`--preview-${version}`))) {
+  const previewOut = path.resolve(`previews/cards-${version}`);
+  fs.cpSync(out, previewOut, { recursive: true });
+  for (const lang of ['en', 'zh']) {
+    const dir = path.join(previewOut, ...(lang === 'zh' ? ['zh'] : []));
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'index.html'), render(lang, '', version));
+  }
+  console.log(`Built isolated cards-${version} preview in previews/cards-${version}/`);
+}

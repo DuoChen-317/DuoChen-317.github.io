@@ -1,0 +1,86 @@
+/* Paper-cut raster assets within the incumbent card geometry. */
+.card-scenes-v5 .feature-card {
+  --card-fade-horizontal: linear-gradient(to right, #16272a00 62%, #16272a44 85%, #16272a 100%);
+  --card-fade-vertical: linear-gradient(to bottom, #16272a00 62%, #16272a44 85%, #16272a 100%);
+  --art-pad: 12px;
+}
+.card-scenes-v5 .feature-card.work { --art-pad: 24px; }
+.card-scenes-v5 .feature-card.work .card-visual {
+  background: linear-gradient(135deg, #3c483c, #253b35 65%, #16272a);
+}
+.card-scenes-v5 .feature-card.games .card-visual {
+  background: linear-gradient(135deg, #2c4057, #203545 65%, #16272a);
+}
+.card-scenes-v5 .feature-card.life .card-visual {
+  background: linear-gradient(135deg, #354b3b, #243d34 65%, #16272a);
+}
+.card-scenes-v5 .card-picture { container-type: size; }
+.card-scenes-v5 .paper-stage {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(calc(100cqw - 2 * var(--art-pad)), calc((100cqh - 2 * var(--art-pad)) * 1.2));
+  height: min(calc((100cqw - 2 * var(--art-pad)) / 1.2), calc(100cqh - 2 * var(--art-pad)));
+  container-type: inline-size;
+}
+.card-scenes-v5 .paper-games { translate: -2.8% 0; }
+.card-scenes-v5 .paper-work { scale: .94; }
+.card-scenes-v5 .paper-games { scale: 1.12; }
+.card-scenes-v5 .paper-life { scale: 1.4; }
+.card-scenes-v5 .paper-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.card-scenes-v5 .paper-active,
+.card-scenes-v5 .paper-terminal,
+.card-scenes-v5 .paper-twitch { opacity: 0; }
+.card-scenes-v5 .paper-idle { opacity: 1; }
+.card-scenes-v5 .is-active .paper-idle { opacity: 0; }
+.card-scenes-v5 .is-active .paper-work .paper-idle { opacity: 1; }
+.card-scenes-v5 .paper-work .paper-active { clip-path: inset(24.333% 20.556% 38.334% 21.111%); }
+.card-scenes-v5 .is-active .paper-active,
+.card-scenes-v5 .is-active .paper-terminal { opacity: 1; }
+.card-scenes-v5 .paper-terminal {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 12%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #edd6a2;
+  font: 500 4cqw/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.card-scenes-v5 .paper-prompt { color: #aabb9b; white-space: pre; }
+.card-scenes-v5 .is-active [data-screen-caret] { animation: paper-caret .9s steps(1) infinite; }
+.card-scenes-v5 .paper-gamepad-motion { position: absolute; inset: 0; transform-origin: 51% 55%; }
+.card-scenes-v5 .is-active .paper-gamepad-motion { animation: paper-gamepad 1.65s ease-in-out infinite; }
+.card-scenes-v5 .is-active .paper-twitch { animation: paper-ear-twitch .9s steps(1) .12s; }
+.card-scenes-v5 .is-active .paper-life .paper-active { animation: paper-cat-rest .9s steps(1) .12s; }
+@keyframes paper-caret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes paper-gamepad {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  25% { transform: translateY(-4px) rotate(-5deg); }
+  65% { transform: translateY(-2px) rotate(5deg); }
+}
+@keyframes paper-ear-twitch {
+  0%, 24%, 48%, 72%, 100% { opacity: 0; }
+  12%, 36%, 60% { opacity: 1; }
+}
+@keyframes paper-cat-rest {
+  0%, 24%, 48%, 72%, 100% { opacity: 1; }
+  12%, 36%, 60% { opacity: 0; }
+}
+@media (min-width: 601px) and (max-width: 1000px) {
+  .card-scenes-v5 .feature-card.work { --art-pad: 16px; }
+}
+@media (max-width: 600px) {
+  .card-scenes-v5 .feature-card.work { --art-pad: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-scenes-v5 .paper-stage * { animation: none !important; transition: none !important; }
+}
