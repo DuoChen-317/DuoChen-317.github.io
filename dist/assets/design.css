@@ -5,6 +5,7 @@
   --line: #38504a;
   --muted: #bdc9c0;
   --accent: #edc27c;
+  --hero-sky-trim: 62px;
 }
 
 body { background: var(--bg); }
@@ -52,7 +53,7 @@ body { background: var(--bg); }
 
 .hero-art {
   top: 0;
-  height: calc(max(clamp(580px, calc(100svh - 62px), 690px), calc(56.28vw - 62px)) + 62px);
+  height: calc(max(clamp(580px, calc(100svh - 62px), 690px), calc(56.28vw - 62px)) + 62px - var(--hero-sky-trim));
   background: #111d1c;
   isolation: isolate;
   --scene-filter: none;
@@ -111,7 +112,7 @@ body { background: var(--bg); }
   background: radial-gradient(ellipse at 50% 58%, #07171b8c, #07171b36 35%, transparent 67%),
     linear-gradient(0deg, #0b1518 0%, #0b1518d9 4%, #0b151848 9%, transparent 17%);
 }
-.hero { height: max(clamp(580px, calc(100svh - 62px), 690px), calc(56.28vw - 62px)); }
+.hero { height: calc(max(clamp(580px, calc(100svh - 62px), 690px), calc(56.28vw - 62px)) - var(--hero-sky-trim)); }
 .hero-content { max-width: 780px; transform: translateY(12px); text-shadow: 0 2px 18px #061010bb; }
 .hero-eyebrow { margin-bottom: 22px; font-size: 11px; }
 .avatar { width: 112px; height: 112px; margin-bottom: 25px; }
@@ -245,15 +246,16 @@ body { background: var(--bg); }
 }
 
 @media (max-width: 760px) {
+  :root { --hero-sky-trim: 58px; }
   .site-header { height: 58px; }
   .brand { font-size: 19px; }
   .menu-toggle { min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
   .mobile-menu { top: 58px; }
   #featured { scroll-margin-top: 58px; }
   .mobile-menu a { min-height: 44px; display: flex; align-items: center; font-size: 14px; }
-  .hero-art { top: 0; height: calc(clamp(590px, calc(100svh - 58px), 640px) + 58px); }
+  .hero-art { top: 0; height: calc(clamp(590px, calc(100svh - 58px), 640px) + 58px - var(--hero-sky-trim)); }
   .hero-scene { background-position: 83% bottom; }
-  .hero { height: clamp(590px, calc(100svh - 58px), 640px); }
+  .hero { height: calc(clamp(590px, calc(100svh - 58px), 640px) - var(--hero-sky-trim)); }
   .hero h1 { font-size: clamp(42px, 8vw, 58px); }
   .hero-lead { font-size: 15px; }
   .section-head h2 { font-size: 42px; }
@@ -264,8 +266,8 @@ body { background: var(--bg); }
 }
 
 @media (max-width: 600px) {
-  .hero-art { height: calc(clamp(590px, calc(100svh - 58px), 650px) + 58px); }
-  .hero { height: clamp(590px, calc(100svh - 58px), 650px); }
+  .hero-art { height: calc(clamp(590px, calc(100svh - 58px), 650px) + 58px - var(--hero-sky-trim)); }
+  .hero { height: calc(clamp(590px, calc(100svh - 58px), 650px) - var(--hero-sky-trim)); }
   .hero { padding-left: 18px; padding-right: 18px; }
   .hero-eyebrow { font-size: 10px; line-height: 1.5; }
   .avatar { width: 100px; height: 100px; }

@@ -60,3 +60,9 @@ final result: passed
 - Pause control checked successfully; no browser console errors observed. Seasonal preview files used for inspection were removed before publication.
 
 final result: passed
+
+## Lower landscape framing — 2026-10-10
+
+Reduced the hero scene's vertical extent by one navigation height (62px desktop, 58px mobile) while retaining bottom alignment in both CSS and WebGL. This trims upper sky rather than foreground. Visually inspected the current Autumn scene at 1470 × 900 and 390 × 667; avatar, text, buttons, navigation, and lower landscape remain visible.
+
+final result: passed
