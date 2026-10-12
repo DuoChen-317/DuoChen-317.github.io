@@ -184,3 +184,16 @@ the final node lit at the page bottom. Removed the continuous rail-end dot and
 restored the original solid active-node styling. Retained the reachable-scroll
 progress fix and added a half-pixel bottom tolerance for rounded scroll geometry.
 The bottom regression check also covers fractional scroll offsets.
+
+## Passed and selected nodes — 2026-10-12
+
+Passed nodes now remain filled at 65% opacity behind the active reading node.
+The active node is full brightness with a ring; hovered, focused, or expanded
+entries use a lighter fill and a stronger ring. Fixed node positions and the
+page-bottom completion behavior are preserved. Scrolling upward reverses the
+passed states along with the progress line. Added a behavior regression check
+for passed-node persistence, all nodes lit at the bottom, and upward reversal.
+Eleven timeline/disclosure tests pass. Browser checks confirm prior nodes use
+65% opacity, the final active node uses full opacity and a 4px ring, and an
+expanded entry uses the lighter fill with full opacity and a stronger 5px ring.
+No continuous moving dot is present.

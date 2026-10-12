@@ -73,6 +73,21 @@ test('scrolling advances the rail and active experience without hiding content',
   cleanup();
 });
 
+test('passed nodes stay lit behind the active node and reverse with scrolling', () => {
+  const f = fixture();
+  const cleanup = initExperienceTimeline(f.root, f.env);
+  f.scrollTo(650); f.flush();
+  assert.deepEqual(f.entries.map(e => e.classList.contains('is-passed')), [true, false, false]);
+  assert(f.entries[1].classList.contains('is-active'));
+  f.scrollTo(1800); f.flush();
+  assert.deepEqual(f.entries.map(e => e.classList.contains('is-passed')), [true, true, false]);
+  assert(f.entries.every(e => e.classList.contains('is-passed') || e.classList.contains('is-active')));
+  f.scrollTo(200); f.flush();
+  assert.deepEqual(f.entries.map(e => e.classList.contains('is-passed')), [false, false, false]);
+  assert(f.entries[0].classList.contains('is-active'));
+  cleanup();
+});
+
 test('reduced motion starts fully drawn and responds to preference changes', () => {
   const f = fixture({ reduced: true });
   const cleanup = initExperienceTimeline(f.root, f.env);

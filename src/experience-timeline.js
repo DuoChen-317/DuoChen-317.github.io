@@ -43,7 +43,10 @@ export function initExperienceTimeline(root, environment = window) {
     const progressPosition = start + height * fill;
     const next = positions.reduce((index, position, i) => position <= progressPosition + .5 ? i : index, 0);
     if (next !== active) {
-      entries.forEach((entry, i) => entry.classList.toggle('is-active', i === next));
+      entries.forEach((entry, i) => {
+        entry.classList.toggle('is-passed', i < next);
+        entry.classList.toggle('is-active', i === next);
+      });
       active = next;
     }
     root.classList.toggle('reduced-motion', motion.matches);

@@ -72,9 +72,11 @@
 .career-date time { white-space: nowrap; }
 .career-type { display: inline-block; color: var(--muted); font-size: 12px; }
 .career-entry.current .career-type { color: var(--accent); }
-.career-marker { position: absolute; left: var(--career-rail-x); top: 26px; width: 11px; height: 11px; margin-left: -5px; background: var(--bg); border: 1.5px solid #8da096; border-radius: 50%; z-index: 1; transition: background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.career-marker { position: absolute; left: var(--career-rail-x); top: 26px; width: 11px; height: 11px; margin-left: -5px; background: var(--bg); border: 1.5px solid #8da096; border-radius: 50%; z-index: 1; transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, opacity .2s ease; }
 .career-entry.current .career-marker { background: var(--accent); border-color: var(--accent); }
-.career-entry.is-active .career-marker, .career-entry.is-expanded .career-marker, .career-entry:hover .career-marker, .career-entry:focus-within .career-marker { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px #edc27c20; }
+.career-entry.is-passed .career-marker { background: var(--accent); border-color: var(--accent); opacity: .65; }
+.career-entry.is-active .career-marker { background: var(--accent); border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 4px #edc27c20; }
+.career-entry.is-expanded .career-marker, .career-entry:hover .career-marker, .career-entry:focus-within .career-marker { background: #f5d59a; border-color: #f5d59a; opacity: 1; box-shadow: 0 0 0 5px #edc27c35; }
 .career-content { padding: 0; border: 1px solid transparent; border-radius: 8px; transition: border-color .2s ease, background .2s ease; }
 .career-content.is-animating { overflow: hidden; }
 .career-overview { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 22px; cursor: pointer; border-radius: 7px; }
