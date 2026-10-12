@@ -176,3 +176,11 @@ Browser measurements at multiple scroll positions confirm the dot's vertical
 offset matches the filled rail height within 0.01px, reverses with upward scroll,
 and aligns exactly with the final node at the page bottom. The same check passes
 at 375px on the English page with no horizontal overflow. Ten behavior tests pass.
+
+## Restore fixed node highlights — 2026-10-12
+
+The owner clarified that nodes should remain fixed and light up by entry, with
+the final node lit at the page bottom. Removed the continuous rail-end dot and
+restored the original solid active-node styling. Retained the reachable-scroll
+progress fix and added a half-pixel bottom tolerance for rounded scroll geometry.
+The bottom regression check also covers fractional scroll offsets.

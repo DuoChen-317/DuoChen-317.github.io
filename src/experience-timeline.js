@@ -32,7 +32,9 @@ export function initExperienceTimeline(root, environment = window) {
     const maxScroll = Math.max(0, page.scrollHeight - environment.innerHeight);
     const startScroll = start + scrollY - readingLine;
     const endScroll = Math.min(startScroll + height, maxScroll);
-    const fill = Math.max(0, Math.min(1, (scrollY - startScroll) / Math.max(1, endScroll - startScroll)));
+    // Browser scroll height and scroll offsets can differ by a fractional pixel.
+    const atBottom = maxScroll > 0 && maxScroll - scrollY <= .5;
+    const fill = atBottom ? 1 : Math.max(0, Math.min(1, (scrollY - startScroll) / Math.max(1, endScroll - startScroll)));
     rail.style.setProperty('--career-progress', motion.matches ? '1' : String(fill));
     if (!entered && rootBox.top < environment.innerHeight - 80 && rootBox.bottom > 100) {
       entered = true;

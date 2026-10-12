@@ -31,6 +31,9 @@ test('the rail reaches the final node at page bottom even below the reading line
   f.scrollTo(799); f.flush();
   assert(Number(f.rail.style['--career-progress']) > nearEnd);
   assert(Number(f.rail.style['--career-progress']) < 1);
+  f.scrollTo(799.75); f.flush();
+  assert.equal(f.rail.style['--career-progress'], '1');
+  assert(f.entries.at(-1).classList.contains('is-active'));
   f.scrollTo(800); f.flush();
   assert(f.positions.at(-1) + 6 - f.env.scrollY > f.env.innerHeight * .48);
   assert.equal(f.rail.style['--career-progress'], '1');
