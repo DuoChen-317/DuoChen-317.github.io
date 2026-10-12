@@ -117,3 +117,19 @@ confirmed the actual `is-animating` state during closing/opening and a clean set
 state after rapid input. English/Chinese mobile (375px) and tablet (800px) had no
 document horizontal overflow; warning/error logs were empty. A mismatched old
 mobile screenshot was rejected, not used as responsive evidence.
+
+## Education — 2026-10-12
+
+Added a separate education timeline below work experience and a section link in
+the page intro. The owner's résumé v5 supplies the dates, subjects, degrees,
+coursework, and master's GPA (3.5/4.0). No original résumé file or contact details
+are published. The undergraduate school retains the name supplied in the résumé;
+its historical English name is supported by [J. F. Oberlin University's record](https://obiryu.obirin.ac.jp/university/196/).
+
+Both education records start closed. The existing timeline boot now initializes
+every timeline root so education gets the same height animation and responsive
+rail. Optional team, summary, responsibilities, and tags support education without
+empty placeholder content. The mobile expanded toggle keeps its label hidden
+so the arrow does not squeeze school names. Checked both languages at 375px and
+desktop, course expansion and keyboard collapse, plus the eight existing behavior
+tests. Only the two Work pages change in the generated HTML.

@@ -94,6 +94,7 @@
 .career-content h3 { font-size: 22px; line-height: 1.3; margin: 0 0 8px; text-wrap: balance; }
 .career-team { color: var(--muted); font-size: 14px; margin: 0; text-wrap: pretty; }
 .career-summary { font-size: 17px; color: var(--text); line-height: 1.6; margin: 0 0 16px; max-width: 65ch; }
+.career-course-label { color: var(--muted); font-size: 14px; margin: 0 0 12px; }
 .career-contributions { color: var(--muted); font-size: 16px; line-height: 1.75; padding-left: 20px; margin: 0 0 24px; max-width: 72ch; }
 .career-contributions li + li { margin-top: 8px; }
 .career-contributions li::marker { color: #91a48c; }
@@ -127,7 +128,7 @@
   .career-marker { top: 9px; }
   .career-overview { display: flex; align-items: flex-start; padding: 16px 12px; gap: 12px; }
   .career-toggle { margin: 0; min-height: 24px; }
-  .career-toggle .career-show, .career-toggle .career-hide { display: none; }
+  .career-toggle .career-show, .career-toggle .career-hide, .career-content[open] .career-toggle .career-hide { display: none; }
   .career-details-body { padding: 20px 12px; }
   .career-content h3 { font-size: 20px; }
   .career-employer { font-size: 16px; }

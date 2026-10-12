@@ -70,5 +70,5 @@ export function initExperienceTimeline(root, environment = window) {
 }
 
 if (typeof document !== 'undefined') {
-  initExperienceTimeline(document.querySelector('[data-experience-timeline]'));
+  document.querySelectorAll('[data-experience-timeline]').forEach(root => initExperienceTimeline(root));
 }
