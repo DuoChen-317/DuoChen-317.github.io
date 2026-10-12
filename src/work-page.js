@@ -12,7 +12,7 @@ export const workCopy = {
     more: 'More projects', original: 'Original repository', visit: 'Visit website',
     experienceLead: 'Work, research, internships, and education along the way.',
     courses: 'Coursework',
-    historyLabel: 'Work and education, newest start date first', areas: 'Focus areas', showExperience: 'View details', hideExperience: 'Hide details'
+    historyLabel: 'Work and education', areas: 'Focus areas', showExperience: 'View details', hideExperience: 'Hide details'
   },
   zh: {
     heading: '作品与经历。', lead: '从研究想法到实际工具，在这里整理我的 GitHub 项目、工作经历与教育经历。',
@@ -22,14 +22,17 @@ export const workCopy = {
     more: '更多项目', original: '原始仓库', visit: '访问网站',
     experienceLead: '记录工作、科研、实习与学习中的积累。',
     courses: '修读课程',
-    historyLabel: '按开始时间从近到远排列的工作与教育经历', areas: '工作方向', showExperience: '查看详情', hideExperience: '收起详情'
+    historyLabel: '工作与教育经历', areas: '工作方向', showExperience: '查看详情', hideExperience: '收起详情'
   }
 };
 
 const icons = { paper: FileText, fairness: Scale, simulation: Box, graph: Network, video: Film, web: Globe2 };
 export function renderWork(lang, { esc, uiIcon, githubIcon }) {
   const c = workCopy[lang];
-  const history = [...experience, ...education].sort((a, b) => b.start.localeCompare(a.start));
+  // Owner-approved presentation order for overlapping work and study periods.
+  const historyOrder = new Map(['huayan', 'cwru', 'llm-research', 'haoyun', 'jluzh'].map((id, index) => [id, index]));
+  const history = [...experience, ...education].sort((a, b) =>
+    (historyOrder.get(a.id) ?? Infinity) - (historyOrder.get(b.id) ?? Infinity) || b.start.localeCompare(a.start));
   const arrow = `<span aria-hidden="true">${uiIcon(ArrowUpRight)}</span>`;
   const external = (url, label, className = 'project-link') => `<a class="${className}" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)}${arrow}</a>`;
   const tags = p => `<ul class="project-tags" aria-label="${lang === 'zh' ? '技术' : 'Technologies'}">${p.tags.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;

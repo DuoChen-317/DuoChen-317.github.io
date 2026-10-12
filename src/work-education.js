@@ -1,10 +1,11 @@
-// Education from the owner's résumé v5. Keep the undergraduate school name
+// Education from the owner's résumé v5, with the master's end date updated
+// to January 2026 at their request. Keep the undergraduate school name
 // as supplied; its historical English name is also used by J. F. Oberlin University:
 // https://obiryu.obirin.ac.jp/university/196/
 export const education = [
   {
-    id: 'cwru', anchor: 'education', start: '2024-08', end: '2025-12', type: 'education',
-    date: { zh: '2024.08 — 2025.12', en: 'Aug 2024 — Dec 2025' },
+    id: 'cwru', anchor: 'education', start: '2024-08', end: '2026-01', type: 'education',
+    date: { zh: '2024.08 — 2026.01', en: 'Aug 2024 — Jan 2026' },
     organization: { zh: '凯斯西储大学', en: 'Case Western Reserve University' },
     role: { zh: '计算机科学 · 硕士', en: 'Computer Science · Master’s degree' },
     label: { zh: '硕士', en: 'Master’s' },

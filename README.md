@@ -40,7 +40,9 @@ All portfolio and résumé entries are clearly marked placeholders until real co
 ## Publish with GitHub Pages
 
 The Work pages (`/work/`, `/zh/work/`) contain GitHub projects and one Experience
-timeline combining work, research, internships, and education by newest start date.
+timeline combining work, research, internships, and education in the owner's
+chosen order: current role, master's degree, LLM research, internship, bachelor's
+degree. The master's end date is January 2026, updated at the owner's request.
 Education lives in `src/work-education.js`; schools, degrees, and
 dates are visible by default, with coursework and the master's GPA inside details.
 All records share the same disclosure animations.

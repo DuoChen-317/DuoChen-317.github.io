@@ -141,3 +141,10 @@ named Experience / 经历. The five records are sorted by descending start date;
 overlapping study and research periods retain their actual dates. The intro has
 two section links: GitHub projects and Experience. Default collapsed states,
 coursework, GPA, work details, and disclosure animations are preserved.
+
+## Master's date and position — 2026-10-12
+
+The owner corrected the master's completion date to January 2026 and requested
+it above LLM research. The curated timeline order is now current role, master's,
+LLM research, internship, bachelor's. Other records retain their previous order.
+Both localized date strings and the machine-readable end date are updated.
