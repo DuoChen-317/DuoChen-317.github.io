@@ -60,11 +60,33 @@
 .project-original svg { display: block; width: 14px; height: 14px; }
 .github-row-actions { display: flex; flex-direction: column; min-width: 140px; gap: 4px; margin-left: 22px; }
 .experience-module { padding-top: 64px; }
-.experience-empty { display: flex; align-items: flex-start; gap: 20px; padding: 30px; border: 1px solid var(--line); border-radius: 8px; background: #112023; }
-.experience-empty > span { display: grid; place-items: center; width: 44px; height: 44px; flex: none; color: var(--accent); }
-.experience-empty svg { width: 26px; height: 26px; }
-.experience-empty h3 { font-size: 23px; margin: 0 0 8px; }
-.experience-empty p { font-size: 16px; color: var(--muted); margin: 0; }
+.career-timeline { position: relative; --career-rail-x: 184px; }
+.career-list { list-style: none; margin: 38px 0 0; padding: 0; }
+.career-rail { position: absolute; left: var(--career-rail-x); top: 20px; bottom: 40px; width: 2px; background: var(--line); pointer-events: none; }
+.career-rail > span { display: block; width: 100%; height: 100%; background: var(--accent); transform-origin: top; transform: scaleY(var(--career-progress, 1)); }
+.career-entry { position: relative; display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 48px; padding-bottom: 42px; }
+.career-entry:last-child { padding-bottom: 0; }
+.career-date { padding-top: 17px; }
+.career-date p { font-size: 14px; color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+.career-date time { white-space: nowrap; }
+.career-type { display: inline-block; padding: 4px 9px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font-size: 13px; }
+.career-entry.current .career-type { border-color: #9f885a; color: var(--accent); }
+.career-marker { position: absolute; left: var(--career-rail-x); top: 22px; width: 13px; height: 13px; margin-left: -5.5px; background: var(--bg); border: 2px solid #8da096; border-radius: 50%; z-index: 1; transition: background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.career-entry.current .career-marker { background: var(--accent); border-color: var(--accent); }
+.career-entry.is-active .career-marker, .career-entry:hover .career-marker, .career-entry:focus-within .career-marker { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 5px #edc27c24; }
+.career-content { padding: 22px 26px 26px; border: 1px solid transparent; border-top-color: var(--line); border-radius: 0; transition: border-color .2s ease, background .2s ease; }
+.career-entry.current .career-content { border-color: #65735a; border-radius: 8px; background: #162627; }
+.career-entry:hover .career-content, .career-entry:focus-within .career-content { border-top-color: var(--accent); background: #152426; }
+.career-employer { color: var(--muted); font-size: 16px; line-height: 1.6; margin-bottom: 12px; }
+.career-entry.current .career-employer { color: var(--accent); }
+.career-content h3 { font-size: 28px; line-height: 1.25; margin: 0 0 9px; text-wrap: balance; }
+.career-team { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+.career-summary { font-size: 17px; color: var(--text); line-height: 1.6; margin: 0 0 16px; max-width: 65ch; }
+.career-contributions { color: var(--muted); font-size: 16px; line-height: 1.75; padding-left: 20px; margin: 0 0 24px; max-width: 72ch; }
+.career-contributions li + li { margin-top: 8px; }
+.career-contributions li::marker { color: #91a48c; }
+.career-timeline.has-entered:not(.reduced-motion) .current .career-marker::after { content: ''; position: absolute; inset: -2px; border: 1px solid var(--accent); border-radius: 50%; animation: career-node-ring 1.5s ease-out 2; pointer-events: none; }
+@keyframes career-node-ring { from { transform: scale(1); opacity: .65; } to { transform: scale(2.3); opacity: 0; } }
 @media (max-width: 900px) {
   .github-feature { padding: 24px; }
   .project-actions { align-items: flex-start; flex-direction: column; gap: 0; }
@@ -87,8 +109,21 @@
   .github-row-actions { grid-column: 2; flex-direction: row; flex-wrap: wrap; gap: 8px 24px; }
   .github-row .project-kind { font-size: 13px; }
   .github-row h3 { margin-top: 9px; }
-  .experience-empty { padding: 22px; gap: 12px; }
-  .experience-empty > span { width: 30px; }
-  .experience-empty h3 { font-size: 22px; }
+  .career-timeline { --career-rail-x: 7px; }
+  .career-list { margin-top: 28px; }
+  .career-entry { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-left: 30px; padding-bottom: 32px; }
+  .career-date { padding-top: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+  .career-date p { margin: 0; font-size: 13px; }
+  .career-marker { top: 9px; }
+  .career-content { padding: 20px 0; }
+  .career-entry.current .career-content { padding: 20px 18px; }
+  .career-content h3 { font-size: 25px; }
+  .career-employer { font-size: 15px; }
+  .career-summary { font-size: 16px; }
+  .career-contributions { font-size: 16px; margin-bottom: 20px; }
 }
-@media (prefers-reduced-motion: reduce) { .project-details summary svg { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .project-details summary svg, .career-content, .career-marker { transition: none; }
+  .career-marker::after { animation: none !important; }
+  .career-rail > span { transform: scaleY(1); }
+}

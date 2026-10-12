@@ -43,8 +43,11 @@ The Work pages (`/work/`, `/zh/work/`) contain GitHub projects and a separate wo
 experience section. Curated project descriptions, technology tags, and repository
 links live in `src/work-content.js`; translated page labels and the renderer live
 in `src/work-page.js`. The scoped styles are in `dist/assets/work.css`.
-Experience is currently left empty at the owner's request. Add only supplied,
-approved professional history; repository activity is not employment evidence.
+Professional history lives in `src/work-experience.js`, with a separate label for
+employment, research, and internships. It uses the owner's supplied résumé and
+current-role update. The timeline's progressive rail and active nodes are handled
+by `src/experience-timeline.js`; content stays readable without JavaScript, and
+reduced-motion preferences disable the decorative animation.
 
 The workflow in `.github/workflows/pages.yml` builds and publishes `dist/` whenever `main` changes. GitHub Pages is configured to use **GitHub Actions**. The workflow publishes the English homepage at `/` and Chinese pages under `/zh/`.
 

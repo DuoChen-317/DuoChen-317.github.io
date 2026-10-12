@@ -1,5 +1,6 @@
 import { ArrowUpRight, FileText, Scale, Box, Network, Globe2, Film, BriefcaseBusiness, ChevronDown } from 'lucide-static';
 import { projects, repositoryUrl } from './work-content.js';
+import { experience } from './work-experience.js';
 
 export const workCopy = {
   en: {
@@ -8,8 +9,8 @@ export const workCopy = {
     projectsLead: 'AI agents, language models, video retrieval, and simulated worlds.',
     source: 'View repository', details: 'Project details', workflow: 'Workflow',
     more: 'More projects', original: 'Original repository', visit: 'Visit website',
-    experienceLead: 'Roles, responsibilities, and the work behind them.',
-    emptyTitle: 'Experience to come.', emptyText: 'I’ll share my roles and selected contributions here as I document them.'
+    experienceLead: 'From software development to embodied intelligence: work, research, and internships.',
+    historyLabel: 'Professional history, newest first', areas: 'Focus areas'
   },
   zh: {
     heading: '作品与经历。', lead: '从研究想法到实际工具，在这里整理我的 GitHub 项目与工作经历。',
@@ -17,8 +18,8 @@ export const workCopy = {
     projectsLead: 'AI 智能体、大语言模型、视频检索与模拟世界中的探索。',
     source: '查看仓库', details: '项目内容', workflow: '项目流程',
     more: '更多项目', original: '原始仓库', visit: '访问网站',
-    experienceLead: '记录不同阶段的职责、实践与成果。',
-    emptyTitle: '工作经历，陆续整理。', emptyText: '未来会在这里分享我的工作岗位，以及值得记录的实践与贡献。'
+    experienceLead: '从软件开发到具身智能，记录工作、科研与实习中的实践。',
+    historyLabel: '按时间从近到远排列的经历', areas: '工作方向'
   }
 };
 
@@ -38,9 +39,10 @@ export function renderWork(lang, { esc, uiIcon, githubIcon }) {
     <details class="project-details"><summary>${c.details}${uiIcon(ChevronDown)}</summary><ul>${p.details[lang].map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>
   </article>`;
   const compact = p => `<article class="github-row" id="${p.id}" aria-labelledby="${p.id}-title">${mark(p)}<div class="github-row-copy"><span class="project-kind">${esc(p.kind[lang])}</span><h3 id="${p.id}-title">${esc(p.title)}</h3><p class="project-description">${esc(p.description[lang])}</p>${p.credit ? `<p class="project-credit">${esc(p.credit[lang])} ${external(p.upstream, c.original, 'project-original')}</p>` : ''}${tags(p)}</div><div class="github-row-actions">${external(repositoryUrl(p.repo, p.owner), c.source)}${p.demo ? external(p.demo, c.visit) : ''}</div></article>`;
+  const timeline = `<div class="career-timeline" data-experience-timeline><span class="career-rail" aria-hidden="true"><span></span></span><ol class="career-list" aria-label="${c.historyLabel}">${experience.map(e => `<li class="career-entry ${e.type}" data-career-entry><div class="career-date"><p><time datetime="${e.start}">${esc(e.date[lang].split(' — ')[0])}</time><span aria-hidden="true"> — </span>${e.end ? `<time datetime="${e.end}">${esc(e.date[lang].split(' — ')[1])}</time>` : esc(e.date[lang].split(' — ')[1])}</p><span class="career-type">${esc(e.label[lang])}</span></div><span class="career-marker" aria-hidden="true"></span><article class="career-content" aria-labelledby="${e.id}-role">${e.organization ? `<div class="career-employer">${esc(e.organization[lang])}</div>` : ''}<h3 id="${e.id}-role">${esc(e.role[lang])}</h3><p class="career-team">${esc(e.team[lang])}</p><p class="career-summary">${esc(e.summary[lang])}</p><ul class="career-contributions">${e.bullets[lang].map(b=>`<li>${esc(b)}</li>`).join('')}</ul><ul class="project-tags" aria-label="${c.areas}">${e.tags[lang].map(tag=>`<li>${esc(tag)}</li>`).join('')}</ul></article></li>`).join('')}</ol></div>`;
   return `<div class="work-shell content-section">
     <section class="work-intro" aria-labelledby="work-title"><h1 id="work-title">${c.heading}</h1><p>${c.lead}</p><div class="work-intro-links"><nav class="work-section-nav" aria-label="${lang === 'zh' ? '工作页面模块' : 'Work sections'}"><a href="#github-projects"><span class="work-github-icon" aria-hidden="true">${githubIcon}</span>${c.projects}</a><a href="#work-experience">${uiIcon(BriefcaseBusiness)}${c.experience}</a></nav>${external('https://github.com/DuoChen-317', c.profile, 'work-profile-link')}</div></section>
     <section id="github-projects" class="work-module" aria-labelledby="github-title"><div class="work-module-heading"><h2 id="github-title">${c.projects}</h2><p>${c.projectsLead}</p></div><div class="github-feature-grid">${projects.filter(p => p.featured).map(featured).join('')}</div><h3 class="more-projects-title">${c.more}</h3><div class="github-project-list">${projects.filter(p => !p.featured).map(compact).join('')}</div></section>
-    <section id="work-experience" class="work-module experience-module" aria-labelledby="experience-title"><div class="work-module-heading"><h2 id="experience-title">${c.experience}</h2><p>${c.experienceLead}</p></div><div class="experience-empty"><span aria-hidden="true">${uiIcon(BriefcaseBusiness)}</span><div><h3>${c.emptyTitle}</h3><p>${c.emptyText}</p></div></div></section>
+    <section id="work-experience" class="work-module experience-module" aria-labelledby="experience-title"><div class="work-module-heading"><h2 id="experience-title">${c.experience}</h2><p>${c.experienceLead}</p></div>${timeline}</section>
   </div>`;
 }
