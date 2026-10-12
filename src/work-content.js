@@ -59,16 +59,6 @@ export const projects = [
       en: 'A video-retrieval project that combines vision-language models and retrieval-augmented generation to find subsequent or related videos from an input clip and text prompt.',
       zh: '从视频片段与文字提示出发，结合视觉语言模型和检索增强生成，寻找后续或相关的视频内容。'
     }
-  },
-  {
-    id: 'tiyamo-site', repo: 'DuoChen-317.github.io', title: 'Tiyamo', icon: 'web',
-    tags: ['JavaScript', 'CSS', 'GitHub Pages'],
-    kind: { en: 'Personal website', zh: '个人网站' },
-    description: {
-      en: 'This bilingual home for my work, games, and life, with seasonal landscapes and interactive paper-cut illustrations.',
-      zh: '你正在浏览的中英双语个人网站，收藏工作、游戏与生活，配有四季风景与剪纸插画交互。'
-    },
-    demo: 'https://tiyamo.top/'
   }
 ];
 
