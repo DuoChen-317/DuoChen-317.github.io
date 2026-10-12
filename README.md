@@ -39,10 +39,11 @@ All portfolio and résumé entries are clearly marked placeholders until real co
 
 ## Publish with GitHub Pages
 
-The Work pages (`/work/`, `/zh/work/`) contain GitHub projects, work experience,
-and education. Education lives in `src/work-education.js`; schools, degrees, and
+The Work pages (`/work/`, `/zh/work/`) contain GitHub projects and one Experience
+timeline combining work, research, internships, and education by newest start date.
+Education lives in `src/work-education.js`; schools, degrees, and
 dates are visible by default, with coursework and the master's GPA inside details.
-Both timelines share disclosure animations and initialize independently.
+All records share the same disclosure animations.
 Curated project descriptions, technology tags, and repository
 links live in `src/work-content.js`; translated page labels and the renderer live
 in `src/work-page.js`. The scoped styles are in `dist/assets/work.css`.

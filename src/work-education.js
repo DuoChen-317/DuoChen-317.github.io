@@ -3,7 +3,7 @@
 // https://obiryu.obirin.ac.jp/university/196/
 export const education = [
   {
-    id: 'cwru', start: '2024-08', end: '2025-12', type: 'education',
+    id: 'cwru', anchor: 'education', start: '2024-08', end: '2025-12', type: 'education',
     date: { zh: '2024.08 — 2025.12', en: 'Aug 2024 — Dec 2025' },
     organization: { zh: '凯斯西储大学', en: 'Case Western Reserve University' },
     role: { zh: '计算机科学 · 硕士', en: 'Computer Science · Master’s degree' },

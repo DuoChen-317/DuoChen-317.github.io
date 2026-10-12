@@ -133,3 +133,11 @@ empty placeholder content. The mobile expanded toggle keeps its label hidden
 so the arrow does not squeeze school names. Checked both languages at 375px and
 desktop, course expansion and keyboard collapse, plus the eight existing behavior
 tests. Only the two Work pages change in the generated HTML.
+
+## Unified experience — 2026-10-12
+
+At the owner's request, education and professional history now share one timeline
+named Experience / 经历. The five records are sorted by descending start date;
+overlapping study and research periods retain their actual dates. The intro has
+two section links: GitHub projects and Experience. Default collapsed states,
+coursework, GPA, work details, and disclosure animations are preserved.
