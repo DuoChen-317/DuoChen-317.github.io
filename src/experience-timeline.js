@@ -1,5 +1,7 @@
-// Native disclosures remain usable without JS. Motion only changes the rail
-// and nodes; opening a disclosure never depends on the animation script.
+import { initCareerDisclosure } from './career-disclosure.js';
+
+// Keep native disclosures usable without JS, with coordinated rail and node
+// feedback when scrolling or expanding an experience.
 export function initExperienceTimeline(root, environment = window) {
   if (!root) return () => {};
   const entries = [...root.querySelectorAll('[data-career-entry]')];
@@ -41,6 +43,13 @@ export function initExperienceTimeline(root, environment = window) {
     if (frame === null) frame = environment.requestAnimationFrame(update);
   };
   const resize = typeof environment.ResizeObserver === 'function' ? new environment.ResizeObserver(schedule) : null;
+  const disclosures = entries.map(entry => {
+    const details = entry.querySelector('.career-content');
+    return initCareerDisclosure(details, motion, () => {
+      entry.classList.toggle('is-expanded', Boolean(details?.open));
+      schedule();
+    });
+  });
   resize?.observe(root);
   environment.addEventListener('scroll', schedule, { passive: true });
   environment.addEventListener('resize', schedule);
@@ -50,6 +59,7 @@ export function initExperienceTimeline(root, environment = window) {
   update();
   return () => {
     destroyed = true;
+    disclosures.forEach(cleanup => cleanup());
     if (frame !== null) environment.cancelAnimationFrame(frame);
     resize?.disconnect();
     environment.removeEventListener('scroll', schedule);

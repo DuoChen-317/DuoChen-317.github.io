@@ -71,9 +71,10 @@ simulation); June–September 2025 LLM inference/evaluation research; November
 outcomes, performance numbers, or unsupported platforms are added.
 
 The main information is always visible; native disclosures contain the details.
-One finite node-ring animation introduces the current
-role, and scrolling fills the rail and updates the active node. Hover feedback is
-subtle; reduced motion draws the rail statically and cancels the ring animation.
+Scrolling softly fills the rail and updates the active node. Hover and expansion
+feedback are subtle; reduced motion draws the rail statically and switches
+disclosures immediately. The initial node-ring animation was removed during the
+research follow-up so the current node is distinguished by its fill color.
 Browser QA covered 1280 px desktop, 800 px tablet, and 375 px English/Chinese
 mobile without horizontal overflow. Keyboard PageDown moved the active node to
 the internship and filled the rail. Browser warning/error log was empty. Three
@@ -99,3 +100,20 @@ mouse expansion, and keyboard collapse. Chinese mobile QA at 375 px verified
 default closed states, expansion, and no horizontal overflow. Native accessibility
 snapshots omit responsibility lists when closed and expose them when opened.
 The original three timeline behavior tests still pass.
+
+## Reference-informed refinement — 2026-10-12
+
+Research and fresh before/after evidence are recorded in `timeline-research.md`.
+Default main information and all content remain intact. Dates align to a thinner
+single-sided rail; typography and spacing are quieter; hover/open states provide
+emphasis. The native disclosure height animates for 240ms via the Web Animations
+API, so subsequent entries and rail positions follow the changing content height.
+No-JS/native, missing-animation-API, and reduced-motion fallbacks remain usable.
+
+Added five disclosure behavior tests for open/close completion, rapid reversals,
+reduced-motion changes, unsupported animation APIs, and native external state
+changes. Together with the original timeline tests, eight pass. Browser inspection
+confirmed the actual `is-animating` state during closing/opening and a clean settled
+state after rapid input. English/Chinese mobile (375px) and tablet (800px) had no
+document horizontal overflow; warning/error logs were empty. A mismatched old
+mobile screenshot was rejected, not used as responsive evidence.
