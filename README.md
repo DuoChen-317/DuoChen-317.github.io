@@ -39,6 +39,13 @@ All portfolio and résumé entries are clearly marked placeholders until real co
 
 ## Publish with GitHub Pages
 
+The Work pages (`/work/`, `/zh/work/`) contain GitHub projects and a separate work
+experience section. Curated project descriptions, technology tags, and repository
+links live in `src/work-content.js`; translated page labels and the renderer live
+in `src/work-page.js`. The scoped styles are in `dist/assets/work.css`.
+Experience is currently left empty at the owner's request. Add only supplied,
+approved professional history; repository activity is not employment evidence.
+
 The workflow in `.github/workflows/pages.yml` builds and publishes `dist/` whenever `main` changes. GitHub Pages is configured to use **GitHub Actions**. The workflow publishes the English homepage at `/` and Chinese pages under `/zh/`.
 
 For future changes: edit the relevant text in `build.mjs` or styling in `dist/assets/styles.css`, run `npm run build`, then commit and push to `main`. GitHub Actions will publish the new version automatically.

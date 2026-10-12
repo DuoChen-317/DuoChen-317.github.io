@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { buildSync } from 'esbuild';
+import { renderWork, workCopy } from './src/work-page.js';
 import { ArrowUpRight, BriefcaseBusiness, Gamepad2, NotebookPen, Pause, Play, Leaf, Flower2, Sun, Snowflake } from 'lucide-static';
 
 const out = path.resolve('dist');
@@ -45,9 +46,7 @@ const copy = {
     life: { eyebrow: 'LIFE', heading: 'Life beyond the screen.', lead: 'A place for interests, everyday moments, and stories outside my projects.',
       blocks: [['Everyday moments', 'A space for photos and small moments I want to remember.'], ['Places & interests', 'The places I explore and things I enjoy away from work and games.'], ['Notes to keep', 'Thoughts and stories I may want to share along the way.']],
       note: 'Personal stories and photos will be added here later.' },
-    work: { eyebrow: 'WORK', heading: 'What I work on.', lead: 'Projects, responsibilities, process, and outcomes can live here as your portfolio grows.',
-      cards: [['Featured project', 'Project title', 'Explain the challenge, your role, and the result.'], ['Another project', 'Project title', 'Show what you made and why it matters.']],
-      role: 'ROLE', challenge: 'CHALLENGE', outcome: 'OUTCOME', pending: 'Add details', note: 'Work examples are placeholders until you choose what to publish.' },
+    work: workCopy.en,
     updates: { eyebrow: 'UPDATES', heading: 'Notes from the journey.', lead: 'New projects, Minecraft progress, and other things worth remembering.',
       currentDate: 'OCTOBER 2026', currentTitle: 'A home through four seasons', currentText: 'The homepage landscape now changes with spring, summer, autumn, and winter.',
       date: 'SITE UPDATE', title: 'A new home for Tiyamo', text: 'This is the first version of the site. More work, game stories, and personal details will be added over time.',
@@ -87,9 +86,7 @@ const copy = {
     life: { eyebrow: '生活', heading: '屏幕之外的生活。', lead: '给兴趣、日常片段和项目之外的故事留一个空间。',
       blocks: [['日常片段', '这里可以放想要记住的照片和小事。'], ['去过的地方与兴趣', '分享工作和游戏之外喜欢的地方与事物。'], ['随手记录', '以后可以在这里写下想分享的想法与故事。']],
       note: '个人故事和照片会在之后陆续加入。' },
-    work: { eyebrow: '工作', heading: '我参与的工作。', lead: '这里会展示项目、职责、过程和成果。',
-      cards: [['精选项目', '项目名称', '说明项目挑战、你的职责与最终成果。'], ['另一个项目', '项目名称', '展示你做了什么，以及它为什么重要。']],
-      role: '职责', challenge: '挑战', outcome: '成果', pending: '待补充', note: '目前是占位内容，你可以之后决定公开哪些工作经历。' },
+    work: workCopy.zh,
     updates: { eyebrow: '更新', heading: '旅途记录。', lead: '新作品、Minecraft 进展，以及其他想记下的事。',
       currentDate: '2026 年 10 月', currentTitle: '四季里的个人空间', currentText: '首页风景现在可以切换春夏秋冬。',
       date: '网站更新', title: 'Tiyamo 的新空间', text: '这是网站的第一版。工作作品、游戏故事和个人介绍会逐步加入。',
@@ -192,16 +189,16 @@ function about(t) { const c=t.about; return `${pageIntro(c)}<section class="cont
 function minecraft(t) { const c=t.minecraft; return `${pageIntro(c)}<section class="content-section inner-content"><div class="chip-row">${c.tabs.map(x=>`<span class="chip">${x}</span>`).join('')}</div><div class="portfolio-grid">${c.cards.map(([n,h,p],i)=>`<article class="portfolio-card"><div class="portfolio-image minecraft-image minecraft-image-${i+1}"><span class="placeholder-mark">▦</span><span class="image-number">${n}</span></div><div class="portfolio-copy"><span class="eyebrow">MINECRAFT / ${n}</span><h2>${h}</h2><p>${p}</p></div></article>`).join('')}</div>${note(c.note)}</section>`; }
 function games(lang,t) { const c=t.games; return `${pageIntro(c)}<section class="content-section inner-content"><div class="portfolio-grid"><a class="portfolio-card game-link" href="${href(lang,'minecraft')}" aria-label="${c.minecraftOpen}"><div class="portfolio-image minecraft-image minecraft-image-1"><span class="placeholder-mark">▦</span><span class="image-number">01</span></div><div class="portfolio-copy"><span class="eyebrow">GAME / 01 ↗</span><h2>${c.minecraftTitle}</h2><p>${c.minecraftText}</p></div></a>${c.cards.map(([h,p],i)=>`<article class="portfolio-card"><div class="portfolio-image game-image game-image-${i+1}"><span class="placeholder-mark">${i?'✧':'✦'}</span><span class="image-number">0${i+2}</span></div><div class="portfolio-copy"><span class="eyebrow">GAME / 0${i+2}</span><h2>${h}</h2><p>${p}</p></div></article>`).join('')}</div>${note(c.note)}</section>`; }
 function life(t) { const c=t.life; return `${pageIntro(c)}<section class="content-section inner-content"><div class="about-grid">${c.blocks.map(([h,p],i)=>`<article class="info-card"><span class="card-index">0${i+1}</span><h2>${h}</h2><p>${p}</p></article>`).join('')}</div>${note(c.note)}</section>`; }
-function work(t) { const c=t.work; return `${pageIntro(c)}<section class="content-section inner-content"><div class="work-list">${c.cards.map(([tag,title,desc],i)=>`<article class="work-card"><div class="work-number">0${i+1}</div><div class="work-main"><span class="eyebrow">${tag}</span><h2>${title}</h2><p>${desc}</p><div class="work-meta"><span>${c.role}: ${c.pending}</span><span>${c.challenge}: ${c.pending}</span><span>${c.outcome}: ${c.pending}</span></div></div><div class="work-art" aria-hidden="true">◈</div></article>`).join('')}</div>${note(c.note)}</section>`; }
+function work(lang) { return renderWork(lang, { esc, uiIcon, githubIcon: socialIcons.github }); }
 function updates(t) { const c=t.updates; return `${pageIntro(c)}<section class="content-section inner-content"><div class="timeline">${[[c.currentDate,c.currentTitle,c.currentText],[c.date,c.title,c.text]].map(([date,title,body])=>`<article class="timeline-entry"><span class="timeline-marker" aria-hidden="true"></span><span class="eyebrow">${date}</span><h2>${title}</h2><p>${body}</p></article>`).join('')}<div class="timeline-next"><span class="timeline-marker empty" aria-hidden="true"></span><p>${c.next}</p></div></div></section>`; }
 function resume(t) { const c=t.resume; return `${pageIntro(c)}<section class="content-section inner-content"><div class="resume-list">${c.sections.map(([h,p],i)=>`<article class="resume-section"><span class="card-index">0${i+1}</span><div><h2>${h}</h2><p>${p}</p></div></article>`).join('')}</div>${note(c.note)}</section>`; }
-const bodies = { '': home, about: (_lang,t)=>about(t), minecraft: (_lang,t)=>minecraft(t), games, work: (_lang,t)=>work(t), life: (_lang,t)=>life(t), updates: (_lang,t)=>updates(t), resume: (_lang,t)=>resume(t) };
+const bodies = { '': home, about: (_lang,t)=>about(t), minecraft: (_lang,t)=>minecraft(t), games, work, life: (_lang,t)=>life(t), updates: (_lang,t)=>updates(t), resume: (_lang,t)=>resume(t) };
 
 function render(lang, route, sceneVersion = 'v2') {
   const t=copy[lang];
   const pageTitle = route ? `${t[route]?.heading ?? t.title} | Tiyamo` : `Tiyamo — ${t.nav.home}`;
   const previewVersion = ['v3', 'v4', 'v5'].includes(sceneVersion);
-  return `<!doctype html><html lang="${t.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111b21"><title>${esc(pageTitle)}</title><meta name="description" content="${esc(t.description)}"><link rel="alternate" hreflang="en" href="${href('en',route)}"><link rel="alternate" hreflang="zh-CN" href="${href('zh',route)}"><link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="${asset('styles.css')}"><link rel="stylesheet" href="${asset('design.css')}">${previewVersion ? `<link rel="stylesheet" href="${asset(`card-scenes-${sceneVersion}.css`)}">` : ''}<script src="${asset('app.js')}" defer></script>${route=== '' ? `<script src="${asset('hero-wallpaper.js')}" defer></script><script src="${asset(sceneVersion === 'v5' ? 'card-paper.js' : sceneVersion === 'v4' ? 'card-icons.js' : 'card-interactions.js')}" defer></script>` : ''}</head><body class="route-${route||'home'}${previewVersion ? ` card-scenes-${sceneVersion}` : ''}">${header(lang,route,t)}<main id="content">${bodies[route](lang,t,sceneVersion)}</main>${footer(t)}</body></html>`;
+  return `<!doctype html><html lang="${t.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111b21"><title>${esc(pageTitle)}</title><meta name="description" content="${esc(t.description)}"><link rel="alternate" hreflang="en" href="${href('en',route)}"><link rel="alternate" hreflang="zh-CN" href="${href('zh',route)}"><link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="${asset('styles.css')}"><link rel="stylesheet" href="${asset('design.css')}">${route === 'work' ? `<link rel="stylesheet" href="${asset('work.css')}">` : ''}${previewVersion ? `<link rel="stylesheet" href="${asset(`card-scenes-${sceneVersion}.css`)}">` : ''}<script src="${asset('app.js')}" defer></script>${route=== '' ? `<script src="${asset('hero-wallpaper.js')}" defer></script><script src="${asset(sceneVersion === 'v5' ? 'card-paper.js' : sceneVersion === 'v4' ? 'card-icons.js' : 'card-interactions.js')}" defer></script>` : ''}</head><body class="route-${route||'home'}${previewVersion ? ` card-scenes-${sceneVersion}` : ''}">${header(lang,route,t)}<main id="content">${bodies[route](lang,t,sceneVersion)}</main>${footer(t)}</body></html>`;
 }
 
 for (const lang of ['en','zh']) for (const route of routes) {
