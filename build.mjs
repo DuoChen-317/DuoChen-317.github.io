@@ -131,13 +131,11 @@ function header(lang, route, t) {
   <header class="site-header"><div class="nav-wrap">
     <a class="brand" href="${href(lang)}" aria-label="${lang === 'en' ? 'Tiyamo home' : 'Tiyamo 首页'}" translate="no">TIYAMO</a>
     <nav class="main-nav" aria-label="${lang === 'en' ? 'Main navigation' : '主导航'}">
-      ${link('',nav.home)}
-      <details class="nav-dropdown" ${['minecraft','games'].includes(route)?'data-active="true"':''}><summary>${nav.worlds}<span aria-hidden="true">⌄</span></summary><div class="dropdown-panel">${link('minecraft',nav.minecraft)}${link('games',nav.games)}</div></details>
-      ${link('work',nav.work)}${link('about',nav.about)}${link('updates',nav.updates)}
+      ${link('',nav.home)}${link('work',nav.work)}${link('games',nav.worlds)}${link('about',nav.about)}${link('updates',nav.updates)}
     </nav>
     <div class="nav-actions">${languageSwitch}<a class="resume-link" href="${href(lang,'resume')}">${nav.resume}<span aria-hidden="true">↗</span></a></div>
     <button class="menu-toggle" aria-label="${lang === 'en' ? 'Open menu' : '打开菜单'}" data-open-label="${lang === 'en' ? 'Open menu' : '打开菜单'}" data-close-label="${lang === 'en' ? 'Close menu' : '关闭菜单'}" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
-  </div><nav id="mobile-menu" class="mobile-menu" aria-label="${lang === 'en' ? 'Mobile navigation' : '手机导航'}" hidden>${[['',nav.home],['minecraft',nav.minecraft],['games',nav.games],['work',nav.work],['about',nav.about],['updates',nav.updates],['resume',nav.resume]].map(([r,l])=>link(r,l)).join('')}${languageSwitch}</nav></header>`;
+  </div><nav id="mobile-menu" class="mobile-menu" aria-label="${lang === 'en' ? 'Mobile navigation' : '手机导航'}" hidden>${[['',nav.home],['work',nav.work],['games',nav.worlds],['about',nav.about],['updates',nav.updates],['resume',nav.resume]].map(([r,l])=>link(r,l)).join('')}${languageSwitch}</nav></header>`;
 }
 
 function footer(t) { return `<footer class="site-footer"><div class="footer-inner"><div><span class="footer-brand">TIYAMO<span>.</span></span><p>${t.footer}</p></div><span class="footer-copy">© ${new Date().getFullYear()} Tiyamo</span></div></footer>`; }
