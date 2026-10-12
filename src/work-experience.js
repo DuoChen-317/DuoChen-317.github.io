@@ -5,7 +5,7 @@ export const experience = [
   {
     id: 'huayan', start: '2026-03-23', end: null, type: 'current',
     date: { zh: '2026.03.23 — 至今', en: 'Mar 23, 2026 — Present' },
-    organization: { zh: '广东华沿机器人股份有限公司', en: '广东华沿机器人股份有限公司' },
+    organization: { zh: '广东华沿机器人股份有限公司', en: 'Guangdong Huayan Robotics Co., Ltd.' },
     role: { zh: 'AI 应用工程师', en: 'AI Application Engineer' },
     team: { zh: '具身智能 AI 部', en: 'Embodied Intelligence AI Department' },
     label: { zh: '在职', en: 'Current role' },
@@ -33,7 +33,7 @@ export const experience = [
   {
     id: 'haoyun', start: '2023-11', end: '2024-04', type: 'internship',
     date: { zh: '2023.11 — 2024.04', en: 'Nov 2023 — Apr 2024' },
-    organization: { zh: '浩云科技股份有限公司', en: '浩云科技股份有限公司' },
+    organization: { zh: '浩云科技股份有限公司', en: 'Haoyun Technologies Co., Ltd.' },
     role: { zh: '数字化工程师', en: 'Digitalization Engineer' },
     team: { zh: '实习经历', en: 'Internship' },
     label: { zh: '实习', en: 'Internship' },

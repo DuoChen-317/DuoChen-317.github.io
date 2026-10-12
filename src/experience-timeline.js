@@ -1,5 +1,5 @@
-// Keep the full history readable without JS. Motion changes the rail and nodes,
-// never the visibility of the actual experience content.
+// Native disclosures remain usable without JS. Motion only changes the rail
+// and nodes; opening a disclosure never depends on the animation script.
 export function initExperienceTimeline(root, environment = window) {
   if (!root) return () => {};
   const entries = [...root.querySelectorAll('[data-career-entry]')];
@@ -45,6 +45,7 @@ export function initExperienceTimeline(root, environment = window) {
   environment.addEventListener('scroll', schedule, { passive: true });
   environment.addEventListener('resize', schedule);
   motion.addEventListener('change', schedule);
+  root.addEventListener?.('toggle', schedule, true);
   environment.document.fonts?.ready.then(schedule);
   update();
   return () => {
@@ -54,6 +55,7 @@ export function initExperienceTimeline(root, environment = window) {
     environment.removeEventListener('scroll', schedule);
     environment.removeEventListener('resize', schedule);
     motion.removeEventListener('change', schedule);
+    root.removeEventListener?.('toggle', schedule, true);
   };
 }
 

@@ -61,8 +61,8 @@ Browser screenshots live outside the deployed directory in `../design-research/`
 The résumé's internship and research sections were extracted and visually checked
 against the rendered PDF. Current employment comes from the user's own update;
 they explicitly confirmed March 23, 2026 as the start date. Research has no supplied
-employer and is marked as research, not employment. Both language versions retain
-the supplied Chinese legal company names. Only professional history is published;
+employer and is marked as research, not employment. Chinese uses the supplied
+legal company names; English now uses verified English names. Only professional history is published;
 the original PDF and its contact details remain outside the production artifacts.
 
 History is newest first: current Huayan AI application engineering (VLA, WAM,
@@ -70,7 +70,8 @@ simulation); June–September 2025 LLM inference/evaluation research; November
 2023–April 2024 Haoyun digitalization-engineering internship. No employment
 outcomes, performance numbers, or unsupported platforms are added.
 
-The text is always visible. One finite node-ring animation introduces the current
+The main information is always visible; native disclosures contain the details.
+One finite node-ring animation introduces the current
 role, and scrolling fills the rail and updates the active node. Hover feedback is
 subtle; reduced motion draws the rail statically and cancels the ring animation.
 Browser QA covered 1280 px desktop, 800 px tablet, and 375 px English/Chinese
@@ -78,3 +79,23 @@ mobile without horizontal overflow. Keyboard PageDown moved the active node to
 the internship and filled the rail. Browser warning/error log was empty. Three
 behavior tests passed: rail/node progression, live reduced-motion preference
 changes, and frame coalescing/cleanup. No claim of complete WCAG compliance.
+
+## Compact disclosures and company names follow-up — 2026-10-12
+
+At the user's request, every experience starts closed, showing only its date,
+type, company, role, and team. Clicking the overview opens the summary,
+responsibilities, and focus areas; a second click closes them. Native details
+also work with Enter/Space and expose expanded/collapsed accessibility states.
+Opening/closing recalculates the rail via ResizeObserver and a capture-phase
+toggle listener; the script does not control disclosure state.
+
+Verified English names:
+
+- Guangdong Huayan Robotics Co., Ltd. — [company English website footer](https://www.huayan-robotics.net/about-us/about).
+- Haoyun Technologies Co., Ltd. — [company 2025 annual report, company information](https://static.cninfo.com.cn/finalpage/2026-04-23/1225155551.PDF).
+
+Desktop English QA verified all three closed states, both English company names,
+mouse expansion, and keyboard collapse. Chinese mobile QA at 375 px verified
+default closed states, expansion, and no horizontal overflow. Native accessibility
+snapshots omit responsibility lists when closed and expose them when opened.
+The original three timeline behavior tests still pass.
