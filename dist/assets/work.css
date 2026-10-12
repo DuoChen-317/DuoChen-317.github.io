@@ -24,6 +24,7 @@
 .project-mark.fairness { color: #b4c5ec; background: #2e3e4c; }
 .project-mark.simulation { color: #aacaab; background: #293e36; }
 .project-mark.graph { color: #b6c3e2; background: #2c3948; }
+.project-mark.video { color: #c5bde0; background: #38354a; }
 .project-mark.web { color: #edc27c; background: #3a3930; }
 .project-kind { color: var(--muted); font-size: 14px; }
 .github-feature h3 { font-size: 30px; line-height: 1.2; margin-bottom: 14px; }
@@ -50,6 +51,7 @@
 .more-projects-title { margin: 36px 0 12px; font-size: 20px; letter-spacing: -.025em; }
 .github-row { display: flex; align-items: flex-start; gap: 22px; padding: 30px 0; border-top: 1px solid var(--line); }
 .github-row:last-child { border-bottom: 1px solid var(--line); }
+.github-row[id] { scroll-margin-top: 100px; }
 .github-row-copy { flex: 1; min-width: 0; }
 .github-row h3 { font-size: 25px; margin: 9px 0 12px; }
 .github-row .project-description { margin-bottom: 14px; }

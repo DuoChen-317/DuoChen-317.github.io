@@ -5,7 +5,7 @@ projects and work experience. They explicitly chose to leave experience empty.
 
 ## Content and sources
 
-Five public repositories are curated in `src/work-content.js`. Descriptions are
+Six public repositories are curated in `src/work-content.js`. Descriptions are
 paraphrases of repository content, not claims of sole authorship or performance.
 No private repositories, employee history, dates, or project metrics are inferred.
 
@@ -17,6 +17,13 @@ No private repositories, employee history, dates, or project metrics are inferre
 - [TopoG](https://github.com/DuoChen-317/topog): README with both authors and
   original repository citation; displayed as collaborative research.
 - [Tiyamo](https://github.com/DuoChen-317/DuoChen-317.github.io): existing site implementation.
+- [SVRLLM](https://github.com/YichengDuan/svrllm): public README describing VLM,
+  RAG, video retrieval, and vector storage. Pinned on the user's profile even
+  though its repository owner is YichengDuan; link directly to the actual owner.
+
+Follow-up: the user requested all pinned projects. GitHub GraphQL `pinnedItems`
+returned axground3D, topog, YichengDuan/svrllm, etfall, and paper_agent. All five
+are now displayed; the existing personal website entry is retained as well.
 
 Empty repositories, the profile README, and an OpenMRS fork without a verified
 contribution summary are not promoted as portfolio projects. This is a showcase

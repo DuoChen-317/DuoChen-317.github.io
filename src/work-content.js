@@ -52,6 +52,15 @@ export const projects = [
     upstream: 'https://github.com/YichengDuan/topog'
   },
   {
+    id: 'svrllm', repo: 'svrllm', owner: 'YichengDuan', title: 'SVRLLM', icon: 'video',
+    tags: ['Python', 'VLM', 'RAG', 'VectorDB'],
+    kind: { en: 'Multimodal retrieval', zh: '多模态检索' },
+    description: {
+      en: 'A video-retrieval project that combines vision-language models and retrieval-augmented generation to find subsequent or related videos from an input clip and text prompt.',
+      zh: '从视频片段与文字提示出发，结合视觉语言模型和检索增强生成，寻找后续或相关的视频内容。'
+    }
+  },
+  {
     id: 'tiyamo-site', repo: 'DuoChen-317.github.io', title: 'Tiyamo', icon: 'web',
     tags: ['JavaScript', 'CSS', 'GitHub Pages'],
     kind: { en: 'Personal website', zh: '个人网站' },
@@ -63,4 +72,4 @@ export const projects = [
   }
 ];
 
-export const repositoryUrl = repo => `https://github.com/DuoChen-317/${repo}`;
+export const repositoryUrl = (repo, owner = 'DuoChen-317') => `https://github.com/${owner}/${repo}`;
