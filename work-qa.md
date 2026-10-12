@@ -161,3 +161,18 @@ Added regression checks for smooth completion below the reading line, content
 expansion, and scrolling back upward. All ten timeline/disclosure tests pass.
 Browser checks at desktop and 375px confirm progress 1 and the last active node
 at page bottom, including an expanded middle entry. No browser warnings/errors.
+
+## Continuous progress dot — 2026-10-12
+
+The previous solid active dot only switched between fixed entry nodes, making it
+appear stuck on the preceding entry between nodes. A dedicated dot now sits on
+the rail's progress endpoint and uses the same `--career-progress` as the fill.
+It moves continuously with scrolling and reverses upward with the line, without
+an independent transition that could lag behind. Entry nodes remain fixed;
+active, hovered, and expanded entries use border emphasis rather than a second
+solid progress dot. The current-role node retains its distinct status color.
+Reduced motion keeps the rail and its endpoint static at full progress.
+Browser measurements at multiple scroll positions confirm the dot's vertical
+offset matches the filled rail height within 0.01px, reverses with upward scroll,
+and aligns exactly with the final node at the page bottom. The same check passes
+at 375px on the English page with no horizontal overflow. Ten behavior tests pass.
