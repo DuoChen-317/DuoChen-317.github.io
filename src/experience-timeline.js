@@ -25,13 +25,21 @@ export function initExperienceTimeline(root, environment = window) {
     rail.style.top = `${start - rootBox.top}px`;
     rail.style.height = `${height}px`;
     const readingLine = environment.innerHeight * .48;
-    const fill = Math.max(0, Math.min(1, (readingLine - start) / height));
+    // The final node may never reach the reading line near a short footer.
+    // Cap the progression interval at the actual page scroll limit instead.
+    const scrollY = environment.scrollY;
+    const page = environment.document.scrollingElement || environment.document.documentElement;
+    const maxScroll = Math.max(0, page.scrollHeight - environment.innerHeight);
+    const startScroll = start + scrollY - readingLine;
+    const endScroll = Math.min(startScroll + height, maxScroll);
+    const fill = Math.max(0, Math.min(1, (scrollY - startScroll) / Math.max(1, endScroll - startScroll)));
     rail.style.setProperty('--career-progress', motion.matches ? '1' : String(fill));
     if (!entered && rootBox.top < environment.innerHeight - 80 && rootBox.bottom > 100) {
       entered = true;
       root.classList.add('has-entered');
     }
-    const next = positions.reduce((index, position, i) => position <= readingLine ? i : index, 0);
+    const progressPosition = start + height * fill;
+    const next = positions.reduce((index, position, i) => position <= progressPosition + .5 ? i : index, 0);
     if (next !== active) {
       entries.forEach((entry, i) => entry.classList.toggle('is-active', i === next));
       active = next;

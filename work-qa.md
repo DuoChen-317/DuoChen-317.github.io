@@ -148,3 +148,16 @@ The owner corrected the master's completion date to January 2026 and requested
 it above LLM research. The curated timeline order is now current role, master's,
 LLM research, internship, bachelor's. Other records retain their previous order.
 Both localized date strings and the machine-readable end date are updated.
+
+## Scroll progress completion — 2026-10-12
+
+Reproduced the rail stopping at 85.9% with the desktop page at its scroll limit:
+the last marker remained below the 48%-viewport reading line. Progress now uses
+the reachable scroll interval, capped at the page's actual maximum scroll. The
+active node follows the same progress, so the final node lights up at completion.
+Geometry and page height are recalculated after content expansion or resizing.
+
+Added regression checks for smooth completion below the reading line, content
+expansion, and scrolling back upward. All ten timeline/disclosure tests pass.
+Browser checks at desktop and 375px confirm progress 1 and the last active node
+at page bottom, including an expanded middle entry. No browser warnings/errors.
